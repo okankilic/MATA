@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[BackLog] (
+    [ID]              INT            IDENTITY (1, 1) NOT NULL,
+    [BrandID]         INT            NOT NULL,
+    [CountyID]        INT            NOT NULL,
+    [CityID]          INT            NOT NULL,
+    [Description]     NVARCHAR (MAX) NOT NULL,
+    [SenderName]      NVARCHAR (50)  NOT NULL,
+    [ContactType]     VARCHAR (50)   NOT NULL,
+    [ResponsibleName] NVARCHAR (50)  NULL,
+    [Cost]            MONEY          NULL,
+    [CurrencyCode]    VARCHAR (3)    NULL,
+    [IsPaid]          BIT            CONSTRAINT [DF_BackLog_IsPaid] DEFAULT ((0)) NOT NULL,
+    [InvoiceAmount]   MONEY          NULL,
+    [InvoiceNumber]   BIGINT         NULL,
+    [InvoiceTime]     DATETIME       NULL,
+    [Remarks]         NVARCHAR (MAX) NULL,
+    [CreateTime]      DATETIME       CONSTRAINT [DF_BackLog_CreateTime] DEFAULT (getutcdate()) NOT NULL,
+    [ProgressTime]    DATETIME       NULL,
+    [CompleteTime]    DATETIME       NULL,
+    [UpdateTime]      DATETIME       CONSTRAINT [DF_BackLog_UpdateTime] DEFAULT (getutcdate()) NOT NULL,
+    CONSTRAINT [PK_BackLog] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_BackLog_Brand] FOREIGN KEY ([BrandID]) REFERENCES [dbo].[Brand] ([ID]),
+    CONSTRAINT [FK_BackLog_City] FOREIGN KEY ([CityID]) REFERENCES [LK].[City] ([ID]),
+    CONSTRAINT [FK_BackLog_Country] FOREIGN KEY ([CountyID]) REFERENCES [LK].[Country] ([ID])
+);
+

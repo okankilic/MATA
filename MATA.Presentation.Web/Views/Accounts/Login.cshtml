@@ -1,0 +1,68 @@
+﻿@model MATA.Presentation.Web.Models.Accounts.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Giriş Yap</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2 class="text-center">
+                        <img src="~/Content/Images/logo.png" />
+                    </h2>
+                    @using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
+                    {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserName)
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autofocus = "autofocus" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password)
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    Beni Hatırla
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default btn-block">Giriş Yap</button>
+                        </div>
+                        @*<hr />
+                        <div class="form-group text-center">
+                            @Html.ActionLink("Kayıt Ol", "Register", "Account")
+                        </div>*@
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>

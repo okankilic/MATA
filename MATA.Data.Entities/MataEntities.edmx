@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MataDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AccountName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="BrandID" Type="int" />
+        </EntityType>
+        <EntityType Name="BackLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandID" Type="int" Nullable="false" />
+          <Property Name="CountyID" Type="int" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SenderName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResponsibleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cost" Type="money" />
+          <Property Name="CurrencyCode" Type="varchar" MaxLength="3" />
+          <Property Name="IsPaid" Type="bit" Nullable="false" />
+          <Property Name="InvoiceAmount" Type="money" />
+          <Property Name="InvoiceNumber" Type="bigint" />
+          <Property Name="InvoiceTime" Type="datetime" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="ProgressTime" Type="datetime" />
+          <Property Name="CompleteTime" Type="datetime" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="TokenString" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Account_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
+          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="CountyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_City_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Token_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Token" Type="Self.Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MataDBModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BackLog" EntityType="Self.BackLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Brand" Association="Self.FK_Account_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_Brand" Association="Self.FK_BackLog_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_City" Association="Self.FK_BackLog_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_Country" Association="Self.FK_BackLog_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Token_Account" Association="Self.FK_Token_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Token" EntitySet="Token" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MataDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MataDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account" EntityType="MataDBModel.Account" />
+          <EntitySet Name="BackLog" EntityType="MataDBModel.BackLog" />
+          <EntitySet Name="Brand" EntityType="MataDBModel.Brand" />
+          <EntitySet Name="Staff" EntityType="MataDBModel.Staff" />
+          <EntitySet Name="Token" EntityType="MataDBModel.Token" />
+          <EntitySet Name="City" EntityType="MataDBModel.City" />
+          <EntitySet Name="Country" EntityType="MataDBModel.Country" />
+          <AssociationSet Name="FK_Account_Brand" Association="MataDBModel.FK_Account_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Token_Account" Association="MataDBModel.FK_Token_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Token" EntitySet="Token" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_Brand" Association="MataDBModel.FK_BackLog_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_City" Association="MataDBModel.FK_BackLog_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackLog_Country" Association="MataDBModel.FK_BackLog_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="BackLog" EntitySet="BackLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_City_Country" Association="MataDBModel.FK_City_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BrandID" Type="Int32" />
+          <NavigationProperty Name="Brand" Relationship="MataDBModel.FK_Account_Brand" FromRole="Account" ToRole="Brand" />
+          <NavigationProperty Name="Token" Relationship="MataDBModel.FK_Token_Account" FromRole="Account" ToRole="Token" />
+        </EntityType>
+        <EntityType Name="BackLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandID" Type="Int32" Nullable="false" />
+          <Property Name="CountyID" Type="Int32" Nullable="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
+          <Property Name="InvoiceAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InvoiceNumber" Type="Int64" />
+          <Property Name="InvoiceTime" Type="DateTime" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProgressTime" Type="DateTime" Precision="3" />
+          <Property Name="CompleteTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Brand" Relationship="MataDBModel.FK_BackLog_Brand" FromRole="BackLog" ToRole="Brand" />
+          <NavigationProperty Name="City" Relationship="MataDBModel.FK_BackLog_City" FromRole="BackLog" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="MataDBModel.FK_BackLog_Country" FromRole="BackLog" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Account_Brand" FromRole="Brand" ToRole="Account" />
+          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Brand" FromRole="Brand" ToRole="BackLog" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="TokenString" Type="Guid" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Token_Account" FromRole="Token" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_City" FromRole="City" ToRole="BackLog" />
+          <NavigationProperty Name="Country" Relationship="MataDBModel.FK_City_Country" FromRole="City" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Country" FromRole="Country" ToRole="BackLog" />
+          <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
+        </EntityType>
+        <Association Name="FK_Account_Brand">
+          <End Type="MataDBModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Token_Account">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_Brand">
+          <End Type="MataDBModel.Brand" Role="Brand" Multiplicity="1" />
+          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_City">
+          <End Type="MataDBModel.City" Role="City" Multiplicity="1" />
+          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackLog_Country">
+          <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackLog">
+              <PropertyRef Name="CountyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_City_Country">
+          <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="MataDBModel.City" Role="City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MataDBModelStoreContainer" CdmEntityContainer="MataDBEntities">
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="MataDBModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BackLog">
+            <EntityTypeMapping TypeName="MataDBModel.BackLog">
+              <MappingFragment StoreEntitySet="BackLog">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="CompleteTime" ColumnName="CompleteTime" />
+                <ScalarProperty Name="ProgressTime" ColumnName="ProgressTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="InvoiceTime" ColumnName="InvoiceTime" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ResponsibleName" ColumnName="ResponsibleName" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CountyID" ColumnName="CountyID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Brand">
+            <EntityTypeMapping TypeName="MataDBModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staff">
+            <EntityTypeMapping TypeName="MataDBModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Token">
+            <EntityTypeMapping TypeName="MataDBModel.Token">
+              <MappingFragment StoreEntitySet="Token">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TokenString" ColumnName="TokenString" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="MataDBModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="MataDBModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
