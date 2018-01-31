@@ -1,4 +1,5 @@
 ﻿using MATA.BL;
+using MATA.Data.Common.Constants;
 using MATA.Data.Common.Enums;
 using MATA.Data.DTO;
 using MATA.Presentation.Web.Base;
@@ -24,7 +25,7 @@ namespace MATA.Presentation.Web.Controllers
             {
                 Email = ConfigurationManager.AppSettings["AdminEmail"],
                 Password = ConfigurationManager.AppSettings["AdminPassword"],
-                RoleName = RoleTypes.ADMIN.ToString()
+                RoleName = RoleTypes.Admin
             };
 
             var isAdminAccountExists = AccountBL.IsAccountExists(adminAccount, this._DB);
