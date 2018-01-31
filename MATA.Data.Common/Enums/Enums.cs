@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace MATA.Data.Common.Enums
 {
-    public enum RoleTypes
-    {
-        ADMIN,
-        STAFF,
-        CUSTOMER
-    }
-
     public enum ContactTypes
     {
         MAIL,
