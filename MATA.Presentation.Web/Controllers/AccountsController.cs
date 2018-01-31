@@ -22,8 +22,7 @@ namespace MATA.Presentation.Web.Controllers
         {
             var adminAccount = new AccountDTO()
             {
-                AccountName = "Admin",
-                UserName = ConfigurationManager.AppSettings["AdminUserName"],
+                Email = ConfigurationManager.AppSettings["AdminEmail"],
                 Password = ConfigurationManager.AppSettings["AdminPassword"],
                 RoleName = RoleTypes.ADMIN.ToString()
             };
@@ -51,7 +50,7 @@ namespace MATA.Presentation.Web.Controllers
 
             try
             {
-                account = AccountBL.Get(model.UserName, model.Password, base._DB);
+                account = AccountBL.Get(model.Email, model.Password, base._DB);
 
                 var tokenString = TokenBL.TryGet(account.ID, base._DB);
                 if (string.IsNullOrWhiteSpace(tokenString))
@@ -87,6 +86,13 @@ namespace MATA.Presentation.Web.Controllers
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Login");
+        }
+
+        //[Authorize(Roles = RoleTypes.ADMIN)]
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
         }
     }
 }
