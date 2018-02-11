@@ -11,7 +11,9 @@ using System.Web.Mvc;
 namespace MATA.Presentation.Web.Base
 {
     [AuthenticateUser]
-    [Authorize(Roles = RoleTypes.Combines.Any)]
+    [AuthorizeUser(Roles = RoleTypes.Combines.Any)]
+    [CustomHandleError]
+    [OutputCache(Duration = 0)]
     public abstract class CustomControllerBase: Controller
     {
         protected MataDBEntities _DB = new MataDBEntities();

@@ -1,6 +1,5 @@
 ﻿using MATA.BL;
 using MATA.Data.Common.Constants;
-using MATA.Data.Common.Enums;
 using MATA.Data.DTO;
 using MATA.Presentation.Web.Base;
 using MATA.Presentation.Web.Helpers;
@@ -89,7 +88,7 @@ namespace MATA.Presentation.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        //[Authorize(Roles = RoleTypes.ADMIN)]
+        [Authorize(Roles = RoleTypes.Admin)]
         [HttpGet]
         public ActionResult Index()
         {

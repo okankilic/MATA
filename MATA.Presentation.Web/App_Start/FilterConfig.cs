@@ -10,6 +10,7 @@ namespace MATA.Presentation.Web
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new AuthenticateUserAttribute());
+            filters.Add(new AuthorizeUserAttribute());
         }
     }
 }
