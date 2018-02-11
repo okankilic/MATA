@@ -44,12 +44,12 @@ namespace MATA.BL
 
         public static bool IsAccountExists(AccountDTO adminAccount, MataDBEntities db)
         {
-            return db.Account.Any(q => q.UserName == adminAccount.UserName && q.Password == adminAccount.Password);
+            return db.Account.Any(q => q.Email == adminAccount.Email && q.Password == adminAccount.Password);
         }
 
-        public static AccountDTO Get(string userName, string password, MataDBEntities db)
+        public static AccountDTO Get(string email, string password, MataDBEntities db)
         {
-            var account = db.Account.Single(q => q.UserName == userName && q.Password == password);
+            var account = db.Account.Single(q => q.Email == email && q.Password == password);
 
             var mapper = new AccountMapper();
 

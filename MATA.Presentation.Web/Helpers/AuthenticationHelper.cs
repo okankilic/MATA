@@ -27,7 +27,7 @@ namespace MATA.Presentation.Web.Helpers
 
             var userData = JsonConvert.SerializeObject(userDataObject);
 
-            return new FormsAuthenticationTicket(1, account.AccountName, DateTime.UtcNow, DateTime.UtcNow.Add(FormsAuthentication.Timeout), isPersistent, userData, FormsAuthentication.FormsCookiePath);
+            return new FormsAuthenticationTicket(1, account.Email, DateTime.UtcNow, DateTime.UtcNow.Add(FormsAuthentication.Timeout), isPersistent, userData, FormsAuthentication.FormsCookiePath);
         }
 
         public static CustomFormsAuthenticationUserData GetUserData(HttpContextBase httpContext)

@@ -12,10 +12,11 @@ namespace MATA.Data.DTO
         public int ID { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         [MinLength(4)]
-        [Display(Name = "Kullanıcı Adı")]
-        public string UserName { get; set; }
+        [Display(Name = "E-Mail")]
+        [EmailAddress]
+        public string Email { get; set; }
 
         [DataType(DataType.Password)]
         [Required]
@@ -23,8 +24,6 @@ namespace MATA.Data.DTO
         [MinLength(3)]
         [Display(Name = "Şifre")]
         public string Password { get; set; }
-
-        public string AccountName { get; set; }
 
         public string RoleName { get; set; }
 

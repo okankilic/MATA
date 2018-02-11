@@ -25,6 +25,7 @@ namespace MATA.Data.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<BackLog> BackLog { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }

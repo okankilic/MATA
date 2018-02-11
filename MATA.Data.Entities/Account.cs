@@ -21,10 +21,9 @@ namespace MATA.Data.Entities
         }
     
         public int ID { get; set; }
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string RoleName { get; set; }
-        public string AccountName { get; set; }
         public Nullable<int> BrandID { get; set; }
     
         public virtual Brand Brand { get; set; }

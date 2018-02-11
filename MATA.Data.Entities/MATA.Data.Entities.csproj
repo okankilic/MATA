@@ -64,6 +64,9 @@
     <Compile Include="Country.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="C__RefactorLog.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="MataEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
