@@ -11,6 +11,9 @@ namespace MATA.Data.DTO
     {
         public int ID { get; set; }
 
+        [Required, MaxLength(50), MinLength(4), DataType(DataType.Text), Display(Name = "Ad Soyad")]
+        public string FullName { get; set; }
+
         [Required]
         [MaxLength(100)]
         [MinLength(4)]
@@ -26,7 +29,5 @@ namespace MATA.Data.DTO
         public string Password { get; set; }
 
         public string RoleName { get; set; }
-
-        public int? BrandID { get; set; }
     }
 }

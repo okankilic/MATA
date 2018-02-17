@@ -21,12 +21,11 @@ namespace MATA.Data.Entities
         }
     
         public int ID { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string RoleName { get; set; }
-        public Nullable<int> BrandID { get; set; }
     
-        public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Token> Token { get; set; }
     }

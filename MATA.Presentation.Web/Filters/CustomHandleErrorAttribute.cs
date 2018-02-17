@@ -35,23 +35,18 @@ namespace MATA.Presentation.Web.Filters
                 exMessage = "Beklenmeyen bir hata oluştu";
             }
 
-            if(filterContext.HttpContext.Request.IsAjaxRequest())
-            {
-                filterContext.Result = new ContentResult()
-                {
-                    Content = exMessage
-                };
-            }
+            var routeValueDictionary = new RouteValueDictionary();
+
+            routeValueDictionary.Add("controller", "Errors");
+
+            if (filterContext.HttpContext.Request.IsAjaxRequest())
+                routeValueDictionary.Add("action", "_Partial");
             else
-            {
-                var routeValueDictionary = new RouteValueDictionary();
-
-                routeValueDictionary.Add("controller", "Errors");
                 routeValueDictionary.Add("action", "Internal");
-                routeValueDictionary.Add("errorMessage", exMessage);
 
-                filterContext.Result = new RedirectToRouteResult(routeValueDictionary);
-            }
+            routeValueDictionary.Add("errorMessage", exMessage);
+
+            filterContext.Result = new RedirectToRouteResult(routeValueDictionary);
         }
     }
 }

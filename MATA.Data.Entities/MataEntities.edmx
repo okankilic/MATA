@@ -16,10 +16,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="BrandID" Type="int" />
         </EntityType>
         <EntityType Name="BackLog">
           <Key>
@@ -83,18 +83,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Account_Brand">
-          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Brand">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Account">
-              <PropertyRef Name="BrandID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BackLog_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
           <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
@@ -164,10 +152,6 @@
           <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
-          <AssociationSet Name="FK_Account_Brand" Association="Self.FK_Account_Brand">
-            <End Role="Brand" EntitySet="Brand" />
-            <End Role="Account" EntitySet="Account" />
-          </AssociationSet>
           <AssociationSet Name="FK_BackLog_Brand" Association="Self.FK_BackLog_Brand">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="BackLog" EntitySet="BackLog" />
@@ -202,10 +186,6 @@
           <EntitySet Name="Token" EntityType="MataDBModel.Token" />
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
-          <AssociationSet Name="FK_Account_Brand" Association="MataDBModel.FK_Account_Brand">
-            <End Role="Brand" EntitySet="Brand" />
-            <End Role="Account" EntitySet="Account" />
-          </AssociationSet>
           <AssociationSet Name="FK_Token_Account" Association="MataDBModel.FK_Token_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="Token" EntitySet="Token" />
@@ -238,11 +218,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="BrandID" Type="Int32" />
-          <NavigationProperty Name="Brand" Relationship="MataDBModel.FK_Account_Brand" FromRole="Account" ToRole="Brand" />
           <NavigationProperty Name="Token" Relationship="MataDBModel.FK_Token_Account" FromRole="Account" ToRole="Token" />
         </EntityType>
         <EntityType Name="BackLog">
@@ -278,7 +257,6 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Account_Brand" FromRole="Brand" ToRole="Account" />
           <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Brand" FromRole="Brand" ToRole="BackLog" />
         </EntityType>
         <EntityType Name="Staff">
@@ -317,18 +295,6 @@
           <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Country" FromRole="Country" ToRole="BackLog" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
         </EntityType>
-        <Association Name="FK_Account_Brand">
-          <End Type="MataDBModel.Brand" Role="Brand" Multiplicity="0..1" />
-          <End Type="MataDBModel.Account" Role="Account" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Brand">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Account">
-              <PropertyRef Name="BrandID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Token_Account">
           <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
           <End Type="MataDBModel.Token" Role="Token" Multiplicity="*" />
@@ -405,10 +371,10 @@
           <EntitySetMapping Name="Account">
             <EntityTypeMapping TypeName="MataDBModel.Account">
               <MappingFragment StoreEntitySet="Account">
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

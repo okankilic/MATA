@@ -25,7 +25,16 @@ namespace MATA.Presentation.Web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/animate.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ts").Include(
+                "~/ts/mata.utils.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/noty").Include(
+                "~/Scripts/noty/jquery.noty.js",
+                "~/Scripts/noty/layouts/topRight.js",
+                "~/Scripts/noty/themes/relax.js"));
         }
     }
 }

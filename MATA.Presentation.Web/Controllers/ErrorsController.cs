@@ -11,6 +11,8 @@ namespace MATA.Presentation.Web.Controllers
     {
         public ActionResult Index()
         {
+            Response.StatusCode = 500;
+
             return View();
         }
 
@@ -29,7 +31,18 @@ namespace MATA.Presentation.Web.Controllers
         {
             ViewData["errorMessage"] = errorMessage;
 
+            Response.StatusCode = 500;
+
             return View();
+        }
+
+        public ActionResult _Partial(string errorMessage)
+        {
+            ViewData["errorMessage"] = errorMessage;
+
+            Response.StatusCode = 500;
+
+            return PartialView();
         }
     }
 }
