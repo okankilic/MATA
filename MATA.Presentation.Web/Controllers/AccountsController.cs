@@ -1,7 +1,9 @@
 ﻿using MATA.BL;
 using MATA.Data.Common.Constants;
 using MATA.Data.DTO;
+using MATA.Infrastructure.Utils.Exceptions;
 using MATA.Presentation.Web.Base;
+using MATA.Presentation.Web.Filters;
 using MATA.Presentation.Web.Helpers;
 using MATA.Presentation.Web.Models.Accounts;
 using System;
@@ -22,6 +24,7 @@ namespace MATA.Presentation.Web.Controllers
         {
             var adminAccount = new AccountDTO()
             {
+                FullName = ConfigurationManager.AppSettings["AdminFullName"],
                 Email = ConfigurationManager.AppSettings["AdminEmail"],
                 Password = ConfigurationManager.AppSettings["AdminPassword"],
                 RoleName = RoleTypes.Admin
@@ -41,6 +44,7 @@ namespace MATA.Presentation.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -88,11 +92,46 @@ namespace MATA.Presentation.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        [Authorize(Roles = RoleTypes.Admin)]
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            var accounts = AccountBL.GetList(base._DB);
+
+            return View(accounts);
+        }
+
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
+        [HttpGet]
+        public ActionResult _Create()
+        {
+            var model = new AccountCreateViewModel();
+
+            return PartialView(model);
+        }
+
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult _Create(AccountCreateViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            var accountDTO = new AccountDTO()
+            {
+                FullName = model.FullName,
+                Email = model.Email,
+                Password = model.Password,
+                RoleName = model.RoleName
+            };
+
+            var accountID = AccountBL.Create(accountDTO, base._DB);
+
+            return new ContentResult()
+            {
+                Content = "OK"
+            };
         }
     }
 }

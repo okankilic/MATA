@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "bootstrap": "registry:dt/bootstrap#3.3.5+20160726204056",
+    "jquery": "registry:dt/jquery#1.10.0+20170310222111",
+    "jquery-validation-unobtrusive": "registry:dt/jquery-validation-unobtrusive#3.2.3+20161128184045",
+    "jquery.noty": "registry:dt/jquery.noty#2.4.0+20170130184919",
+    "jquery.validation": "registry:dt/jquery.validation#1.13.1+20170203230002"
+  }
+}

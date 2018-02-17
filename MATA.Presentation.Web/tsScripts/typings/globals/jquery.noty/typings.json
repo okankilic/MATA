@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d93b846ef26cf417d8760bc62b33ec42ba948401/jquery.noty/index.d.ts",
+    "raw": "registry:dt/jquery.noty#2.4.0+20170130184919",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d93b846ef26cf417d8760bc62b33ec42ba948401/jquery.noty/index.d.ts"
+  }
+}

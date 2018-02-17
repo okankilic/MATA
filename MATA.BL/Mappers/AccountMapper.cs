@@ -15,9 +15,9 @@ namespace MATA.BL.Mappers
             return new AccountDTO()
             {
                 ID = entity.ID,
+                FullName = entity.FullName,
                 Email = entity.Email,
                 Password = entity.Password,
-                BrandID = entity.BrandID,
                 RoleName = entity.RoleName
             };
         }
@@ -26,10 +26,10 @@ namespace MATA.BL.Mappers
         {
             return new Account()
             {
+                FullName = dto.FullName,
                 Email = dto.Email,
                 Password = dto.Password,
-                RoleName = dto.RoleName,
-                BrandID = dto.BrandID
+                RoleName = dto.RoleName
             };
         }
     }

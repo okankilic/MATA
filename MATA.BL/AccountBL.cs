@@ -62,5 +62,12 @@ namespace MATA.BL
 
             return Get(accountID, db);
         }
+
+        public static IEnumerable<AccountDTO> GetList(MataDBEntities db)
+        {
+            var mapper = new AccountMapper();
+
+            return db.Account.ToList().Select(q => mapper.MapToDTO(q));
+        }
     }
 }
