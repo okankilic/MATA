@@ -46,9 +46,7 @@
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Güncelle", "Edit", new { id = item.ID }, new { @class = "mt-link-accounts-edit", data_account_id = item.ID })
                 </td>
             </tr>
         }
@@ -68,6 +66,14 @@
             $('#mt-link-accounts-create').click(function (e) {
                 e.preventDefault();
                 MATA.Accounts.openCreateModal();
+                return false;
+            });
+
+            $('.mt-link-accounts-edit').click(function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    accountID = $this.data("accountId");
+                MATA.Accounts.openEditModal(accountID);
                 return false;
             });
 

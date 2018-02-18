@@ -70,9 +70,17 @@
 
     }
 
-    export function closeModal() {
+    export function closeModal(reload = false) {
+        
+        $(_genericModalSelector).on('hidden.bs.modal', function () {
 
-        $(_genericModalSelector).modal('hide');
+            $(_genericModalSelector).off('hidden.bs.modal');
+
+            if (reload) {
+                location.reload();
+            }
+
+        }).modal('hide');
 
     }
 

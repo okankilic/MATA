@@ -1,0 +1,101 @@
+﻿@model MATA.Presentation.Web.Models.Accounts.AccountEditViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Hesap Bilgileri Güncelleme</h4>
+</div>
+
+<div class="mt-div-account-edit collapse in">
+
+    @using (Html.BeginForm("_Edit", "Accounts", FormMethod.Post, new { id = "mt-form-accounts-edit", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExPassword, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.ExPassword, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RePassword, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.RePassword, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.RoleName, SelectHelper.GetRoleTypeList(Model.RoleName), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
+                <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-account-edit">Sil</button>
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+    }
+
+</div>
+
+<div class="mt-div-account-edit collapse">
+
+    @using (Html.BeginForm("_Delete", "Accounts", new { id = Model.ID }, FormMethod.Post, new { id = "mt-form-accounts-delete", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            <div class="alert alert-warning">
+                @Model.Email hesabı silinecek. Emin misiniz?
+            </div>
+
+        </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-account-edit">Vazgeç</button>
+                <input type="submit" value="Sil" class="btn btn-primary" />
+            </div>
+    }
+
+</div>

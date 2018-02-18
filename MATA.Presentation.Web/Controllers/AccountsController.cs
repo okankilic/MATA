@@ -5,6 +5,7 @@ using MATA.Infrastructure.Utils.Exceptions;
 using MATA.Presentation.Web.Base;
 using MATA.Presentation.Web.Filters;
 using MATA.Presentation.Web.Helpers;
+using MATA.Presentation.Web.Mappers;
 using MATA.Presentation.Web.Models.Accounts;
 using System;
 using System.Collections.Generic;
@@ -127,6 +128,56 @@ namespace MATA.Presentation.Web.Controllers
             };
 
             var accountID = AccountBL.Create(accountDTO, base._DB);
+
+            return new ContentResult()
+            {
+                Content = "OK"
+            };
+        }
+
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
+        [HttpGet]
+        public ActionResult _Edit(int id)
+        {
+            var accountDTO = AccountBL.Get(id, base._DB);
+
+            var mapper = new AccountMapper();
+
+            var model = mapper.MapToViewModel(accountDTO);
+
+            return PartialView(model);
+        }
+
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult _Edit(AccountEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            var account = AccountBL.Get(model.ID, base._DB);
+
+            if (account.Password != model.ExPassword)
+                throw new BusinessException("Eski şifrenizi kontrol ederek tekrar deneyiniz.");
+
+            var mapper = new AccountMapper();
+
+            var accountDTO = mapper.MapToDTO(model);
+
+            AccountBL.Update(accountDTO.ID, accountDTO, base._DB);
+
+            return new ContentResult()
+            {
+                Content = "OK"
+            };
+        }
+
+        [AuthorizeUser(Roles = RoleTypes.Admin)]
+        [HttpGet]
+        public ActionResult _Delete(int id)
+        {
+            AccountBL.Delete(id, base._DB);
 
             return new ContentResult()
             {
