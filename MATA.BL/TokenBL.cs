@@ -43,5 +43,11 @@ namespace MATA.BL
 
             return token.AccountID;
         }
+
+        internal static void Delete(int accountID, MataDBEntities db)
+        {
+            db.Token.RemoveRange(db.Token.Where(q => q.AccountID == accountID));
+            db.SaveChanges();
+        }
     }
 }

@@ -172,7 +172,9 @@
     </Compile>
     <Compile Include="Helpers\AuthenticationHelper.cs" />
     <Compile Include="Helpers\SelectHelper.cs" />
+    <Compile Include="Mappers\AccountMapper.cs" />
     <Compile Include="Models\Accounts\AccountCreateViewModel.cs" />
+    <Compile Include="Models\Accounts\AccountEditViewModel.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -256,6 +258,7 @@
     <Content Include="tsScripts\typings\globals\jquery-validation-unobtrusive\typings.json" />
     <Content Include="tsScripts\typings\globals\jquery.noty\typings.json" />
     <Content Include="Views\Errors\_Partial.cshtml" />
+    <Content Include="Views\Accounts\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
