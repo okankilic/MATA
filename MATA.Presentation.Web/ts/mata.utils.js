@@ -48,8 +48,14 @@ var MATA;
             $(_genericModalSelector + ' .modal-content').html(html);
         }
         Utils.setModalContentHTML = setModalContentHTML;
-        function closeModal() {
-            $(_genericModalSelector).modal('hide');
+        function closeModal(reload) {
+            if (reload === void 0) { reload = false; }
+            $(_genericModalSelector).on('hidden.bs.modal', function () {
+                $(_genericModalSelector).off('hidden.bs.modal');
+                if (reload) {
+                    location.reload();
+                }
+            }).modal('hide');
         }
         Utils.closeModal = closeModal;
         function getAppPath(path) {

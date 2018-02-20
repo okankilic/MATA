@@ -25,12 +25,39 @@ namespace MATA.BL
 
         public static void Update(int id, AccountDTO accountDTO, MataDBEntities db)
         {
-            throw new NotImplementedException();
+            var account = db.Account.Single(q => q.ID == id);
+
+            account.FullName = accountDTO.FullName;
+            account.Email = accountDTO.Email;
+            account.Password = accountDTO.Password;
+            account.RoleName = accountDTO.RoleName;
+
+            db.SaveChanges();
         }
 
-        public static void Delete(int id)
+        public static void Delete(int id, MataDBEntities db)
         {
-            throw new NotImplementedException();
+            using (var ts = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var account = db.Account.Single(q => q.ID == id);
+
+                    TokenBL.Delete(account.ID, db);
+
+                    db.Account.Remove(account);
+                    db.SaveChanges();
+
+                    ts.Commit();
+                }
+                catch (Exception)
+                {
+                    ts.Rollback();
+                    throw;
+                }
+            }
+
+            
         }
 
         public static AccountDTO Get(int id, MataDBEntities db)
