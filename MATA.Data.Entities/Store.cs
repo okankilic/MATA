@@ -12,18 +12,29 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class Store
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Country()
+        public Store()
         {
-            this.City = new HashSet<City>();
+            this.Issue = new HashSet<Issue>();
         }
     
         public int ID { get; set; }
-        public string CountryName { get; set; }
+        public string StoreName { get; set; }
+        public int ProjectID { get; set; }
+        public int CityID { get; set; }
+        public string Address { get; set; }
+        public int CreatedByAccountID { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public int UpdatedByAccountID { get; set; }
+        public System.DateTime UpdateTime { get; set; }
     
+        public virtual Account Account { get; set; }
+        public virtual Account Account1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<City> City { get; set; }
+        public virtual ICollection<Issue> Issue { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual City City { get; set; }
     }
 }

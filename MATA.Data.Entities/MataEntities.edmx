@@ -21,42 +21,80 @@
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <EntityType Name="BackLog">
+        <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BrandID" Type="int" Nullable="false" />
-          <Property Name="CountyID" Type="int" Nullable="false" />
-          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MailID" Type="int" />
+          <Property Name="IssueID" Type="int" />
+          <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreID" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="SenderName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ContactType" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ResponsibleName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Cost" Type="money" />
-          <Property Name="CurrencyCode" Type="varchar" MaxLength="3" />
-          <Property Name="IsPaid" Type="bit" Nullable="false" />
-          <Property Name="InvoiceAmount" Type="money" />
-          <Property Name="InvoiceNumber" Type="bigint" />
-          <Property Name="InvoiceTime" Type="datetime" />
+          <Property Name="SourceType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RequestedByFullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RequestDate" Type="date" Nullable="false" />
+          <Property Name="IssueState" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
-          <Property Name="ProgressTime" Type="datetime" />
-          <Property Name="CompleteTime" Type="datetime" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Brand">
+        <EntityType Name="Mail">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BrandName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="MailBody" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsBodyHtml" Type="bit" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TryCount" Type="int" Nullable="false" />
+          <Property Name="LastTryTime" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Staff">
+        <EntityType Name="MailAccount">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MailID" Type="int" Nullable="false" />
+          <Property Name="ToCcBcc" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Token">
           <Key>
@@ -83,39 +121,60 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <Association Name="FK_BackLog_Brand">
-          <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
-          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vMailAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vMailAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MailID" />
+            <PropertyRef Name="ToCcBcc" />
+            <PropertyRef Name="AccountID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MailID" Type="int" Nullable="false" />
+          <Property Name="ToCcBcc" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vMailAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AttachmentType" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FilePath" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MailID" Type="int" />
+          <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Attachment_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="0..1" />
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Brand">
+            <Principal Role="Issue">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="BackLog">
-              <PropertyRef Name="BrandID" />
+            <Dependent Role="Attachment">
+              <PropertyRef Name="IssueID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BackLog_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
+        <Association Name="FK_Attachment_Mail">
+          <End Role="Mail" Type="Self.Mail" Multiplicity="0..1" />
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="City">
+            <Principal Role="Mail">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="BackLog">
-              <PropertyRef Name="CityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BackLog_Country">
-          <End Role="Country" Type="Self.Country" Multiplicity="1" />
-          <End Role="BackLog" Type="Self.BackLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BackLog">
-              <PropertyRef Name="CountyID" />
+            <Dependent Role="Attachment">
+              <PropertyRef Name="MailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -128,6 +187,150 @@
             </Principal>
             <Dependent Role="City">
               <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_CreatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_UpdatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="UpdatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailAccount_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="MailAccount" Type="Self.MailAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MailAccount">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailAccount_Mail">
+          <End Role="Mail" Type="Self.Mail" Multiplicity="1" />
+          <End Role="MailAccount" Type="Self.MailAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MailAccount">
+              <PropertyRef Name="MailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_CreatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Project1" Type="Self.Project" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_UpdatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="UpdatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_City">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_CreatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_UpdatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="UpdatedByAccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -146,27 +349,93 @@
         <EntityContainer Name="MataDBModelStoreContainer">
           <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BackLog" EntityType="Self.BackLog" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mail" EntityType="Self.Mail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MailAccount" EntityType="Self.MailAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
-          <AssociationSet Name="FK_BackLog_Brand" Association="Self.FK_BackLog_Brand">
-            <End Role="Brand" EntitySet="Brand" />
-            <End Role="BackLog" EntitySet="BackLog" />
+          <EntitySet Name="vMailAccount" EntityType="Self.vMailAccount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vMailAccount].[ID] AS [ID], 
+    [vMailAccount].[MailID] AS [MailID], 
+    [vMailAccount].[ToCcBcc] AS [ToCcBcc], 
+    [vMailAccount].[AccountID] AS [AccountID], 
+    [vMailAccount].[FullName] AS [FullName], 
+    [vMailAccount].[Email] AS [Email]
+    FROM [dbo].[vMailAccount] AS [vMailAccount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vMailAttachment" EntityType="Self.vMailAttachment" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vMailAttachment].[ID] AS [ID], 
+    [vMailAttachment].[MailID] AS [MailID], 
+    [vMailAttachment].[AttachmentType] AS [AttachmentType], 
+    [vMailAttachment].[FileName] AS [FileName], 
+    [vMailAttachment].[FilePath] AS [FilePath]
+    FROM [dbo].[vMailAttachment] AS [vMailAttachment]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Attachment_Issue" Association="Self.FK_Attachment_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
-          <AssociationSet Name="FK_BackLog_City" Association="Self.FK_BackLog_City">
-            <End Role="City" EntitySet="City" />
-            <End Role="BackLog" EntitySet="BackLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BackLog_Country" Association="Self.FK_BackLog_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="BackLog" EntitySet="BackLog" />
+          <AssociationSet Name="FK_Attachment_Mail" Association="Self.FK_Attachment_Mail">
+            <End Role="Mail" EntitySet="Mail" />
+            <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_CreatedByAccount" Association="Self.FK_Issue_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_Store" Association="Self.FK_Issue_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_UpdatedByAccount" Association="Self.FK_Issue_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailAccount_Account" Association="Self.FK_MailAccount_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="MailAccount" EntitySet="MailAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailAccount_Mail" Association="Self.FK_MailAccount_Mail">
+            <End Role="Mail" EntitySet="Mail" />
+            <End Role="MailAccount" EntitySet="MailAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_CreatedByAccount" Association="Self.FK_Project_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Project" Association="Self.FK_Project_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Project1" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_UpdatedByAccount" Association="Self.FK_Project_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_City" Association="Self.FK_Store_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_CreatedByAccount" Association="Self.FK_Store_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Project" Association="Self.FK_Store_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_UpdatedByAccount" Association="Self.FK_Store_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_Token_Account" Association="Self.FK_Token_Account">
             <End Role="Account" EntitySet="Account" />
@@ -180,27 +449,76 @@
         <EntityContainer Name="MataDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__RefactorLog" EntityType="MataDBModel.C__RefactorLog" />
           <EntitySet Name="Account" EntityType="MataDBModel.Account" />
-          <EntitySet Name="BackLog" EntityType="MataDBModel.BackLog" />
-          <EntitySet Name="Brand" EntityType="MataDBModel.Brand" />
-          <EntitySet Name="Staff" EntityType="MataDBModel.Staff" />
+          <EntitySet Name="Attachment" EntityType="MataDBModel.Attachment" />
+          <EntitySet Name="Issue" EntityType="MataDBModel.Issue" />
+          <EntitySet Name="Mail" EntityType="MataDBModel.Mail" />
+          <EntitySet Name="MailAccount" EntityType="MataDBModel.MailAccount" />
+          <EntitySet Name="Project" EntityType="MataDBModel.Project" />
+          <EntitySet Name="Store" EntityType="MataDBModel.Store" />
           <EntitySet Name="Token" EntityType="MataDBModel.Token" />
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
+          <EntitySet Name="vMailAccount" EntityType="MataDBModel.vMailAccount" />
+          <EntitySet Name="vMailAttachment" EntityType="MataDBModel.vMailAttachment" />
+          <AssociationSet Name="FK_Issue_CreatedByAccount" Association="MataDBModel.FK_Issue_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_UpdatedByAccount" Association="MataDBModel.FK_Issue_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailAccount_Account" Association="MataDBModel.FK_MailAccount_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="MailAccount" EntitySet="MailAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_CreatedByAccount" Association="MataDBModel.FK_Project_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_UpdatedByAccount" Association="MataDBModel.FK_Project_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_CreatedByAccount" Association="MataDBModel.FK_Store_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_UpdatedByAccount" Association="MataDBModel.FK_Store_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
           <AssociationSet Name="FK_Token_Account" Association="MataDBModel.FK_Token_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="Token" EntitySet="Token" />
           </AssociationSet>
-          <AssociationSet Name="FK_BackLog_Brand" Association="MataDBModel.FK_BackLog_Brand">
-            <End Role="Brand" EntitySet="Brand" />
-            <End Role="BackLog" EntitySet="BackLog" />
+          <AssociationSet Name="FK_Attachment_Issue" Association="MataDBModel.FK_Attachment_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
-          <AssociationSet Name="FK_BackLog_City" Association="MataDBModel.FK_BackLog_City">
+          <AssociationSet Name="FK_Attachment_Mail" Association="MataDBModel.FK_Attachment_Mail">
+            <End Role="Mail" EntitySet="Mail" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_Store" Association="MataDBModel.FK_Issue_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailAccount_Mail" Association="MataDBModel.FK_MailAccount_Mail">
+            <End Role="Mail" EntitySet="Mail" />
+            <End Role="MailAccount" EntitySet="MailAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Project" Association="MataDBModel.FK_Project_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Project1" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Project" Association="MataDBModel.FK_Store_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_City" Association="MataDBModel.FK_Store_City">
             <End Role="City" EntitySet="City" />
-            <End Role="BackLog" EntitySet="BackLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BackLog_Country" Association="MataDBModel.FK_BackLog_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="BackLog" EntitySet="BackLog" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="MataDBModel.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
@@ -222,48 +540,109 @@
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Issue_CreatedByAccount" FromRole="Account" ToRole="Issue" />
+          <NavigationProperty Name="Issue1" Relationship="MataDBModel.FK_Issue_UpdatedByAccount" FromRole="Account" ToRole="Issue" />
+          <NavigationProperty Name="MailAccount" Relationship="MataDBModel.FK_MailAccount_Account" FromRole="Account" ToRole="MailAccount" />
+          <NavigationProperty Name="Project" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Account" ToRole="Project" />
+          <NavigationProperty Name="Project1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Account" ToRole="Project" />
+          <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_CreatedByAccount" FromRole="Account" ToRole="Store" />
+          <NavigationProperty Name="Store1" Relationship="MataDBModel.FK_Store_UpdatedByAccount" FromRole="Account" ToRole="Store" />
           <NavigationProperty Name="Token" Relationship="MataDBModel.FK_Token_Account" FromRole="Account" ToRole="Token" />
         </EntityType>
-        <EntityType Name="BackLog">
+        <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BrandID" Type="Int32" Nullable="false" />
-          <Property Name="CountyID" Type="Int32" Nullable="false" />
-          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MailID" Type="Int32" />
+          <Property Name="IssueID" Type="Int32" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Attachment_Issue" FromRole="Attachment" ToRole="Issue" />
+          <NavigationProperty Name="Mail" Relationship="MataDBModel.FK_Attachment_Mail" FromRole="Attachment" ToRole="Mail" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContactType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
-          <Property Name="InvoiceAmount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InvoiceNumber" Type="Int64" />
-          <Property Name="InvoiceTime" Type="DateTime" Precision="3" />
+          <Property Name="SourceType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RequestedByFullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IssueState" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ProgressTime" Type="DateTime" Precision="3" />
-          <Property Name="CompleteTime" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Brand" Relationship="MataDBModel.FK_BackLog_Brand" FromRole="BackLog" ToRole="Brand" />
-          <NavigationProperty Name="City" Relationship="MataDBModel.FK_BackLog_City" FromRole="BackLog" ToRole="City" />
-          <NavigationProperty Name="Country" Relationship="MataDBModel.FK_BackLog_Country" FromRole="BackLog" ToRole="Country" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Issue_CreatedByAccount" FromRole="Issue" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Issue_UpdatedByAccount" FromRole="Issue" ToRole="Account" />
+          <NavigationProperty Name="Attachment" Relationship="MataDBModel.FK_Attachment_Issue" FromRole="Issue" ToRole="Attachment" />
+          <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Issue_Store" FromRole="Issue" ToRole="Store" />
         </EntityType>
-        <EntityType Name="Brand">
+        <EntityType Name="Mail">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BrandName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Brand" FromRole="Brand" ToRole="BackLog" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MailBody" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsBodyHtml" Type="Boolean" Nullable="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TryCount" Type="Int32" Nullable="false" />
+          <Property Name="LastTryTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Attachment" Relationship="MataDBModel.FK_Attachment_Mail" FromRole="Mail" ToRole="Attachment" />
+          <NavigationProperty Name="MailAccount" Relationship="MataDBModel.FK_MailAccount_Mail" FromRole="Mail" ToRole="MailAccount" />
         </EntityType>
-        <EntityType Name="Staff">
+        <EntityType Name="MailAccount">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MailID" Type="Int32" Nullable="false" />
+          <Property Name="ToCcBcc" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_MailAccount_Account" FromRole="MailAccount" ToRole="Account" />
+          <NavigationProperty Name="Mail" Relationship="MataDBModel.FK_MailAccount_Mail" FromRole="MailAccount" ToRole="Mail" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Project" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Project" ToRole="Account" />
+          <NavigationProperty Name="Project1" Relationship="MataDBModel.FK_Project_Project" FromRole="Project" ToRole="Project1" />
+          <NavigationProperty Name="Project2" Relationship="MataDBModel.FK_Project_Project" FromRole="Project1" ToRole="Project" />
+          <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_Project" FromRole="Project" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Store_CreatedByAccount" FromRole="Store" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Store_UpdatedByAccount" FromRole="Store" ToRole="Account" />
+          <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Issue_Store" FromRole="Store" ToRole="Issue" />
+          <NavigationProperty Name="Project" Relationship="MataDBModel.FK_Store_Project" FromRole="Store" ToRole="Project" />
+          <NavigationProperty Name="City" Relationship="MataDBModel.FK_Store_City" FromRole="Store" ToRole="City" />
         </EntityType>
         <EntityType Name="Token">
           <Key>
@@ -283,7 +662,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryID" Type="Int32" Nullable="false" />
           <Property Name="CityName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_City" FromRole="City" ToRole="BackLog" />
+          <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_City" FromRole="City" ToRole="Store" />
           <NavigationProperty Name="Country" Relationship="MataDBModel.FK_City_Country" FromRole="City" ToRole="Country" />
         </EntityType>
         <EntityType Name="Country">
@@ -292,9 +671,121 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BackLog" Relationship="MataDBModel.FK_BackLog_Country" FromRole="Country" ToRole="BackLog" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
         </EntityType>
+        <EntityType Name="vMailAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MailID" />
+            <PropertyRef Name="ToCcBcc" />
+            <PropertyRef Name="AccountID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="MailID" Type="Int32" Nullable="false" />
+          <Property Name="ToCcBcc" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vMailAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AttachmentType" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FilePath" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MailID" Type="Int32" />
+          <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Issue_CreatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_UpdatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="UpdatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailAccount_Account">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.MailAccount" Role="MailAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MailAccount">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_CreatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_UpdatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="UpdatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_CreatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_UpdatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="UpdatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Token_Account">
           <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
           <End Type="MataDBModel.Token" Role="Token" Multiplicity="*" />
@@ -307,39 +798,87 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BackLog_Brand">
-          <End Type="MataDBModel.Brand" Role="Brand" Multiplicity="1" />
-          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
+        <Association Name="FK_Attachment_Issue">
+          <End Type="MataDBModel.Issue" Role="Issue" Multiplicity="0..1" />
+          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Brand">
+            <Principal Role="Issue">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="BackLog">
-              <PropertyRef Name="BrandID" />
+            <Dependent Role="Attachment">
+              <PropertyRef Name="IssueID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BackLog_City">
+        <Association Name="FK_Attachment_Mail">
+          <End Type="MataDBModel.Mail" Role="Mail" Multiplicity="0..1" />
+          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="MailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_Store">
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="MataDBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailAccount_Mail">
+          <End Type="MataDBModel.Mail" Role="Mail" Multiplicity="1" />
+          <End Type="MataDBModel.MailAccount" Role="MailAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MailAccount">
+              <PropertyRef Name="MailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Project">
+          <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="MataDBModel.Project" Role="Project1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Project">
+          <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_City">
           <End Type="MataDBModel.City" Role="City" Multiplicity="1" />
-          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="BackLog">
+            <Dependent Role="Store">
               <PropertyRef Name="CityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BackLog_Country">
-          <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
-          <End Type="MataDBModel.BackLog" Role="BackLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BackLog">
-              <PropertyRef Name="CountyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -379,42 +918,83 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BackLog">
-            <EntityTypeMapping TypeName="MataDBModel.BackLog">
-              <MappingFragment StoreEntitySet="BackLog">
+          <EntitySetMapping Name="Attachment">
+            <EntityTypeMapping TypeName="MataDBModel.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
+                <ScalarProperty Name="MailID" ColumnName="MailID" />
+                <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issue">
+            <EntityTypeMapping TypeName="MataDBModel.Issue">
+              <MappingFragment StoreEntitySet="Issue">
                 <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="CompleteTime" ColumnName="CompleteTime" />
-                <ScalarProperty Name="ProgressTime" ColumnName="ProgressTime" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="InvoiceTime" ColumnName="InvoiceTime" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
-                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
-                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="ResponsibleName" ColumnName="ResponsibleName" />
-                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="IssueState" ColumnName="IssueState" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="RequestedByFullName" ColumnName="RequestedByFullName" />
+                <ScalarProperty Name="SourceType" ColumnName="SourceType" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mail">
+            <EntityTypeMapping TypeName="MataDBModel.Mail">
+              <MappingFragment StoreEntitySet="Mail">
+                <ScalarProperty Name="LastTryTime" ColumnName="LastTryTime" />
+                <ScalarProperty Name="TryCount" ColumnName="TryCount" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="IsBodyHtml" ColumnName="IsBodyHtml" />
+                <ScalarProperty Name="MailBody" ColumnName="MailBody" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MailAccount">
+            <EntityTypeMapping TypeName="MataDBModel.MailAccount">
+              <MappingFragment StoreEntitySet="MailAccount">
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ToCcBcc" ColumnName="ToCcBcc" />
+                <ScalarProperty Name="MailID" ColumnName="MailID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="MataDBModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Store">
+            <EntityTypeMapping TypeName="MataDBModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
-                <ScalarProperty Name="CountyID" ColumnName="CountyID" />
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Brand">
-            <EntityTypeMapping TypeName="MataDBModel.Brand">
-              <MappingFragment StoreEntitySet="Brand">
-                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Staff">
-            <EntityTypeMapping TypeName="MataDBModel.Staff">
-              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -443,6 +1023,29 @@
             <EntityTypeMapping TypeName="MataDBModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vMailAccount">
+            <EntityTypeMapping TypeName="MataDBModel.vMailAccount">
+              <MappingFragment StoreEntitySet="vMailAccount">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ToCcBcc" ColumnName="ToCcBcc" />
+                <ScalarProperty Name="MailID" ColumnName="MailID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vMailAttachment">
+            <EntityTypeMapping TypeName="MataDBModel.vMailAttachment">
+              <MappingFragment StoreEntitySet="vMailAttachment">
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
+                <ScalarProperty Name="MailID" ColumnName="MailID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

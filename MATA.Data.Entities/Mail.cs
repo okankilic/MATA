@@ -12,18 +12,26 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Brand
+    public partial class Mail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Brand()
+        public Mail()
         {
-            this.BackLog = new HashSet<BackLog>();
+            this.Attachment = new HashSet<Attachment>();
+            this.MailAccount = new HashSet<MailAccount>();
         }
     
         public int ID { get; set; }
-        public string BrandName { get; set; }
+        public string Subject { get; set; }
+        public string MailBody { get; set; }
+        public bool IsBodyHtml { get; set; }
+        public string State { get; set; }
+        public int TryCount { get; set; }
+        public System.DateTime LastTryTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BackLog> BackLog { get; set; }
+        public virtual ICollection<Attachment> Attachment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MailAccount> MailAccount { get; set; }
     }
 }

@@ -12,18 +12,12 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class vMailAttachment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Country()
-        {
-            this.City = new HashSet<City>();
-        }
-    
         public int ID { get; set; }
-        public string CountryName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<City> City { get; set; }
+        public Nullable<int> MailID { get; set; }
+        public string AttachmentType { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
     }
 }

@@ -12,18 +12,13 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Country
+    public partial class vMailAccount
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Country()
-        {
-            this.City = new HashSet<City>();
-        }
-    
         public int ID { get; set; }
-        public string CountryName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<City> City { get; set; }
+        public int MailID { get; set; }
+        public string ToCcBcc { get; set; }
+        public int AccountID { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
     }
 }

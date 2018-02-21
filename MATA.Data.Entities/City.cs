@@ -17,7 +17,7 @@ namespace MATA.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public City()
         {
-            this.BackLog = new HashSet<BackLog>();
+            this.Store = new HashSet<Store>();
         }
     
         public int ID { get; set; }
@@ -25,7 +25,7 @@ namespace MATA.Data.Entities
         public string CityName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BackLog> BackLog { get; set; }
+        public virtual ICollection<Store> Store { get; set; }
         public virtual Country Country { get; set; }
     }
 }

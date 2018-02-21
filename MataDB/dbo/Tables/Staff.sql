@@ -1,5 +1,0 @@
-﻿CREATE TABLE [dbo].[Staff] (
-    [ID] INT IDENTITY (1, 1) NOT NULL,
-    CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED ([ID] ASC)
-);
-

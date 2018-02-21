@@ -12,8 +12,14 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Staff
+    public partial class MailAccount
     {
         public int ID { get; set; }
+        public int MailID { get; set; }
+        public string ToCcBcc { get; set; }
+        public int AccountID { get; set; }
+    
+        public virtual Account Account { get; set; }
+        public virtual Mail Mail { get; set; }
     }
 }
