@@ -12,25 +12,24 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class vIssue
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
-        {
-            this.Store = new HashSet<Store>();
-        }
-    
         public int ID { get; set; }
-        public string ProjectName { get; set; }
+        public string Description { get; set; }
+        public string IssueState { get; set; }
         public string Remarks { get; set; }
+        public System.DateTime RequestDate { get; set; }
+        public string RequestedByFullName { get; set; }
+        public string SourceType { get; set; }
+        public int StoreID { get; set; }
+        public string StoreName { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string ProjectName { get; set; }
         public int CreatedByAccountID { get; set; }
+        public string CreatedBy { get; set; }
         public System.DateTime CreateTime { get; set; }
         public int UpdatedByAccountID { get; set; }
+        public string UpdatedBy { get; set; }
         public System.DateTime UpdateTime { get; set; }
-    
-        public virtual Account Account { get; set; }
-        public virtual Account Account1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Store> Store { get; set; }
     }
 }

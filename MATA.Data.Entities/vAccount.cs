@@ -12,8 +12,11 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class C__RefactorLog
+    public partial class vAccount
     {
-        public System.Guid OperationKey { get; set; }
+        public int ID { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string RoleName { get; set; }
     }
 }

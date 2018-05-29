@@ -5,19 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4e36d7c9f8d94bce955ab325f80015d5" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="MataDBModel.C__RefactorLog" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MataDBModel.Account" Width="1.5" PointX="0.75" PointY="7" />
-        <EntityTypeShape EntityType="MataDBModel.Attachment" Width="1.5" PointX="8.25" PointY="7.5" />
-        <EntityTypeShape EntityType="MataDBModel.Issue" Width="1.5" PointX="6" PointY="6.75" />
-        <EntityTypeShape EntityType="MataDBModel.Mail" Width="1.5" PointX="6" PointY="2.375" />
-        <EntityTypeShape EntityType="MataDBModel.MailAccount" Width="1.5" PointX="3" PointY="7.625" />
-        <EntityTypeShape EntityType="MataDBModel.Project" Width="1.5" PointX="3" PointY="16.25" />
-        <EntityTypeShape EntityType="MataDBModel.Store" Width="1.5" PointX="5.25" PointY="12.5" />
-        <EntityTypeShape EntityType="MataDBModel.Token" Width="1.5" PointX="3" PointY="13.375" />
-        <EntityTypeShape EntityType="MataDBModel.City" Width="1.5" PointX="3" PointY="21.375" />
-        <EntityTypeShape EntityType="MataDBModel.Country" Width="1.5" PointX="0.75" PointY="21.5" />
-        <EntityTypeShape EntityType="MataDBModel.vMailAccount" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MataDBModel.vMailAttachment" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MataDBModel.Attachment" Width="1.5" PointX="9.75" PointY="7.125" />
+        <EntityTypeShape EntityType="MataDBModel.Issue" Width="1.5" PointX="7.5" PointY="6.375" />
+        <EntityTypeShape EntityType="MataDBModel.Mail" Width="1.5" PointX="7.5" PointY="2" />
+        <EntityTypeShape EntityType="MataDBModel.MailAccount" Width="1.5" PointX="3" PointY="9.625" />
+        <EntityTypeShape EntityType="MataDBModel.Project" Width="1.5" PointX="3" PointY="5.875" />
+        <EntityTypeShape EntityType="MataDBModel.Store" Width="1.5" PointX="5.25" PointY="6.25" />
+        <EntityTypeShape EntityType="MataDBModel.Token" Width="1.5" PointX="3" PointY="17.25" />
+        <EntityTypeShape EntityType="MataDBModel.City" Width="1.5" PointX="3" PointY="2.125" />
+        <EntityTypeShape EntityType="MataDBModel.Country" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="MataDBModel.vAccount" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MataDBModel.vIssue" Width="1.5" PointX="9.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MataDBModel.vMailAccount" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MataDBModel.vMailAttachment" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MataDBModel.vProject" Width="1.5" PointX="11.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MataDBModel.vStore" Width="1.5" PointX="5.75" PointY="11.75" />
         <AssociationConnector Association="MataDBModel.FK_Issue_CreatedByAccount" />
         <AssociationConnector Association="MataDBModel.FK_Issue_UpdatedByAccount" />
         <AssociationConnector Association="MataDBModel.FK_MailAccount_Account" />
@@ -30,7 +33,6 @@
         <AssociationConnector Association="MataDBModel.FK_Attachment_Mail" />
         <AssociationConnector Association="MataDBModel.FK_Issue_Store" />
         <AssociationConnector Association="MataDBModel.FK_MailAccount_Mail" />
-        <AssociationConnector Association="MataDBModel.FK_Project_Project" />
         <AssociationConnector Association="MataDBModel.FK_Store_Project" />
         <AssociationConnector Association="MataDBModel.FK_Store_City" />
         <AssociationConnector Association="MataDBModel.FK_City_Country" />

@@ -61,9 +61,6 @@
     <Compile Include="Country.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="C__RefactorLog.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Issue.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
@@ -98,10 +95,22 @@
     <Compile Include="Token.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="vAccount.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vIssue.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="vMailAccount.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vMailAttachment.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vProject.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vStore.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
   </ItemGroup>

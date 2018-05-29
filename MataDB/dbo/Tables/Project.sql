@@ -8,9 +8,10 @@
     [UpdateTime]         DATETIME       NOT NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Project_CreatedByAccount] FOREIGN KEY ([CreatedByAccountID]) REFERENCES [dbo].[Account] ([ID]),
-    CONSTRAINT [FK_Project_Project] FOREIGN KEY ([ID]) REFERENCES [dbo].[Project] ([ID]),
     CONSTRAINT [FK_Project_UpdatedByAccount] FOREIGN KEY ([UpdatedByAccountID]) REFERENCES [dbo].[Account] ([ID])
 );
+
+
 
 
 

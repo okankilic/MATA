@@ -25,7 +25,6 @@ namespace MATA.Data.Entities
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Attachment> Attachment { get; set; }
         public virtual DbSet<Issue> Issue { get; set; }
@@ -36,7 +35,11 @@ namespace MATA.Data.Entities
         public virtual DbSet<Token> Token { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<vAccount> vAccount { get; set; }
+        public virtual DbSet<vIssue> vIssue { get; set; }
         public virtual DbSet<vMailAccount> vMailAccount { get; set; }
         public virtual DbSet<vMailAttachment> vMailAttachment { get; set; }
+        public virtual DbSet<vProject> vProject { get; set; }
+        public virtual DbSet<vStore> vStore { get; set; }
     }
 }

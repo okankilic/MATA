@@ -5,12 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MataDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="ID" />
@@ -122,6 +116,54 @@
           <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vIssue">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IssueState" />
+            <PropertyRef Name="RequestDate" />
+            <PropertyRef Name="RequestedByFullName" />
+            <PropertyRef Name="SourceType" />
+            <PropertyRef Name="StoreID" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IssueState" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="RequestDate" Type="date" Nullable="false" />
+          <Property Name="RequestedByFullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SourceType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StoreID" Type="int" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vMailAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vMailAccount">
           <Key>
@@ -153,6 +195,54 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vProject">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vStore">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Attachment_Issue">
           <End Role="Issue" Type="Self.Issue" Multiplicity="0..1" />
@@ -262,18 +352,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Project_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="Project1" Type="Self.Project" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Project1">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Project_UpdatedByAccount">
           <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
@@ -347,7 +425,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MataDBModelStoreContainer">
-          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
@@ -358,6 +435,35 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
+          <EntitySet Name="vAccount" EntityType="Self.vAccount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccount].[ID] AS [ID], 
+    [vAccount].[FullName] AS [FullName], 
+    [vAccount].[Email] AS [Email], 
+    [vAccount].[RoleName] AS [RoleName]
+    FROM [dbo].[vAccount] AS [vAccount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vIssue" EntityType="Self.vIssue" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vIssue].[ID] AS [ID], 
+    [vIssue].[Description] AS [Description], 
+    [vIssue].[IssueState] AS [IssueState], 
+    [vIssue].[Remarks] AS [Remarks], 
+    [vIssue].[RequestDate] AS [RequestDate], 
+    [vIssue].[RequestedByFullName] AS [RequestedByFullName], 
+    [vIssue].[SourceType] AS [SourceType], 
+    [vIssue].[StoreID] AS [StoreID], 
+    [vIssue].[StoreName] AS [StoreName], 
+    [vIssue].[ProjectID] AS [ProjectID], 
+    [vIssue].[ProjectName] AS [ProjectName], 
+    [vIssue].[CreatedByAccountID] AS [CreatedByAccountID], 
+    [vIssue].[CreatedBy] AS [CreatedBy], 
+    [vIssue].[CreateTime] AS [CreateTime], 
+    [vIssue].[UpdatedByAccountID] AS [UpdatedByAccountID], 
+    [vIssue].[UpdatedBy] AS [UpdatedBy], 
+    [vIssue].[UpdateTime] AS [UpdateTime]
+    FROM [dbo].[vIssue] AS [vIssue]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vMailAccount" EntityType="Self.vMailAccount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vMailAccount].[ID] AS [ID], 
@@ -376,6 +482,35 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
     [vMailAttachment].[FileName] AS [FileName], 
     [vMailAttachment].[FilePath] AS [FilePath]
     FROM [dbo].[vMailAttachment] AS [vMailAttachment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vProject" EntityType="Self.vProject" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vProject].[ID] AS [ID], 
+    [vProject].[ProjectName] AS [ProjectName], 
+    [vProject].[Remarks] AS [Remarks], 
+    [vProject].[CreatedByAccountID] AS [CreatedByAccountID], 
+    [vProject].[CreatedBy] AS [CreatedBy], 
+    [vProject].[CreateTime] AS [CreateTime], 
+    [vProject].[UpdatedByAccountID] AS [UpdatedByAccountID], 
+    [vProject].[UpdatedBy] AS [UpdatedBy], 
+    [vProject].[UpdateTime] AS [UpdateTime]
+    FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vStore" EntityType="Self.vStore" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vStore].[ID] AS [ID], 
+    [vStore].[StoreName] AS [StoreName], 
+    [vStore].[ProjectID] AS [ProjectID], 
+    [vStore].[ProjectName] AS [ProjectName], 
+    [vStore].[Address] AS [Address], 
+    [vStore].[CityID] AS [CityID], 
+    [vStore].[CreatedByAccountID] AS [CreatedByAccountID], 
+    [vStore].[CreatedBy] AS [CreatedBy], 
+    [vStore].[CreateTime] AS [CreateTime], 
+    [vStore].[UpdatedByAccountID] AS [UpdatedByAccountID], 
+    [vStore].[UpdatedBy] AS [UpdatedBy], 
+    [vStore].[UpdateTime] AS [UpdateTime]
+    FROM [dbo].[vStore] AS [vStore]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Attachment_Issue" Association="Self.FK_Attachment_Issue">
             <End Role="Issue" EntitySet="Issue" />
@@ -413,10 +548,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
             <End Role="Account" EntitySet="Account" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
-          <AssociationSet Name="FK_Project_Project" Association="Self.FK_Project_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Project1" EntitySet="Project" />
-          </AssociationSet>
           <AssociationSet Name="FK_Project_UpdatedByAccount" Association="Self.FK_Project_UpdatedByAccount">
             <End Role="Account" EntitySet="Account" />
             <End Role="Project" EntitySet="Project" />
@@ -447,7 +578,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
     <edmx:ConceptualModels>
       <Schema Namespace="MataDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MataDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__RefactorLog" EntityType="MataDBModel.C__RefactorLog" />
           <EntitySet Name="Account" EntityType="MataDBModel.Account" />
           <EntitySet Name="Attachment" EntityType="MataDBModel.Attachment" />
           <EntitySet Name="Issue" EntityType="MataDBModel.Issue" />
@@ -458,8 +588,12 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <EntitySet Name="Token" EntityType="MataDBModel.Token" />
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
+          <EntitySet Name="vAccount" EntityType="MataDBModel.vAccount" />
+          <EntitySet Name="vIssue" EntityType="MataDBModel.vIssue" />
           <EntitySet Name="vMailAccount" EntityType="MataDBModel.vMailAccount" />
           <EntitySet Name="vMailAttachment" EntityType="MataDBModel.vMailAttachment" />
+          <EntitySet Name="vProject" EntityType="MataDBModel.vProject" />
+          <EntitySet Name="vStore" EntityType="MataDBModel.vStore" />
           <AssociationSet Name="FK_Issue_CreatedByAccount" Association="MataDBModel.FK_Issue_CreatedByAccount">
             <End Role="Account" EntitySet="Account" />
             <End Role="Issue" EntitySet="Issue" />
@@ -508,10 +642,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
             <End Role="Mail" EntitySet="Mail" />
             <End Role="MailAccount" EntitySet="MailAccount" />
           </AssociationSet>
-          <AssociationSet Name="FK_Project_Project" Association="MataDBModel.FK_Project_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Project1" EntitySet="Project" />
-          </AssociationSet>
           <AssociationSet Name="FK_Store_Project" Association="MataDBModel.FK_Store_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Store" EntitySet="Store" />
@@ -525,12 +655,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
             <End Role="City" EntitySet="City" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="C__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="Guid" Nullable="false" />
-        </EntityType>
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="ID" />
@@ -621,8 +745,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Project" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Project" ToRole="Account" />
-          <NavigationProperty Name="Project1" Relationship="MataDBModel.FK_Project_Project" FromRole="Project" ToRole="Project1" />
-          <NavigationProperty Name="Project2" Relationship="MataDBModel.FK_Project_Project" FromRole="Project1" ToRole="Project" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_Project" FromRole="Project" ToRole="Store" />
         </EntityType>
         <EntityType Name="Store">
@@ -673,6 +795,50 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
         </EntityType>
+        <EntityType Name="vAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vIssue">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IssueState" />
+            <PropertyRef Name="RequestDate" />
+            <PropertyRef Name="RequestedByFullName" />
+            <PropertyRef Name="SourceType" />
+            <PropertyRef Name="StoreID" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IssueState" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RequestedByFullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SourceType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StoreID" Type="Int32" Nullable="false" />
+          <Property Name="StoreName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         <EntityType Name="vMailAccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -701,6 +867,50 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
           <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vProject">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vStore">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Issue_CreatedByAccount">
           <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
@@ -846,18 +1056,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Project_Project">
-          <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="MataDBModel.Project" Role="Project1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Project1">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Store_Project">
           <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
           <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
@@ -900,13 +1098,6 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MataDBModelStoreContainer" CdmEntityContainer="MataDBEntities">
-          <EntitySetMapping Name="C__RefactorLog">
-            <EntityTypeMapping TypeName="MataDBModel.C__RefactorLog">
-              <MappingFragment StoreEntitySet="__RefactorLog">
-                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Account">
             <EntityTypeMapping TypeName="MataDBModel.Account">
               <MappingFragment StoreEntitySet="Account">
@@ -1027,6 +1218,39 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="vAccount">
+            <EntityTypeMapping TypeName="MataDBModel.vAccount">
+              <MappingFragment StoreEntitySet="vAccount">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vIssue">
+            <EntityTypeMapping TypeName="MataDBModel.vIssue">
+              <MappingFragment StoreEntitySet="vIssue">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+                <ScalarProperty Name="SourceType" ColumnName="SourceType" />
+                <ScalarProperty Name="RequestedByFullName" ColumnName="RequestedByFullName" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="IssueState" ColumnName="IssueState" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vMailAccount">
             <EntityTypeMapping TypeName="MataDBModel.vMailAccount">
               <MappingFragment StoreEntitySet="vMailAccount">
@@ -1046,6 +1270,39 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
                 <ScalarProperty Name="MailID" ColumnName="MailID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vProject">
+            <EntityTypeMapping TypeName="MataDBModel.vProject">
+              <MappingFragment StoreEntitySet="vProject">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vStore">
+            <EntityTypeMapping TypeName="MataDBModel.vStore">
+              <MappingFragment StoreEntitySet="vStore">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,4 +1,5 @@
 ﻿using MATA.Data.Common.Enums;
+using MATA.Data.DTO;
 using MATA.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace MATA.BL
             mail.State = state.ToString();
 
             db.SaveChanges();
+        }
+
+        public static void Create(MailDTO mail)
+        {
+
         }
     }
 }
