@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MATA.BL.Mappers
 {
-    public class AccountMapper : IMapper<Account, AccountDTO>
+    public class AccountMapper : IMapper<Account, vAccount, AccountDTO>
     {
         public AccountDTO MapToDTO(Account entity)
         {
@@ -19,6 +19,18 @@ namespace MATA.BL.Mappers
                 Email = entity.Email,
                 Password = entity.Password,
                 RoleName = entity.RoleName
+            };
+        }
+
+        public AccountDTO MapToDTO(vAccount view)
+        {
+            return new AccountDTO()
+            {
+                ID = view.ID,
+                FullName = view.FullName,
+                Email = view.Email,
+                //Password = view.Password,
+                RoleName = view.RoleName
             };
         }
 

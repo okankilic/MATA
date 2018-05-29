@@ -50,6 +50,9 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-default btn-block">Giriş Yap</button>
                         </div>
+                        <div class="form-group text-center">
+                            <a id="mt-link-accounts-forgot-password" href="javascript:void(0);">Şifremi unuttum</a>
+                        </div>
                         @*<hr />
                         <div class="form-group text-center">
                             @Html.ActionLink("Kayıt Ol", "Register", "Account")
@@ -60,9 +63,36 @@
         </div>
     </div>
 
+    <div id="mata-generic-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/noty")
+    @Scripts.Render("~/bundles/ts")
+
+    <script src="~/ts/mata.accounts-controller.js"></script>
+
+    <script type="text/javascript">
+
+        MATA.Utils.APP_BASE_URL = '@Url.Content("~")';
+
+        $(function () {
+
+            $('#mt-link-accounts-forgot-password').click(function (e) {
+                e.preventDefault();
+                MATA.Accounts.openForgotPasswordModal();
+                return false;
+            });
+
+        });
+
+    </script>
 
 </body>
 </html>

@@ -184,5 +184,27 @@ namespace MATA.Presentation.Web.Controllers
                 Content = "OK"
             };
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult _ForgotPassword()
+        {
+            var model = new AccountForgotPasswordViewModel();
+
+            return PartialView(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult _ForgotPassword(AccountForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(model);
+
+            return new ContentResult()
+            {
+                Content = "OK"
+            };
+        }
     }
 }

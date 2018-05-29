@@ -8,13 +8,41 @@ namespace MATA.Data.Common.Enums
 {
     public enum ContactTypes
     {
+        UNDEFINED,
         MAIL,
         TELEPHONE
     }
 
     public enum CurrencyCodeTypes
     {
+        UNDEFINED,
         TRY,
         USD
+    }
+
+    public enum MailStateTypes
+    {
+        UNDEFINED,
+        WAITING,
+        SENDING,
+        SENT,
+        ERROR
+    }
+
+    public enum AttachmentTypes
+    {
+        UNDEFINED,
+        FORM,
+        INVOICE
+    }
+
+    public enum IssueStateTypes
+    {
+        WAITING,
+        APPROVED,
+        ASSIGNED,
+        INPROGRESS,
+        COMPLETED,
+        REJECTED
     }
 }

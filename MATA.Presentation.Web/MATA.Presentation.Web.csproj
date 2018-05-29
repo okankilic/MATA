@@ -27,7 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -164,6 +164,9 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Filters\AuthenticateUserAttribute.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="Mappers\AccountMapper.cs" />
     <Compile Include="Models\Accounts\AccountCreateViewModel.cs" />
     <Compile Include="Models\Accounts\AccountEditViewModel.cs" />
+    <Compile Include="Models\Accounts\AccountForgotPasswordViewModel.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,9 +263,14 @@
     <Content Include="tsScripts\typings\globals\jquery.noty\typings.json" />
     <Content Include="Views\Errors\_Partial.cshtml" />
     <Content Include="Views\Accounts\_Edit.cshtml" />
+    <Content Include="Views\Accounts\_ForgotPassword.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="MailTemplates\" />
+    <Folder Include="Views\Issue\" />
+    <Folder Include="Views\Store\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -273,7 +282,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>

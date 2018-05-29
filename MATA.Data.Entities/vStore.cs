@@ -12,8 +12,19 @@ namespace MATA.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Staff
+    public partial class vStore
     {
         public int ID { get; set; }
+        public string StoreName { get; set; }
+        public int ProjectID { get; set; }
+        public string ProjectName { get; set; }
+        public string Address { get; set; }
+        public int CityID { get; set; }
+        public int CreatedByAccountID { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public int UpdatedByAccountID { get; set; }
+        public string UpdatedBy { get; set; }
+        public System.DateTime UpdateTime { get; set; }
     }
 }

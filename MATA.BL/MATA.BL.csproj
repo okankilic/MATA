@@ -48,14 +48,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBL.cs" />
-    <Compile Include="BackLogBL.cs" />
+    <Compile Include="IssueBL.cs" />
+    <Compile Include="MailAccountBL.cs" />
+    <Compile Include="MailAttachmentBL.cs" />
+    <Compile Include="MailBL.cs" />
     <Compile Include="Mappers\AccountMapper.cs" />
-    <Compile Include="Mappers\BackLogMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
+    <Compile Include="Mappers\IssueMapper.cs" />
+    <Compile Include="Mappers\ProjectMapper.cs" />
+    <Compile Include="Mappers\StoreMapper.cs" />
+    <Compile Include="ProjectBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoreBL.cs" />
     <Compile Include="TokenBL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MATA.Data.Common\MATA.Data.Common.csproj">
+      <Project>{3bb50e27-9367-414d-ad25-20b4805cd404}</Project>
+      <Name>MATA.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MATA.Data.DTO\MATA.Data.DTO.csproj">
       <Project>{0af947f0-fbe4-40c2-850c-f2087c8c577a}</Project>
       <Name>MATA.Data.DTO</Name>

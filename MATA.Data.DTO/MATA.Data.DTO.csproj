@@ -42,8 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDTO.cs" />
-    <Compile Include="BackLogDTO.cs" />
+    <Compile Include="MailDTO.cs" />
+    <Compile Include="Models\IssueDTO.cs" />
+    <Compile Include="Models\ProjectDTO.cs" />
+    <Compile Include="Models\StoreDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Impls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
