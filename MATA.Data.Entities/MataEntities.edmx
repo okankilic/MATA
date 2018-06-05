@@ -130,6 +130,30 @@ warning 6002: The table/view 'MataDB.dbo.vAccount' does not have a primary key d
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vCity' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vCity">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vCountry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vCountry">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="CountryName" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vIssue">
           <Key>
@@ -140,6 +164,9 @@ warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key def
             <PropertyRef Name="RequestedByFullName" />
             <PropertyRef Name="SourceType" />
             <PropertyRef Name="StoreID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
             <PropertyRef Name="CreatedByAccountID" />
             <PropertyRef Name="CreateTime" />
             <PropertyRef Name="UpdatedByAccountID" />
@@ -153,9 +180,9 @@ warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key def
           <Property Name="RequestedByFullName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SourceType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="StoreID" Type="int" Nullable="false" />
-          <Property Name="StoreName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ProjectID" Type="int" />
-          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
@@ -224,6 +251,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <PropertyRef Name="ID" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
             <PropertyRef Name="Address" />
             <PropertyRef Name="CityID" />
             <PropertyRef Name="CreatedByAccountID" />
@@ -234,7 +262,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="StoreName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ProjectID" Type="int" Nullable="false" />
-          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CityID" Type="int" Nullable="false" />
           <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
@@ -443,6 +471,20 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
     [vAccount].[RoleName] AS [RoleName]
     FROM [dbo].[vAccount] AS [vAccount]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vCity" EntityType="Self.vCity" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vCity].[ID] AS [ID], 
+    [vCity].[CityName] AS [CityName], 
+    [vCity].[CountryID] AS [CountryID], 
+    [vCity].[CountryName] AS [CountryName]
+    FROM [dbo].[vCity] AS [vCity]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vCountry" EntityType="Self.vCountry" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vCountry].[ID] AS [ID], 
+    [vCountry].[CountryName] AS [CountryName]
+    FROM [dbo].[vCountry] AS [vCountry]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vIssue" EntityType="Self.vIssue" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vIssue].[ID] AS [ID], 
@@ -589,6 +631,8 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
           <EntitySet Name="vAccount" EntityType="MataDBModel.vAccount" />
+          <EntitySet Name="vCity" EntityType="MataDBModel.vCity" />
+          <EntitySet Name="vCountry" EntityType="MataDBModel.vCountry" />
           <EntitySet Name="vIssue" EntityType="MataDBModel.vIssue" />
           <EntitySet Name="vMailAccount" EntityType="MataDBModel.vMailAccount" />
           <EntitySet Name="vMailAttachment" EntityType="MataDBModel.vMailAttachment" />
@@ -807,6 +851,26 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="vCity">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vCountry">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="CountryName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="vIssue">
           <Key>
             <PropertyRef Name="ID" />
@@ -816,6 +880,9 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <PropertyRef Name="RequestedByFullName" />
             <PropertyRef Name="SourceType" />
             <PropertyRef Name="StoreID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
             <PropertyRef Name="CreatedByAccountID" />
             <PropertyRef Name="CreateTime" />
             <PropertyRef Name="UpdatedByAccountID" />
@@ -829,9 +896,9 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="RequestedByFullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SourceType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="StoreID" Type="Int32" Nullable="false" />
-          <Property Name="StoreName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -892,6 +959,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <PropertyRef Name="ID" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
             <PropertyRef Name="Address" />
             <PropertyRef Name="CityID" />
             <PropertyRef Name="CreatedByAccountID" />
@@ -902,7 +970,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="StoreName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CityID" Type="Int32" Nullable="false" />
           <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
@@ -1224,6 +1292,24 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vCity">
+            <EntityTypeMapping TypeName="MataDBModel.vCity">
+              <MappingFragment StoreEntitySet="vCity">
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vCountry">
+            <EntityTypeMapping TypeName="MataDBModel.vCountry">
+              <MappingFragment StoreEntitySet="vCountry">
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

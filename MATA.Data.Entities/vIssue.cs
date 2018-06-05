@@ -23,7 +23,7 @@ namespace MATA.Data.Entities
         public string SourceType { get; set; }
         public int StoreID { get; set; }
         public string StoreName { get; set; }
-        public Nullable<int> ProjectID { get; set; }
+        public int ProjectID { get; set; }
         public string ProjectName { get; set; }
         public int CreatedByAccountID { get; set; }
         public string CreatedBy { get; set; }

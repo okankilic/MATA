@@ -1,0 +1,153 @@
+﻿@model MATA.Data.DTO.Models.ProjectDTO
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.ProjectName</h2>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <h4>
+                        Proje Bilgileri
+                        @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                        {
+                            <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        }
+                    </h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ProjectName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ProjectName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Remarks)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Remarks)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedByAccountID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedByAccountID)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedBy)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedBy)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreateTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdatedByAccountID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdatedByAccountID)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdatedBy)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdatedBy)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdateTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdateTime)
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Şantiyeler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Projects", new { projectID = Model.ID })" id="mt-link-stores-create">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_Index", "Stores", new { projectID = Model.ID, page = 1 }))
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    İşler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Issues", new { projectID = Model.ID })" id="mt-link-issues-create">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_Index", "Issues", new { projectID = Model.ID, page = 1 }))
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.mt-partial-view-container').each(function () {
+
+                var $this = $(this),
+                    url = $this.attr('data-url');
+
+                $this.load(url);
+
+            });
+
+        });
+
+    </script>
+
+}

@@ -64,6 +64,7 @@
     <Folder Include="LK\Tables\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Views\" />
+    <Folder Include="LK\Views" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SchemaComparison\ProjectToDB.scmp" />
@@ -87,6 +88,8 @@
     <Build Include="dbo\Views\vAccount.sql" />
     <Build Include="dbo\Views\vStore.sql" />
     <Build Include="dbo\Views\vIssue.sql" />
+    <Build Include="LK\Views\vCountry.sql" />
+    <Build Include="LK\Views\vCity.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MataDB.refactorlog" />

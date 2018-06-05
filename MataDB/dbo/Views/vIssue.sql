@@ -17,6 +17,6 @@
 	ua.FullName as UpdatedBy,
 	i.UpdateTime
 	FROM [dbo].[Issue] i 
-	left join [dbo].[vStore] s on i.StoreID = s.ID
+	inner join [dbo].[vStore] s on i.StoreID = s.ID
 	left join [dbo].[vAccount] ca on i.CreatedByAccountID = ca.ID
 	left join [dbo].[vAccount] ua on i.UpdatedByAccountID = ua.ID

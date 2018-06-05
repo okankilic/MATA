@@ -15,7 +15,14 @@ namespace MATA.BL.Mappers
             return new ProjectDTO
             {
                 ID = entity.ID,
-                ProjectName = entity.ProjectName
+                ProjectName = entity.ProjectName,
+                Remarks = entity.Remarks,
+                CreatedByAccountID = entity.CreatedByAccountID,
+                //CreatedBy = entity.CreatedBy,
+                CreateTime = entity.CreateTime,
+                UpdatedByAccountID = entity.UpdatedByAccountID,
+                //UpdatedBy = entity.UpdatedBy,
+                UpdateTime = entity.UpdateTime
             };
         }
 
@@ -24,7 +31,14 @@ namespace MATA.BL.Mappers
             return new ProjectDTO
             {
                 ID = view.ID,
-                ProjectName = view.ProjectName
+                ProjectName = view.ProjectName,
+                Remarks = view.Remarks,
+                CreatedByAccountID = view.CreatedByAccountID,
+                CreatedBy = view.CreatedBy,
+                CreateTime = view.CreateTime,
+                UpdatedByAccountID = view.UpdatedByAccountID,
+                UpdatedBy = view.UpdatedBy,
+                UpdateTime = view.UpdateTime
             };
         }
 
@@ -33,7 +47,12 @@ namespace MATA.BL.Mappers
             return new Project
             {
                 ID = dto.ID,
-                ProjectName = dto.ProjectName
+                ProjectName = dto.ProjectName,
+                Remarks = dto.Remarks,
+                CreatedByAccountID = dto.CreatedByAccountID,
+                CreateTime = dto.CreateTime,
+                UpdatedByAccountID = dto.UpdatedByAccountID,
+                UpdateTime = dto.UpdateTime
             };
         }
     }

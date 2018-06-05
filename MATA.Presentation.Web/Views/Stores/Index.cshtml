@@ -1,0 +1,108 @@
+﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexViewModel
+
+@{
+    ViewBag.Title = "Şantiyeler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Şantiyeler
+</h2>
+
+<p class="text-right">
+    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-stores-create", @class = "btn btn-default" })
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+
+        @{
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "store-grid",
+                ajaxUpdateCallback: "InitGridEvents"
+            );
+
+            grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.TotalCount);
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "store-grid" },
+            tableStyle: "table table-hover",
+            columns: new List<WebGridColumn>()
+            {
+                new WebGridColumn
+                {
+                    Header = "Şantiye Adı",
+                    ColumnName = "StoretName",
+                    CanSort = false,
+                    //Style = "width: 300px"
+                },
+                new WebGridColumn
+                {
+                    Header = "Açıklamalar",
+                    ColumnName = "Remarks",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Oluşturan",
+                    ColumnName = "CreatedBy",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Oluşturulma Zamanı",
+                    ColumnName = "CreateTime",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                },
+                new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_store_id = item.ID })
+                }
+            },
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+
+    </div>
+</div>
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.stores-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            InitGridEvents();
+        });
+
+        function InitGridEvents() {
+
+            $('#mt-link-stores-create').click(function (e) {
+                e.preventDefault();
+                MATA.Stores.openCreateModal();
+                return false;
+            });
+
+            $('.mt-link-stores-edit').click(function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    storeID = $this.data("storeId");
+                MATA.Stores.openEditModal(storeID);
+                return false;
+            });
+        }
+
+    </script>
+}

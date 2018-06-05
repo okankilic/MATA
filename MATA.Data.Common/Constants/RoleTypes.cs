@@ -15,6 +15,7 @@ namespace MATA.Data.Common.Constants
         public static class Combines
         {
             public const string Any = Admin + "," + Staff + "," + Customer;
+            public const string AdminStaff = Admin + "," + Staff;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace MATA.BL
 
         public static AccountDTO Get(string tokenString, MataDBEntities db)
         {
-            var accountID = TokenBL.Get(tokenString, db);
+            var accountID = TokenBL.GetAccountID(tokenString, db);
 
             return Get(accountID, db);
         }

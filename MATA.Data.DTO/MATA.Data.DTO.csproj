@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="AccountDTO.cs" />
     <Compile Include="MailDTO.cs" />
+    <Compile Include="Models\CityDTO.cs" />
+    <Compile Include="Models\CountryDTO.cs" />
     <Compile Include="Models\IssueDTO.cs" />
     <Compile Include="Models\ProjectDTO.cs" />
     <Compile Include="Models\StoreDTO.cs" />

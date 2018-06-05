@@ -13,16 +13,32 @@
         <div class="navbar-collapse collapse">
             @if (User.Identity.IsAuthenticated)
             {
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
 
-                    <li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>
+                @*<li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>*@
+
+                @if (User.IsInRole(RoleTypes.Admin))
+                {
                     
-                    @if (User.IsInRole(RoleTypes.Admin))
-                    {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Yönetici <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Ülkeler", "Index", "Countries")</li>
+                        <li>@Html.ActionLink("Şehirler", "Index", "Cities")</li>
+                        <li class="divider"></li>
                         <li>@Html.ActionLink("Hesaplar", "Index", "Accounts")</li>
-                    }
+                    </ul>
+                </li>
+                }
 
-                </ul>
+                @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                {
+                    <li>@Html.ActionLink("Projeler", "Index", "Projects")</li>
+                    <li>@Html.ActionLink("Şantiyeler", "Index", "Stores")</li>
+                    <li>@Html.ActionLink("İşler", "Index", "Issues")</li>
+                }
+
+            </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">@User.Identity.Name</a></li>
                     <li class="dropdown">

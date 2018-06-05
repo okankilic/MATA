@@ -36,6 +36,8 @@ namespace MATA.Data.Entities
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<vAccount> vAccount { get; set; }
+        public virtual DbSet<vCity> vCity { get; set; }
+        public virtual DbSet<vCountry> vCountry { get; set; }
         public virtual DbSet<vIssue> vIssue { get; set; }
         public virtual DbSet<vMailAccount> vMailAccount { get; set; }
         public virtual DbSet<vMailAttachment> vMailAttachment { get; set; }

@@ -53,11 +53,16 @@ namespace MATA.BL
             return db.vIssue.Where(q => q.StoreID == storeID).Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
         }
 
+        public static int GetProjectIssueCount(int projectID, MataDBEntities db)
+        {
+            return db.vIssue.Count(q => q.ProjectID == projectID);
+        }
+
         public static IEnumerable<IssueDTO> GetProjectIssues(int projectID, int skip, int take, MataDBEntities db)
         {
             var mapper = new IssueMapper();
 
-            return db.vIssue.Where(q => q.ProjectID == projectID).Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
+            return db.vIssue.Where(q => q.ProjectID == projectID).OrderBy(q => q.ID).ThenBy(q => q.ProjectID).Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
         }
     }
 }

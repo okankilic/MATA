@@ -35,7 +35,7 @@ namespace MATA.BL
             return null;
         }
 
-        internal static int Get(string tokenString, MataDBEntities db)
+        public static int GetAccountID(string tokenString, MataDBEntities db)
         {
             var guid = Guid.Parse(tokenString);
 

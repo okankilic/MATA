@@ -161,12 +161,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Base\CustomControllerBase.cs" />
+    <Compile Include="Base\CustomEntityControllerBase.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IssueController.cs" />
-    <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\StoresController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Filters\AuthenticateUserAttribute.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
@@ -181,6 +184,11 @@
     <Compile Include="Models\Accounts\AccountForgotPasswordViewModel.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
+    <Compile Include="Models\BaseIndexViewModel.cs" />
+    <Compile Include="Models\CustomJsonResult.cs" />
+    <Compile Include="Models\Issues\IssuesIndexViewModel.cs" />
+    <Compile Include="Models\Projects\ProjectsIndexViewModel.cs" />
+    <Compile Include="Models\Stores\StoresIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,13 +272,19 @@
     <Content Include="Views\Errors\_Partial.cshtml" />
     <Content Include="Views\Accounts\_Edit.cshtml" />
     <Content Include="Views\Accounts\_ForgotPassword.cshtml" />
-    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Projects\_Create.cshtml" />
+    <Content Include="Views\Projects\_Edit.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\Stores\_Index.cshtml" />
+    <Content Include="Views\Issues\_Index.cshtml" />
+    <Content Include="Views\Stores\Index.cshtml" />
+    <Content Include="Views\Stores\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="MailTemplates\" />
-    <Folder Include="Views\Issue\" />
-    <Folder Include="Views\Store\" />
+    <Folder Include="Views\Countries\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -314,6 +328,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="tsScripts\mata.accounts-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.issues-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.projects-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.stores-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.utils.ts" />
     <TypeScriptCompile Include="tsScripts\typings\globals\bootstrap\index.d.ts" />
     <TypeScriptCompile Include="tsScripts\typings\globals\jquery-validation-unobtrusive\index.d.ts" />

@@ -1,6 +1,7 @@
 ﻿using MATA.Data.Common.Constants;
 using MATA.Data.Entities;
 using MATA.Presentation.Web.Filters;
+using MATA.Presentation.Web.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,13 @@ namespace MATA.Presentation.Web.Base
         protected MataDBEntities _DB = new MataDBEntities();
 
         protected Logger _Logger = LogManager.GetCurrentClassLogger();
+
+        public string TokenString
+        {
+            get
+            {
+                return AuthenticationHelper.GetTokenString(HttpContext);
+            }
+        }
     }
 }

@@ -14,7 +14,18 @@ namespace MATA.BL.Mappers
         {
             return new StoreDTO
             {
-                ID = entity.ID
+                ID = entity.ID,
+                Address = entity.Address,
+                CityID = entity.CityID,
+                //CreatedBy = entity.CreatedBy,
+                CreatedByAccountID = entity.CreatedByAccountID,
+                CreateTime = entity.CreateTime,
+                ProjectID = entity.ProjectID,
+                //ProjectName = entity.ProjectName,
+                StoreName = entity.StoreName,
+                //UpdatedBy = entity.UpdatedBy,
+                UpdatedByAccountID = entity.UpdatedByAccountID,
+                UpdateTime = entity.UpdateTime
             };
         }
 
@@ -22,7 +33,18 @@ namespace MATA.BL.Mappers
         {
             return new StoreDTO
             {
-                ID = view.ID
+                ID = view.ID,
+                Address = view.Address,
+                CityID = view.CityID,
+                CreatedBy = view.CreatedBy,
+                CreatedByAccountID = view.CreatedByAccountID,
+                CreateTime = view.CreateTime,
+                ProjectID = view.ProjectID,
+                ProjectName = view.ProjectName,
+                StoreName = view.StoreName,
+                UpdatedBy = view.UpdatedBy,
+                UpdatedByAccountID = view.UpdatedByAccountID,
+                UpdateTime = view.UpdateTime
             };
         }
 
@@ -30,7 +52,15 @@ namespace MATA.BL.Mappers
         {
             return new Store
             {
-                ID = dto.ID
+                ID = dto.ID,
+                Address = dto.Address,
+                CityID = dto.CityID,
+                CreatedByAccountID = dto.CreatedByAccountID,
+                CreateTime = dto.CreateTime,
+                ProjectID = dto.ProjectID,
+                StoreName = dto.StoreName,
+                UpdatedByAccountID = dto.UpdatedByAccountID,
+                UpdateTime = dto.UpdateTime
             };
         }
     }

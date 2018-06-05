@@ -98,6 +98,12 @@
     <Compile Include="vAccount.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="vCity.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vCountry.cs">
+      <DependentUpon>MataEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="vIssue.cs">
       <DependentUpon>MataEntities.tt</DependentUpon>
     </Compile>

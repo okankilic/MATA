@@ -11,8 +11,15 @@ namespace MATA.BL
 {
     public static class ProjectBL
     {
-        public static int Create(ProjectDTO projectDTO, MataDBEntities db)
+        public static int Create(ProjectDTO projectDTO, string tokenString, MataDBEntities db)
         {
+            var accountID = TokenBL.GetAccountID(tokenString, db);
+
+            projectDTO.CreatedByAccountID = accountID;
+            projectDTO.CreateTime = DateTime.UtcNow;
+            projectDTO.UpdatedByAccountID = accountID;
+            projectDTO.UpdateTime = DateTime.UtcNow;
+
             var mapper = new ProjectMapper();
 
             var project = mapper.MapToEntity(projectDTO);
@@ -23,11 +30,16 @@ namespace MATA.BL
             return project.ID;
         }
 
-        public static void Update(int id, ProjectDTO projectDTO, MataDBEntities db)
+        public static void Update(int id, ProjectDTO projectDTO, string tokenString, MataDBEntities db)
         {
+            var accountID = TokenBL.GetAccountID(tokenString, db);
+
             var project = db.Project.Single(q => q.ID == id);
 
             project.ProjectName = projectDTO.ProjectName;
+            project.Remarks = projectDTO.Remarks;
+            project.UpdatedByAccountID = accountID;
+            project.UpdateTime = DateTime.UtcNow;
 
             db.SaveChanges();
         }
@@ -50,11 +62,23 @@ namespace MATA.BL
             db.SaveChanges();
         }
 
+        public static int GetCount(MataDBEntities db)
+        {
+            return db.Project.Count();
+        }
+
         public static IEnumerable<ProjectDTO> GetProjects(int skip, int take, MataDBEntities db)
         {
             var mapper = new ProjectMapper();
 
-            return db.vProject.Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
+            var projects = db.vProject.OrderBy(q => q.ID).ThenBy(q => q.ProjectName);
+
+            if (skip == 0 && take == 0)
+            {
+                return projects.ToList().Select(q => mapper.MapToDTO(q));
+            }
+
+            return projects.Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
         }
     }
 }

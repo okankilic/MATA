@@ -48,11 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBL.cs" />
+    <Compile Include="CityBL.cs" />
+    <Compile Include="CountryBL.cs" />
     <Compile Include="IssueBL.cs" />
     <Compile Include="MailAccountBL.cs" />
     <Compile Include="MailAttachmentBL.cs" />
     <Compile Include="MailBL.cs" />
     <Compile Include="Mappers\AccountMapper.cs" />
+    <Compile Include="Mappers\CityMapper.cs" />
+    <Compile Include="Mappers\CountryMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Mappers\IssueMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
