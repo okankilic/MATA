@@ -11,6 +11,13 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
+        [Display(Name = "Ülke")]
+        [Required]
+        public int CountryID { get; set; }
+
+        [Display(Name = "Ülke")]
+        public string CountryName { get; set; }
+
         [Display(Name = "Proje")]
         [Required]
         public string ProjectName { get; set; }

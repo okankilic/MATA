@@ -2,6 +2,8 @@
 
     const _createFormSelector = '#mt-form-stores-create';
 
+    const _focusElementSelector = '#ProjectID';
+
     export function openCreateModal() {
 
         Utils.openModal({
@@ -43,7 +45,7 @@
                     return false;
                 });
 
-                $("#StoreName").focus();
+                $(_focusElementSelector).focus();
 
             }
         });

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MATA.Presentation.Web.Models.Stores
 {
-    public class StoresIndexViewModel: BaseIndexViewModel
+    public class StoresIndexVM: BaseIndexViewModel
     {
         public IEnumerable<StoreDTO> Stores { get; set; }
     }

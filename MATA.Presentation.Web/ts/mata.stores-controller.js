@@ -3,6 +3,7 @@ var MATA;
     var Stores;
     (function (Stores) {
         var _createFormSelector = '#mt-form-stores-create';
+        var _focusElementSelector = '#ProjectID';
         function openCreateModal() {
             MATA.Utils.openModal({
                 ajax: {
@@ -34,7 +35,7 @@ var MATA;
                         });
                         return false;
                     });
-                    $("#StoreName").focus();
+                    $(_focusElementSelector).focus();
                 }
             });
         }

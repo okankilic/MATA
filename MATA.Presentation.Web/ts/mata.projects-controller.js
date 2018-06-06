@@ -5,6 +5,7 @@ var MATA;
         var _createFormSelector = '#mt-form-projects-create';
         var _editFormSelector = '#mt-form-projects-edit';
         var _deleteFormSelector = '#mt-form-projects-delete';
+        var _focusElementSelector = '#CountryID';
         function openCreateModal() {
             MATA.Utils.openModal({
                 ajax: {
@@ -36,7 +37,7 @@ var MATA;
                         });
                         return false;
                     });
-                    $("#ProjectName").focus();
+                    $(_focusElementSelector).focus();
                 }
             });
         }
@@ -95,7 +96,7 @@ var MATA;
                         });
                         return false;
                     });
-                    $("#ProjectName").focus().select();
+                    $(_focusElementSelector).focus().select();
                 }
             });
         }

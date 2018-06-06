@@ -4,6 +4,8 @@
     const _editFormSelector = '#mt-form-projects-edit';
     const _deleteFormSelector = '#mt-form-projects-delete';
 
+    const _focusElementSelector = '#CountryID';
+
     export function openCreateModal() {
 
         Utils.openModal({
@@ -45,7 +47,7 @@
                     return false;
                 });
 
-                $("#ProjectName").focus();
+                $(_focusElementSelector).focus();
 
             }
         });
@@ -123,7 +125,7 @@
                     return false;
                 });
 
-                $("#ProjectName").focus().select();
+                $(_focusElementSelector).focus().select();
 
             }
         });

@@ -1,4 +1,4 @@
-﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexViewModel
+﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexVM
 
 @{
     WebGrid grid = new WebGrid(
@@ -7,7 +7,7 @@
         ajaxUpdateCallback: "InitGridEvents"
     );
 
-    grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.TotalCount);
+    grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.PageSize);
 }
 
 @grid.GetHtml(

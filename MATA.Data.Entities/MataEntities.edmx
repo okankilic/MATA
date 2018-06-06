@@ -69,6 +69,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
           <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
           <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
@@ -228,6 +229,8 @@ warning 6002: The table/view 'MataDB.dbo.vProject' does not have a primary key d
         <EntityType Name="vProject">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
             <PropertyRef Name="ProjectName" />
             <PropertyRef Name="CreatedByAccountID" />
             <PropertyRef Name="CreateTime" />
@@ -235,6 +238,8 @@ warning 6002: The table/view 'MataDB.dbo.vProject' does not have a primary key d
             <PropertyRef Name="UpdateTime" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
           <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
@@ -365,6 +370,18 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             </Principal>
             <Dependent Role="MailAccount">
               <PropertyRef Name="MailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -528,6 +545,8 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <EntitySet Name="vProject" EntityType="Self.vProject" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vProject].[ID] AS [ID], 
+    [vProject].[CountryID] AS [CountryID], 
+    [vProject].[CountryName] AS [CountryName], 
     [vProject].[ProjectName] AS [ProjectName], 
     [vProject].[Remarks] AS [Remarks], 
     [vProject].[CreatedByAccountID] AS [CreatedByAccountID], 
@@ -585,6 +604,10 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <AssociationSet Name="FK_MailAccount_Mail" Association="Self.FK_MailAccount_Mail">
             <End Role="Mail" EntitySet="Mail" />
             <End Role="MailAccount" EntitySet="MailAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Country" Association="Self.FK_Project_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Project" EntitySet="Project" />
           </AssociationSet>
           <AssociationSet Name="FK_Project_CreatedByAccount" Association="Self.FK_Project_CreatedByAccount">
             <End Role="Account" EntitySet="Account" />
@@ -686,6 +709,10 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <End Role="Mail" EntitySet="Mail" />
             <End Role="MailAccount" EntitySet="MailAccount" />
           </AssociationSet>
+          <AssociationSet Name="FK_Project_Country" Association="MataDBModel.FK_Project_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
           <AssociationSet Name="FK_Store_Project" Association="MataDBModel.FK_Store_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Store" EntitySet="Store" />
@@ -781,6 +808,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
@@ -789,6 +817,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Project" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Project" ToRole="Account" />
+          <NavigationProperty Name="Country" Relationship="MataDBModel.FK_Project_Country" FromRole="Project" ToRole="Country" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_Project" FromRole="Project" ToRole="Store" />
         </EntityType>
         <EntityType Name="Store">
@@ -837,6 +866,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Project" Relationship="MataDBModel.FK_Project_Country" FromRole="Country" ToRole="Project" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
         </EntityType>
         <EntityType Name="vAccount">
@@ -938,6 +968,8 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
         <EntityType Name="vProject">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
             <PropertyRef Name="ProjectName" />
             <PropertyRef Name="CreatedByAccountID" />
             <PropertyRef Name="CreateTime" />
@@ -945,6 +977,8 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             <PropertyRef Name="UpdateTime" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
@@ -1124,6 +1158,18 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Project_Country">
+          <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="MataDBModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Store_Project">
           <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
           <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
@@ -1239,6 +1285,7 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
                 <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1371,6 +1418,8 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
                 <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

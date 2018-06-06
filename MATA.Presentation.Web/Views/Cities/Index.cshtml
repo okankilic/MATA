@@ -1,0 +1,97 @@
+﻿@model MATA.Presentation.Web.Models.Cities.CitiesIndexVM
+
+@{
+    ViewBag.Title = "Şehirler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Şehirler
+</h2>
+
+<p class="text-right">
+    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-city-create", @class = "btn btn-default" })
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+
+        @{
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "city-grid",
+                ajaxUpdateCallback: "InitGridEvents"
+            );
+
+            grid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "city-grid" },
+            tableStyle: "table table-hover",
+            columns: new List<WebGridColumn>()
+            {
+                new WebGridColumn
+                {
+                    Header = "Ülke Adı",
+                    ColumnName = "CountryName",
+                    CanSort = false,
+                    //Style = "width: 300px"
+                },
+                new WebGridColumn
+                {
+                    Header = "Şehir Adı",
+                    ColumnName = "CityName",
+                    CanSort = false,
+                    //Style = "width: 300px"
+                },
+                new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                },
+                new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-city-edit", data_city_id = item.ID })
+                }
+            },
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+
+    </div>
+</div>
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.cities-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            InitGridEvents();
+        });
+
+        function InitGridEvents() {
+
+            $('#mt-link-city-create').click(function (e) {
+                e.preventDefault();
+                MATA.Cities.openCreateModal();
+                return false;
+            });
+
+            $('.mt-link-city-edit').click(function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    cityID = $this.data("cityId");
+                MATA.Cities.openEditModal(cityID);
+                return false;
+            });
+        }
+
+    </script>
+}

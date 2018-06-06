@@ -1,4 +1,5 @@
 ﻿using MATA.BL;
+using MATA.BL.Mappers;
 using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
@@ -25,26 +26,27 @@ namespace MATA.Presentation.Web.Helpers
             return selectList;
         }
 
-        public static SelectList GetProjectList(int selectedProjectID = 0)
+        public static SelectList GetCountryList(int selectedCityID = 0)
         {
-            IEnumerable<ProjectDTO> projects;
+            IEnumerable<CountryDTO> countries;
 
             using (var db = new MataDBEntities())
             {
-                projects = ProjectBL.GetProjects(0, 0, db);
+                var countryBL = new CountryBL(new CountryMapper());
+                countries = countryBL.GetCountries(0, 0, db);
             }
 
             var selectItemList = new List<SelectListItem>();
 
             selectItemList.Add(new SelectListItem() { Value = null, Text = "" });
 
-            selectItemList.AddRange(projects.Select(q => new SelectListItem
+            selectItemList.AddRange(countries.Select(q => new SelectListItem
             {
                 Value = q.ID.ToString(),
-                Text = q.ProjectName
+                Text = q.CountryName
             }));
 
-            var selectList = new SelectList(selectItemList, "Value", "Text", selectedProjectID);
+            var selectList = new SelectList(selectItemList, "Value", "Text", selectedCityID);
 
             return selectList;
         }
@@ -55,7 +57,8 @@ namespace MATA.Presentation.Web.Helpers
 
             using (var db = new MataDBEntities())
             {
-                cities = CityBL.GetCities(db);
+                var cityBL = new CityBL(new CityMapper());
+                cities = cityBL.GetCities(0, 0, db);
             }
 
             var selectItemList = new List<SelectListItem>();
@@ -73,6 +76,31 @@ namespace MATA.Presentation.Web.Helpers
             }));
 
             var selectList = new SelectList(selectItemList, "Value", "Text", selectedCityID);
+
+            return selectList;
+        }
+
+        public static SelectList GetProjectList(int selectedProjectID = 0)
+        {
+            IEnumerable<ProjectDTO> projects;
+
+            using (var db = new MataDBEntities())
+            {
+                var projectBL = new ProjectBL(new ProjectMapper());
+                projects = projectBL.GetProjects(0, 0, db);
+            }
+
+            var selectItemList = new List<SelectListItem>();
+
+            selectItemList.Add(new SelectListItem() { Value = null, Text = "" });
+
+            selectItemList.AddRange(projects.Select(q => new SelectListItem
+            {
+                Value = q.ID.ToString(),
+                Text = q.ProjectName
+            }));
+
+            var selectList = new SelectList(selectItemList, "Value", "Text", selectedProjectID);
 
             return selectList;
         }

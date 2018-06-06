@@ -1,4 +1,4 @@
-﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexViewModel
+﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexVM
 
 @{
     ViewBag.Title = "Şantiyeler";
@@ -35,14 +35,14 @@
                 new WebGridColumn
                 {
                     Header = "Şantiye Adı",
-                    ColumnName = "StoretName",
+                    ColumnName = "StoreName",
                     CanSort = false,
                     //Style = "width: 300px"
                 },
                 new WebGridColumn
                 {
-                    Header = "Açıklamalar",
-                    ColumnName = "Remarks",
+                    Header = "Adres",
+                    ColumnName = "Address",
                     CanSort = false
                 },
                 new WebGridColumn

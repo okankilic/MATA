@@ -121,6 +121,18 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net45\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.7.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.7.0\lib\net45\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc, Version=5.0.13.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc.5.0.13\lib\net45\Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -160,9 +172,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Base\CustomControllerBase.cs" />
     <Compile Include="Base\CustomEntityControllerBase.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -178,6 +193,11 @@
     </Compile>
     <Compile Include="Helpers\AuthenticationHelper.cs" />
     <Compile Include="Helpers\SelectHelper.cs" />
+    <Compile Include="Impls\CitiesVMFactory.cs" />
+    <Compile Include="Impls\CountryVMFactory.cs" />
+    <Compile Include="Impls\ProjectsVMFactory.cs" />
+    <Compile Include="Impls\StoresVMFactory.cs" />
+    <Compile Include="Interfaces\IVMFactory.cs" />
     <Compile Include="Mappers\AccountMapper.cs" />
     <Compile Include="Models\Accounts\AccountCreateViewModel.cs" />
     <Compile Include="Models\Accounts\AccountEditViewModel.cs" />
@@ -185,10 +205,12 @@
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
     <Compile Include="Models\BaseIndexViewModel.cs" />
+    <Compile Include="Models\Cities\CitiesIndexVM.cs" />
+    <Compile Include="Models\Countries\CountriesIndexVM.cs" />
     <Compile Include="Models\CustomJsonResult.cs" />
     <Compile Include="Models\Issues\IssuesIndexViewModel.cs" />
-    <Compile Include="Models\Projects\ProjectsIndexViewModel.cs" />
-    <Compile Include="Models\Stores\StoresIndexViewModel.cs" />
+    <Compile Include="Models\Projects\ProjectsIndexVM.cs" />
+    <Compile Include="Models\Stores\StoresIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -280,11 +302,16 @@
     <Content Include="Views\Issues\_Index.cshtml" />
     <Content Include="Views\Stores\Index.cshtml" />
     <Content Include="Views\Stores\_Create.cshtml" />
+    <Content Include="Views\Countries\Index.cshtml" />
+    <Content Include="Views\Countries\_Create.cshtml" />
+    <Content Include="Views\Countries\_Edit.cshtml" />
+    <Content Include="Views\Cities\Index.cshtml" />
+    <Content Include="Views\Cities\_Create.cshtml" />
+    <Content Include="Views\Cities\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="MailTemplates\" />
-    <Folder Include="Views\Countries\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -328,6 +355,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="tsScripts\mata.accounts-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.cities-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.countries-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.issues-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.projects-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.stores-controller.ts" />

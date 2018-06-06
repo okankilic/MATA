@@ -21,6 +21,7 @@ namespace MATA.Data.Entities
         }
     
         public int ID { get; set; }
+        public int CountryID { get; set; }
         public string ProjectName { get; set; }
         public string Remarks { get; set; }
         public int CreatedByAccountID { get; set; }
@@ -30,6 +31,7 @@ namespace MATA.Data.Entities
     
         public virtual Account Account { get; set; }
         public virtual Account Account1 { get; set; }
+        public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Store { get; set; }
     }

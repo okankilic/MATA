@@ -1,4 +1,5 @@
-﻿using MATA.BL.Mappers;
+﻿using MATA.BL.Interfaces;
+using MATA.BL.Mappers;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;
@@ -9,12 +10,17 @@ using System.Threading.Tasks;
 
 namespace MATA.BL
 {
-    public static class IssueBL
+    public class IssueBL: IEntityBL<IssueDTO>
     {
-        public static int Create(IssueDTO issueDTO, MataDBEntities db)
-        {
-            var mapper = new IssueMapper();
+        readonly IMapper<Issue, vIssue, IssueDTO> mapper;
 
+        public IssueBL(IMapper<Issue, vIssue, IssueDTO> mapper)
+        {
+            this.mapper = mapper;
+        }
+
+        public int Create(IssueDTO issueDTO, string tokenString, MataDBEntities db)
+        {
             var issue = mapper.MapToEntity(issueDTO);
 
             db.Issue.Add(issue);
@@ -24,14 +30,14 @@ namespace MATA.BL
             return issue.ID;
         }
 
-        public static void Update(int id, IssueDTO issueDTO, MataDBEntities db)
+        public void Update(int id, IssueDTO issueDTO, string tokenString, MataDBEntities db)
         {
             var issue = db.Issue.Single(q => q.ID == id);
 
             db.SaveChanges();
         }
 
-        public static void Delete(int id, MataDBEntities db)
+        public void Delete(int id, MataDBEntities db)
         {
             var issue = db.Issue.Single(q => q.ID == id);
 
@@ -39,30 +45,36 @@ namespace MATA.BL
             db.SaveChanges();
         }
 
-        public static IEnumerable<IssueDTO> GetIssues(int skip, int take, MataDBEntities db)
+        public IssueDTO Get(int id, MataDBEntities db)
         {
-            var mapper = new IssueMapper();
+            var issue = db.vIssue.Single(q => q.ID == id);
 
+            return mapper.MapToDTO(issue);
+        }
+
+        public IEnumerable<IssueDTO> GetIssues(int skip, int take, MataDBEntities db)
+        {
             return db.vIssue.Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
         }
 
-        public static IEnumerable<IssueDTO> GetStoreIssues(int storeID, int skip, int take, MataDBEntities db)
+        public IEnumerable<IssueDTO> GetStoreIssues(int storeID, int skip, int take, MataDBEntities db)
         {
-            var mapper = new IssueMapper();
-
             return db.vIssue.Where(q => q.StoreID == storeID).Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
         }
 
-        public static int GetProjectIssueCount(int projectID, MataDBEntities db)
+        public int GetProjectIssueCount(int projectID, MataDBEntities db)
         {
             return db.vIssue.Count(q => q.ProjectID == projectID);
         }
 
-        public static IEnumerable<IssueDTO> GetProjectIssues(int projectID, int skip, int take, MataDBEntities db)
+        public IEnumerable<IssueDTO> GetProjectIssues(int projectID, int skip, int take, MataDBEntities db)
         {
-            var mapper = new IssueMapper();
-
             return db.vIssue.Where(q => q.ProjectID == projectID).OrderBy(q => q.ID).ThenBy(q => q.ProjectID).Skip(skip).Take(take).ToList().Select(q => mapper.MapToDTO(q));
+        }
+
+        public int Count(MataDBEntities db)
+        {
+            return db.Issue.Count();
         }
     }
 }

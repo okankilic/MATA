@@ -1,4 +1,4 @@
-﻿@model MATA.Presentation.Web.Models.Projects.ProjectsIndexViewModel
+﻿@model MATA.Presentation.Web.Models.Projects.ProjectsIndexVM
 
 @{
     ViewBag.Title = "Projeler";
@@ -32,6 +32,13 @@
             tableStyle: "table table-hover",
             columns: new List<WebGridColumn>()
             {
+                new WebGridColumn
+                {
+                    Header = "Ülke Adı",
+                    ColumnName = "CountryName",
+                    CanSort = false,
+                    //Style = "width: 300px"
+                },
                 new WebGridColumn
                 {
                     Header = "Proje Adı",

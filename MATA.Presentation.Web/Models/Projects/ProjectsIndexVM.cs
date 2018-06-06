@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MATA.Presentation.Web.Models.Projects
 {
-    public class ProjectsIndexViewModel: BaseIndexViewModel
+    public class ProjectsIndexVM: BaseIndexViewModel
     {
         public IEnumerable<ProjectDTO> Projects { get; set; }
     }

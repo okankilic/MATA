@@ -1,0 +1,61 @@
+﻿@model MATA.Data.DTO.Models.CountryDTO
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">@Model.CountryName</h4>
+</div>
+
+<div class="mt-div-country-edit collapse in">
+
+    @using (Html.BeginForm("Edit", "Countries", FormMethod.Post, new { id = "mt-form-countries-edit", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.CountryName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
+            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-country-edit">Sil</button>
+            <input type="submit" value="Kaydet" class="btn btn-primary" />
+        </div>
+    }
+
+</div>
+
+<div class="mt-div-country-edit collapse">
+
+    @using (Html.BeginForm("Delete", "Countries", new { id = Model.ID }, FormMethod.Post, new { id = "mt-form-countries-delete", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            <div class="alert alert-warning">
+                @Model.CountryName projesi silinecek. Emin misiniz?
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-country-edit">Vazgeç</button>
+            <input type="submit" value="Sil" class="btn btn-primary" />
+        </div>
+    }
+
+</div>

@@ -15,6 +15,8 @@ namespace MATA.BL.Mappers
             return new ProjectDTO
             {
                 ID = entity.ID,
+                CountryID = entity.CountryID,
+                //CountryName = entity.CountryName,
                 ProjectName = entity.ProjectName,
                 Remarks = entity.Remarks,
                 CreatedByAccountID = entity.CreatedByAccountID,
@@ -31,6 +33,8 @@ namespace MATA.BL.Mappers
             return new ProjectDTO
             {
                 ID = view.ID,
+                CountryID = view.CountryID,
+                CountryName = view.CountryName,
                 ProjectName = view.ProjectName,
                 Remarks = view.Remarks,
                 CreatedByAccountID = view.CreatedByAccountID,
@@ -47,6 +51,7 @@ namespace MATA.BL.Mappers
             return new Project
             {
                 ID = dto.ID,
+                CountryID = dto.CountryID,
                 ProjectName = dto.ProjectName,
                 Remarks = dto.Remarks,
                 CreatedByAccountID = dto.CreatedByAccountID,
