@@ -1,4 +1,5 @@
 ﻿using MATA.Data.DTO;
+using MATA.Data.DTO.Models;
 using MATA.Presentation.Web.Models.Accounts;
 using Newtonsoft.Json;
 using System;

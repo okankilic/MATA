@@ -4,7 +4,7 @@
     WebGrid grid = new WebGrid(
         rowsPerPage: Model.PageSize,
         ajaxUpdateContainerId: "store-grid",
-        ajaxUpdateCallback: "InitGridEvents"
+        ajaxUpdateCallback: "storesController.initGridEvents"
     );
 
     grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.PageSize);
@@ -24,8 +24,8 @@
         },
         new WebGridColumn
         {
-            Header = "Açıklamalar",
-            ColumnName = "Remarks",
+            Header = "Adres",
+            ColumnName = "Address",
             CanSort = false
         },
         new WebGridColumn
@@ -48,42 +48,11 @@
         new WebGridColumn
         {
             //Style = "auto-width",
-            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_store_id = item.ID })
+            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_entity_id = item.ID })
         }
     },
     mode: WebGridPagerModes.Numeric,
     numericLinksCount: 5
 )
 
-@section scripts {
-
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script src="~/ts/mata.stores-controller.js"></script>
-
-    <script type="text/javascript">
-
-        $(function () {
-            InitGridEvents();
-        });
-
-        function InitGridEvents() {
-
-            $('#mt-link-stores-create').click(function (e) {
-                e.preventDefault();
-                MATA.Stores.openCreateModal();
-                return false;
-            });
-
-            $('.mt-link-stores-edit').click(function (e) {
-                e.preventDefault();
-                var $this = $(this),
-                    storeID = $this.data("storeId");
-                MATA.Stores.openEditModal(storeID);
-                return false;
-            });
-        }
-
-    </script>
-}
-
+<script src="~/ts/mata.stores-controller.js"></script>

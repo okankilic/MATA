@@ -1,133 +1,125 @@
-﻿module MATA.Countries {
+﻿namespace MATA.Countries {
 
-    const _createFormSelector = '#mt-form-countries-create';
-    const _editFormSelector = '#mt-form-countries-edit';
-    const _deleteFormSelector = '#mt-form-countries-delete';
+    export class CountriesController extends EntityBaseController {
 
-    export function openCreateModal() {
+        onOpenModalShown(): void {
+            var that = this;
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Countries/_Create'),
-                data: null
-            },
-            onShown: function () {
+            Utils.validateForm(that.createFormSelector);
 
-                Utils.validateForm(_createFormSelector);
+            $(that.createFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                $(_createFormSelector).submit(function (e) {
-                    e.preventDefault();
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                if (!isFormValid) {
+                    return false;
+                }
 
-                    if (!isFormValid) {
-                        return false;
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Ülke başarılı bir şekilde oluşturuldu');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Ülke başarılı bir şekilde oluşturuldu');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#CountryName").focus();
+                return false;
+            });
 
-            }
-        });
+            $("#CountryName").focus();
+        }
 
-    }
+        onEditModalShown(): void {
+            var that = this;
 
-    export function openEditModal(id: number) {
+            Utils.validateForm(that.editFormSelector);
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Countries/_Edit/' + id),
-                data: null
-            },
-            onShown: function () {
+            $(that.deleteFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                Utils.validateForm(_editFormSelector);
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                $(_deleteFormSelector).submit(function (e) {
-                    e.preventDefault();
+                if (!isFormValid) {
+                    return false;
+                }
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                $.ajax({
+                    method: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
 
-                    if (!isFormValid) {
-                        return false;
+                    if (response === "OK") {
+                        Utils.showSuccess('Ülke başarılı bir şekilde silindi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Ülke başarılı bir şekilde silindi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_editFormSelector).submit(function (e) {
-                    e.preventDefault();
+                return false;
+            });
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            $(that.editFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    if (!isFormValid) {
-                        return false;
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Ülke başarılı bir şekilde güncellendi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Ülke başarılı bir şekilde güncellendi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#CountryName").focus().select();
+                return false;
+            });
 
-            }
-        });
-
+            $("#CountryName").focus().select();
+        }
     }
 
 }
+
+var countriesController: MATA.Countries.CountriesController;
+
+$(function () {
+
+    countriesController = new MATA.Countries.CountriesController({
+        controllerName: 'Countries',
+        entityName: 'countries'
+    });
+
+    countriesController.initGridEvents();
+
+});

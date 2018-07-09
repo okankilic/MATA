@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MATA.Data.DTO.AccountDTO>
+﻿@model MATA.Presentation.Web.Models.Accounts.AccountsIndexVM
 
 @{
     ViewBag.Title = "Index";
@@ -7,77 +7,97 @@
 
 <h2>Hesaplar</h2>
 
-<p>
-    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-accounts-create" })
+<p class="text-right">
+    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-accounts-create", @class = "btn btn-default" })
 </p>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoleName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoleName)
-                </td>
-                <td>
-                    @Html.ActionLink("Güncelle", "Edit", new { id = item.ID }, new { @class = "mt-link-accounts-edit", data_account_id = item.ID })
-                </td>
-            </tr>
+<div class="panel panel-default">
+
+    <div class="panel-body" style="overflow-x:auto;">
+
+        @{
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "account-grid",
+                ajaxUpdateCallback: "accountsController.initGridEvents"
+            );
+
+            grid.Bind(Model.Accounts, autoSortAndPage: false, rowCount: Model.TotalCount);
         }
-    </tbody>
-</table>
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "account-grid" },
+            tableStyle: "table table-hover",
+            columns: new List<WebGridColumn>()
+            {
+                new WebGridColumn
+                {
+                    Header = "Ad Soyad",
+                    ColumnName = "FullName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "E-mail",
+                    ColumnName = "Email",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Rol",
+                    ColumnName = "RoleName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Aktif",
+                    ColumnName = "IsActive",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                },
+                new WebGridColumn
+                {
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-accounts-edit", data_entity_id = item.ID })
+                }
+            },
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+
+    </div>
+
+</div>
+
+@section styles {
+
+    <style type="text/css">
+
+        #account-grid {
+        }
+
+        /*#account-grid thead tr th:nth-child(5),
+        #account-grid thead tr th:nth-child(6),*/
+        #account-grid tbody tr td:nth-child(3),
+        #account-grid tbody tr td:nth-child(4),
+        #account-grid tbody tr td:nth-child(5),
+        #account-grid tbody tr td:nth-child(6) {
+            width: 0.1%;
+        }
+
+        /*#account-grid tfoot tr td {
+            float:right;
+        }*/
+
+    </style>
+
+}
 
 @section scripts {
 
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/ts/mata.accounts-controller.js"></script>
-
-    <script type="text/javascript">
-
-        $(function () {
-
-            $('#mt-link-accounts-create').click(function (e) {
-                e.preventDefault();
-                MATA.Accounts.openCreateModal();
-                return false;
-            });
-
-            $('.mt-link-accounts-edit').click(function (e) {
-                e.preventDefault();
-                var $this = $(this),
-                    accountID = $this.data("accountId");
-                MATA.Accounts.openEditModal(accountID);
-                return false;
-            });
-
-        });
-
-    </script>
 }

@@ -1,23 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MATA.Data.Common.Enums
 {
-    public enum ContactTypes
+    
+
+    //public enum CurrencyCodeTypes
+    //{
+    //    UNDEFINED,
+    //    TRY,
+    //    USD
+    //}
+
+    public enum AttachmentTypes
     {
         UNDEFINED,
-        MAIL,
-        TELEPHONE
+        FORM,
+        INVOICE
     }
 
-    public enum CurrencyCodeTypes
+    #region Projects
+    public enum ProjectStates
     {
+        WAITING,
+        IN_PROGRESS,
+        COMPLETED
+    }
+    #endregion
+
+    #region Issues
+    public enum IssueStateTypes
+    {
+        WAITING,
+        APPROVED,
+        ASSIGNED,
+        INPROGRESS,
+        COMPLETED,
+        REJECTED
+    }
+
+    public enum IssueSourceTypes
+    {
+        [Display(Name = " ")]
         UNDEFINED,
-        TRY,
-        USD
+        [Display(Name = "E-Mail")]
+        MAIL,
+        [Display(Name = "Telefon")]
+        TELEPHONE
+    }
+    #endregion
+
+    #region Mails
+    public enum MailTypes
+    {
+        FORGOT_PASSWORD
     }
 
     public enum MailStateTypes
@@ -28,21 +68,16 @@ namespace MATA.Data.Common.Enums
         SENT,
         ERROR
     }
+    #endregion
 
-    public enum AttachmentTypes
+    #region Actions
+    public enum ActionTypes
     {
-        UNDEFINED,
-        FORM,
-        INVOICE
+        LOGIN,
+        LOGOFF,
+        CREATE,
+        UPDATE,
+        DELETE
     }
-
-    public enum IssueStateTypes
-    {
-        WAITING,
-        APPROVED,
-        ASSIGNED,
-        INPROGRESS,
-        COMPLETED,
-        REJECTED
-    }
+    #endregion
 }

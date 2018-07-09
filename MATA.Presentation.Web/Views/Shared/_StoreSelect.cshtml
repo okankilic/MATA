@@ -1,0 +1,25 @@
+﻿@model MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.StoreDTO>
+
+<div class="form-group">
+
+    <label class="control-label col-sm-4" for="@Model.SelectID">
+        Şantiye
+    </label>
+
+    <div class="col-sm-8">
+
+        @Html.Hidden(Model.SelectName.ToString(), Model.SelectValue, new
+        {
+            autocomplete = "off",
+            @class = "form-control",
+            id = Model.SelectID,
+            data_select = string.Empty,
+            data_url = Url.Action("Search", "Stores"),
+            data_text_field = "StoreName",
+            data_value_field = "ID"
+        })
+
+    </div>
+
+</div>
+

@@ -1,4 +1,6 @@
-﻿using MATA.Presentation.Web.Base;
+﻿using MATA.Data.Repositories.Interfaces;
+using MATA.Presentation.Web.Base;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace MATA.Presentation.Web.Controllers
 {
     public class ErrorsController : CustomControllerBase
     {
+        public ErrorsController(IUnitOfWorkFactory uowFactory, ILogger logger) : base(uowFactory, logger)
+        {
+        }
+
         public ActionResult Index()
         {
             Response.StatusCode = 500;

@@ -1,135 +1,129 @@
-﻿module MATA.Projects {
+﻿namespace MATA.Projects {
 
-    const _createFormSelector = '#mt-form-projects-create';
-    const _editFormSelector = '#mt-form-projects-edit';
-    const _deleteFormSelector = '#mt-form-projects-delete';
+    export class ProjectsController extends EntityBaseController {
 
-    const _focusElementSelector = '#CountryID';
+        readonly focusElementSelector = '#ProjectName';
 
-    export function openCreateModal() {
+        onOpenModalShown(): void {
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Projects/_Create'),
-                data: null
-            },
-            onShown: function () {
+            var that = this;
 
-                Utils.validateForm(_createFormSelector);
+            Utils.validateForm(that.createFormSelector);
 
-                $(_createFormSelector).submit(function (e) {
-                    e.preventDefault();
+            $(that.createFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                    if (!isFormValid) {
-                        return false;
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Proje başarılı bir şekilde oluşturuldu');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Proje başarılı bir şekilde oluşturuldu');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_focusElementSelector).focus();
+                return false;
+            });
 
-            }
-        });
+            $(that.focusElementSelector).focus();
 
-    }
+        }
 
-    export function openEditModal(id: number) {
+        onEditModalShown(): void {
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Projects/_Edit/' + id),
-                data: null
-            },
-            onShown: function () {
+            var that = this;
 
-                Utils.validateForm(_editFormSelector);
+            Utils.validateForm(that.editFormSelector);
 
-                $(_deleteFormSelector).submit(function (e) {
-                    e.preventDefault();
+            $(that.deleteFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                    if (!isFormValid) {
-                        return false;
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Proje başarılı bir şekilde silindi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Proje başarılı bir şekilde silindi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_editFormSelector).submit(function (e) {
-                    e.preventDefault();
+                return false;
+            });
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            $(that.editFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    if (!isFormValid) {
-                        return false;
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Proje başarılı bir şekilde güncellendi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Proje başarılı bir şekilde güncellendi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_focusElementSelector).focus().select();
+                return false;
+            });
 
-            }
-        });
+            $(that.focusElementSelector).focus().select();
+
+        }
 
     }
 
 }
+
+var projectsController: MATA.Projects.ProjectsController;
+
+$(function () {
+    projectsController = new MATA.Projects.ProjectsController({
+        controllerName: 'Projects',
+        entityName: 'projects'
+    });
+    projectsController.initGridEvents();
+})

@@ -1,7 +1,9 @@
 ﻿using MATA.Data.Common.Constants;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Infrastructure.Utils.Exceptions;
 using MATA.Presentation.Web.Base;
 using MATA.Presentation.Web.Filters;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,10 @@ namespace MATA.Presentation.Web.Controllers
 {
     public class HomeController : CustomControllerBase
     {
-        [AuthorizeUser(Roles = RoleTypes.Customer)]
+        public HomeController(IUnitOfWorkFactory uowFactory, ILogger logger) : base(uowFactory, logger)
+        {
+        }
+        
         public ActionResult Index()
         {
             return View();

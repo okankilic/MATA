@@ -21,24 +21,13 @@
             WebGrid grid = new WebGrid(
                 rowsPerPage: Model.PageSize,
                 ajaxUpdateContainerId: "project-grid",
-                ajaxUpdateCallback: "InitGridEvents"
+                ajaxUpdateCallback: "projectsController.initGridEvents"
             );
 
             grid.Bind(Model.Projects, autoSortAndPage: false, rowCount: Model.TotalCount);
-        }
 
-        @grid.GetHtml(
-            htmlAttributes: new { id = "project-grid" },
-            tableStyle: "table table-hover",
-            columns: new List<WebGridColumn>()
+            var columnList = new List<WebGridColumn>()
             {
-                new WebGridColumn
-                {
-                    Header = "Ülke Adı",
-                    ColumnName = "CountryName",
-                    CanSort = false,
-                    //Style = "width: 300px"
-                },
                 new WebGridColumn
                 {
                     Header = "Proje Adı",
@@ -51,30 +40,34 @@
                     Header = "Açıklamalar",
                     ColumnName = "Remarks",
                     CanSort = false
-                },
-                new WebGridColumn
-                {
-                    Header = "Oluşturan",
-                    ColumnName = "CreatedBy",
-                    CanSort = false
-                },
-                new WebGridColumn
-                {
-                    Header = "Oluşturulma Zamanı",
-                    ColumnName = "CreateTime",
-                    CanSort = false
-                },
-                new WebGridColumn
+                }
+            };
+
+            if (User.IsInRole(RoleTypes.Admin))
+            {
+                this.AddAuditColumns(columnList);
+            }
+
+            if(User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+            {
+                columnList.Add(new WebGridColumn
                 {
                     //Style = "auto-width",
                     Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
-                },
-                new WebGridColumn
+                });
+
+                columnList.Add(new WebGridColumn
                 {
                     //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-projects-edit", data_project_id = item.ID })
-                }
-            },
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-projects-edit", data_entity_id = item.ID })
+                });
+            }
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "project-grid" },
+            tableStyle: "table table-hover",
+            columns: columnList,
             mode: WebGridPagerModes.Numeric,
             numericLinksCount: 5
         )
@@ -87,29 +80,4 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/ts/mata.projects-controller.js"></script>
-
-    <script type="text/javascript">
-
-        $(function () {
-            InitGridEvents();
-        });
-
-        function InitGridEvents() {
-
-            $('#mt-link-projects-create').click(function (e) {
-                e.preventDefault();
-                MATA.Projects.openCreateModal();
-                return false;
-            });
-
-            $('.mt-link-projects-edit').click(function (e) {
-                e.preventDefault();
-                var $this = $(this),
-                    projectID = $this.data("projectId");
-                MATA.Projects.openEditModal(projectID);
-                return false;
-            });
-        }
-
-    </script>
 }

@@ -1,4 +1,5 @@
 ﻿using MATA.Data.DTO;
+using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace MATA.BL.Mappers
                 FullName = entity.FullName,
                 Email = entity.Email,
                 Password = entity.Password,
-                RoleName = entity.RoleName
+                RoleName = entity.RoleName,
+                IsActive = entity.IsActive
             };
         }
 
@@ -30,7 +32,8 @@ namespace MATA.BL.Mappers
                 FullName = view.FullName,
                 Email = view.Email,
                 //Password = view.Password,
-                RoleName = view.RoleName
+                RoleName = view.RoleName,
+                IsActive = view.IsActive
             };
         }
 
@@ -41,7 +44,8 @@ namespace MATA.BL.Mappers
                 FullName = dto.FullName,
                 Email = dto.Email,
                 Password = dto.Password,
-                RoleName = dto.RoleName
+                RoleName = dto.RoleName,
+                IsActive = dto.IsActive
             };
         }
     }

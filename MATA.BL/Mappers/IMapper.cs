@@ -9,7 +9,6 @@ namespace MATA.BL.Mappers
     public interface IMapper<TEntity, TView, TDTO>
     {
         TEntity MapToEntity(TDTO dto);
-        TDTO MapToDTO(TEntity entity);
         TDTO MapToDTO(TView view);
     }
 }

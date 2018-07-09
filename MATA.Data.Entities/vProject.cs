@@ -15,8 +15,6 @@ namespace MATA.Data.Entities
     public partial class vProject
     {
         public int ID { get; set; }
-        public int CountryID { get; set; }
-        public string CountryName { get; set; }
         public string ProjectName { get; set; }
         public string Remarks { get; set; }
         public int CreatedByAccountID { get; set; }

@@ -16,10 +16,13 @@ namespace MATA.Data.Entities
     {
         public int ID { get; set; }
         public string StoreName { get; set; }
+        public int CityID { get; set; }
+        public string CityName { get; set; }
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
         public int ProjectID { get; set; }
         public string ProjectName { get; set; }
         public string Address { get; set; }
-        public int CityID { get; set; }
         public int CreatedByAccountID { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreateTime { get; set; }

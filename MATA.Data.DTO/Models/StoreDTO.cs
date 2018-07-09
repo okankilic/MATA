@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MATA.Data.DTO.Models
 {
-    public class StoreDTO
+    public class StoreDTO: AuditDTO
     {
         public int ID { get; set; }
 
@@ -16,20 +16,27 @@ namespace MATA.Data.DTO.Models
         public string StoreName { get; set; }
 
         [Required]
+        [Display(Name = "Proje")]
         public int ProjectID { get; set; }
 
+        [Display(Name = "Proje")]
         public string ProjectName { get; set; }
 
+        [Required]
+        [Display(Name = "Adres"), DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
+        [Display(Name = "Ülke")]
+        public int CountryID { get; set; }
+
+        [Display(Name = "Ülke")]
+        public string CountryName { get; set; }
+
         [Required]
+        [Display(Name = "Şehir")]
         public int CityID { get; set; }
 
-        public int CreatedByAccountID { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreateTime { get; set; }
-        public int UpdatedByAccountID { get; set; }
-        public string UpdatedBy { get; set; }
-        public DateTime UpdateTime { get; set; }
+        [Display(Name = "Şehir")]
+        public string CityName { get; set; }
     }
 }

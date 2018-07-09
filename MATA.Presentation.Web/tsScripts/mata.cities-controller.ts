@@ -1,133 +1,134 @@
-﻿module MATA.Cities {
+﻿namespace MATA.Cities {
 
-    const _createFormSelector = '#mt-form-cities-create';
-    const _editFormSelector = '#mt-form-cities-edit';
-    const _deleteFormSelector = '#mt-form-cities-delete';
+    export class CitiesController extends EntityBaseController {
 
-    export function openCreateModal() {
+        readonly focusElementSelector = '#CountryName';
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Cities/_Create'),
-                data: null
-            },
-            onShown: function () {
+        onOpenModalShown(): void {
 
-                Utils.validateForm(_createFormSelector);
+            var that = this;
 
-                $(_createFormSelector).submit(function (e) {
-                    e.preventDefault();
+            Utils.validateForm(that.createFormSelector);
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            $(that.createFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    if (!isFormValid) {
-                        return false;
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Şehir başarılı bir şekilde oluşturuldu');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Şehir başarılı bir şekilde oluşturuldu');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#CountryID").focus();
+                return false;
+            });
 
-            }
-        });
+            setTimeout(function () {
+                $(that.createFormSelector).find('input[type="text"]').first().focus();
+            }, 1000);
 
-    }
+        }
 
-    export function openEditModal(id: number) {
+        onEditModalShown(): void {
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Cities/_Edit/' + id),
-                data: null
-            },
-            onShown: function () {
+            var that = this;
 
-                Utils.validateForm(_editFormSelector);
+            Utils.validateForm(that.editFormSelector);
 
-                $(_deleteFormSelector).submit(function (e) {
-                    e.preventDefault();
+            $(that.deleteFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                    if (!isFormValid) {
-                        return false;
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Şehir başarılı bir şekilde silindi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Şehir başarılı bir şekilde silindi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_editFormSelector).submit(function (e) {
-                    e.preventDefault();
+                return false;
+            });
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            $(that.editFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    if (!isFormValid) {
-                        return false;
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Şehir başarılı bir şekilde güncellendi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Şehir başarılı bir şekilde güncellendi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#CountryID").focus().select();
+                return false;
+            });
 
-            }
-        });
+            $(that.focusElementSelector).focus().select();
+
+        }
 
     }
 
 }
+
+var citiesController: MATA.Cities.CitiesController;
+
+$(function () {
+
+    citiesController = new MATA.Cities.CitiesController({
+        controllerName: 'Cities',
+        entityName: 'cities'
+    });
+
+    citiesController.initGridEvents();
+
+});

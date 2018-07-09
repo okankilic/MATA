@@ -1,0 +1,143 @@
+﻿@model MATA.Presentation.Web.Models.Issues.IssuesIndexVM
+
+@{
+    ViewBag.Title = "Şantiyeler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    İşler
+</h2>
+
+<p class="text-right">
+    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-issues-create", @class = "btn btn-default" })
+</p>
+
+<div class="panel panel-default">
+
+    <div class="panel-body" style="overflow-x:auto;">
+
+
+        @{
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "issue-grid",
+                ajaxUpdateCallback: "issuesController.initGridEvents"
+            );
+
+            grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+            var columnList = new List<WebGridColumn>()
+            {
+                new WebGridColumn
+                {
+                    Header = "#",
+                    ColumnName = "ID",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Açıklama",
+                    ColumnName = "Description",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Durum",
+                    ColumnName = "IssueState",
+                    CanSort = false,
+                    Format = (item) => Html.Raw("<input class=\"mt-issue-state form-control\" type=\"text\" value=\"" + item.IssueState.ToString() + "\" readonly />")
+                },
+                new WebGridColumn
+                {
+                    Header = "Proje",
+                    ColumnName = "ProjectName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Ülke",
+                    ColumnName = "CountryName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Şehir",
+                    ColumnName = "CityName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Şantiye",
+                    ColumnName = "StoreName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Talep Eden",
+                    ColumnName = "RequestedByFullName",
+                    CanSort = false
+                },
+                new WebGridColumn
+                {
+                    Header = "Talep Zamanı",
+                    ColumnName = "RequestDate",
+                    CanSort = false,
+                    Format = (item) => item.RequestDate.ToString("yyyy-MM-dd")
+                }
+            };
+
+            if (User.IsInRole(RoleTypes.Admin))
+            {
+                this.AddAuditColumns(columnList);
+            }
+
+            if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+            {
+                columnList.Add(new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                });
+
+                columnList.Add(new WebGridColumn
+                {
+                    //Style = "auto-width",
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_entity_id = item.ID })
+                });
+            }
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "issue-grid" },
+            tableStyle: "table table-hover",
+            columns: columnList,
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+
+    </div>
+</div>
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.issues-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('#issue-grid tbody tr').each(function (_i, _row) {
+                var $row = $(_row);
+                if ($row.find('input.mt-issue-state').val() == '@MATA.Data.Common.Enums.IssueStateTypes.WAITING') {
+                    $row.css('background-color', 'lightgreen');
+                }
+            });
+
+        })
+
+    </script>
+
+}

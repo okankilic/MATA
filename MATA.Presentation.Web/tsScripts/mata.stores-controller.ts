@@ -1,55 +1,149 @@
-﻿module MATA.Stores {
+﻿namespace MATA.Stores {
 
-    const _createFormSelector = '#mt-form-stores-create';
+    export class StoresController extends EntityBaseController {
+        readonly focusElementSelector = '#StoreName';
+        onOpenModalShown(): void {
+            var that = this;
+            Utils.validateForm(that.createFormSelector);
 
-    const _focusElementSelector = '#ProjectID';
+            //$('#StoreID').change(function (e) {
+            //    e.preventDefault();
 
-    export function openCreateModal() {
+            //    var $el = $(this),
+            //        storeID = parseInt($el.val()),
+            //        afterStoreSelectContainer = '#after-store-select';
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Stores/_Create'),
-                data: null
-            },
-            onShown: function () {
+            //    if (storeID) {
+            //        Utils.showElement(afterStoreSelectContainer);
+            //    } else {
+            //        Utils.hideElement(afterStoreSelectContainer);
+            //    }
 
-                Utils.validateForm(_createFormSelector);
+            //});
 
-                $(_createFormSelector).submit(function (e) {
-                    e.preventDefault();
+            //$('#CityID').change(function (e) {
+            //    e.preventDefault();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            //    var $el = $(this),
+            //        city = parseInt($el.val()),
+            //        afterCitySelectContainer = '#after-city-select';
 
-                    if (!isFormValid) {
-                        return false;
+            //    if (city) {
+            //        Utils.showElement(afterCitySelectContainer);
+            //    } else {
+            //        Utils.hideElement(afterCitySelectContainer);
+            //    }
+
+            //});
+
+            $(that.createFormSelector).submit(function (e) {
+                e.preventDefault();
+
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Şantiye başarılı bir şekilde oluşturuldu');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Şantiye başarılı bir şekilde oluşturuldu');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_focusElementSelector).focus();
+                return false;
+            });
 
-            }
-        });
+            $(that.focusElementSelector).focus();
+        }
+        onEditModalShown(): void {
+            var that = this;
+            Utils.validateForm(that.editFormSelector);
 
+            $(that.deleteFormSelector).submit(function (e) {
+                e.preventDefault();
+
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Proje başarılı bir şekilde silindi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
+                    }
+
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
+                });
+
+                return false;
+            });
+
+            $(that.editFormSelector).submit(function (e) {
+                e.preventDefault();
+
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Proje başarılı bir şekilde güncellendi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
+                    }
+
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
+                });
+
+                return false;
+            });
+
+            $(that.focusElementSelector).focus().select();
+        }
     }
 
 }
+
+var storesController: MATA.Stores.StoresController;
+
+$(function () {
+    storesController = new MATA.Stores.StoresController({
+        controllerName: 'Stores',
+        entityName: 'stores'
+    });
+    storesController.initGridEvents();
+})

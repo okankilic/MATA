@@ -10,38 +10,19 @@ namespace MATA.BL.Mappers
 {
     public class ProjectMapper : IMapper<Project, vProject, ProjectDTO>
     {
-        public ProjectDTO MapToDTO(Project entity)
-        {
-            return new ProjectDTO
-            {
-                ID = entity.ID,
-                CountryID = entity.CountryID,
-                //CountryName = entity.CountryName,
-                ProjectName = entity.ProjectName,
-                Remarks = entity.Remarks,
-                CreatedByAccountID = entity.CreatedByAccountID,
-                //CreatedBy = entity.CreatedBy,
-                CreateTime = entity.CreateTime,
-                UpdatedByAccountID = entity.UpdatedByAccountID,
-                //UpdatedBy = entity.UpdatedBy,
-                UpdateTime = entity.UpdateTime
-            };
-        }
-
         public ProjectDTO MapToDTO(vProject view)
         {
             return new ProjectDTO
             {
                 ID = view.ID,
-                CountryID = view.CountryID,
-                CountryName = view.CountryName,
                 ProjectName = view.ProjectName,
                 Remarks = view.Remarks,
-                CreatedByAccountID = view.CreatedByAccountID,
                 CreatedBy = view.CreatedBy,
+                CreatedByAccountID = view.CreatedByAccountID,
                 CreateTime = view.CreateTime,
-                UpdatedByAccountID = view.UpdatedByAccountID,
+                //IsDeleted = view.
                 UpdatedBy = view.UpdatedBy,
+                UpdatedByAccountID = view.UpdatedByAccountID,
                 UpdateTime = view.UpdateTime
             };
         }
@@ -51,13 +32,8 @@ namespace MATA.BL.Mappers
             return new Project
             {
                 ID = dto.ID,
-                CountryID = dto.CountryID,
                 ProjectName = dto.ProjectName,
-                Remarks = dto.Remarks,
-                CreatedByAccountID = dto.CreatedByAccountID,
-                CreateTime = dto.CreateTime,
-                UpdatedByAccountID = dto.UpdatedByAccountID,
-                UpdateTime = dto.UpdateTime
+                Remarks = dto.Remarks
             };
         }
     }

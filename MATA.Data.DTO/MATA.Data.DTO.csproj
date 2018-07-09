@@ -65,15 +65,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountDTO.cs" />
+    <Compile Include="Impls\AccountDTOFactory.cs" />
+    <Compile Include="Models\AccountDTO.cs" />
     <Compile Include="Impls\CityDTOFactory.cs" />
     <Compile Include="Impls\CountryDTOFactory.cs" />
     <Compile Include="Impls\DTOFactory.cs" />
+    <Compile Include="Impls\IssueDTOFactory.cs" />
     <Compile Include="Impls\ProjectDTOFactory.cs" />
     <Compile Include="Impls\StoreDTOFactory.cs" />
+    <Compile Include="Interfaces\IDeletable.cs" />
     <Compile Include="Interfaces\IDTOFactory.cs" />
-    <Compile Include="IOC\DTOUnityContainerExtension.cs" />
+    <Compile Include="Ioc\DTOUnityContainerExtension.cs" />
     <Compile Include="MailDTO.cs" />
+    <Compile Include="Models\ActionDTO.cs" />
+    <Compile Include="Models\AuditDTO.cs" />
     <Compile Include="Models\CityDTO.cs" />
     <Compile Include="Models\CountryDTO.cs" />
     <Compile Include="Models\IssueDTO.cs" />
@@ -84,6 +89,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MATA.Data.Common\MATA.Data.Common.csproj">
+      <Project>{3BB50E27-9367-414D-AD25-20B4805CD404}</Project>
+      <Name>MATA.Data.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

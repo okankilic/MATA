@@ -16,12 +16,11 @@
 <div class="panel panel-default">
     <div class="panel-body">
 
-
         @{
             WebGrid grid = new WebGrid(
                 rowsPerPage: Model.PageSize,
                 ajaxUpdateContainerId: "country-grid",
-                ajaxUpdateCallback: "InitGridEvents"
+                ajaxUpdateCallback: "countriesController.initGridEvents"
             );
 
             grid.Bind(Model.Countries, autoSortAndPage: false, rowCount: Model.TotalCount);
@@ -47,7 +46,7 @@
                 new WebGridColumn
                 {
                     //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-countries-edit", data_country_id = item.ID })
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-countries-edit", data_entity_id = item.ID })
                 }
             },
             mode: WebGridPagerModes.Numeric,
@@ -62,29 +61,4 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/ts/mata.countries-controller.js"></script>
-
-    <script type="text/javascript">
-
-        $(function () {
-            InitGridEvents();
-        });
-
-        function InitGridEvents() {
-
-            $('#mt-link-countries-create').click(function (e) {
-                e.preventDefault();
-                MATA.Countries.openCreateModal();
-                return false;
-            });
-
-            $('.mt-link-countries-edit').click(function (e) {
-                e.preventDefault();
-                var $this = $(this),
-                    countryID = $this.data("countryId");
-                MATA.Countries.openEditModal(countryID);
-                return false;
-            });
-        }
-
-    </script>
 }

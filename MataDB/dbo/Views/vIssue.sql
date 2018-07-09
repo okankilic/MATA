@@ -10,6 +10,10 @@
 	s.StoreName,
 	s.ProjectID,
 	s.ProjectName,
+	s.CityID,
+	s.CityName,
+	s.CountryID,
+	s.CountryName,
 	i.CreatedByAccountID,
 	ca.FullName as CreatedBy,
 	i.CreateTime,
@@ -17,6 +21,6 @@
 	ua.FullName as UpdatedBy,
 	i.UpdateTime
 	FROM [dbo].[Issue] i 
-	inner join [dbo].[vStore] s on i.StoreID = s.ID
-	left join [dbo].[vAccount] ca on i.CreatedByAccountID = ca.ID
-	left join [dbo].[vAccount] ua on i.UpdatedByAccountID = ua.ID
+	INNER JOIN [dbo].[vStore] s on i.StoreID = s.ID
+	LEFT JOIN [dbo].[Account] ca on i.CreatedByAccountID = ca.ID
+	LEFT JOIN [dbo].[Account] ua on i.UpdatedByAccountID = ua.ID

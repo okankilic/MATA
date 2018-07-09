@@ -1,5 +1,5 @@
 ﻿using MATA.Data.Common.Constants;
-using MATA.Data.Entities;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Presentation.Web.Filters;
 using MATA.Presentation.Web.Helpers;
 using NLog;
@@ -17,9 +17,14 @@ namespace MATA.Presentation.Web.Base
     [OutputCache(Duration = 0)]
     public abstract class CustomControllerBase: Controller
     {
-        protected MataDBEntities _DB = new MataDBEntities();
+        protected IUnitOfWorkFactory uowFactory;
+        protected ILogger logger;
 
-        protected Logger _Logger = LogManager.GetCurrentClassLogger();
+        public CustomControllerBase(IUnitOfWorkFactory uowFactory, ILogger logger)
+        {
+            this.uowFactory = uowFactory;
+            this.logger = logger;
+        }
 
         public string TokenString
         {

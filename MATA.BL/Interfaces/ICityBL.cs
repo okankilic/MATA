@@ -1,5 +1,6 @@
 ﻿using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
+using MATA.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace MATA.BL.Interfaces
 {
     public interface ICityBL: IEntityBL<CityDTO>
     {
-        IEnumerable<CityDTO> GetCities(int skip, int take, MataDBEntities db);
+        Task<IEnumerable<CityDTO>> GetCities(int skip, int take, IUnitOfWork uow);
+
+        IEnumerable<CityDTO> GetCitiesByCountry(int countryID, IUnitOfWork uow);
     }
 }

@@ -32,14 +32,6 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.CountryName)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.CountryName)
-                        </dd>
-
-                        <dt>
                             @Html.DisplayNameFor(model => model.Remarks)
                         </dt>
 
@@ -107,7 +99,7 @@
                     Şantiyeler
                     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                     {
-                        <a href="@Url.Action("_Create", "Projects", new { projectID = Model.ID })" id="mt-link-stores-create">
+                        <a href="@Url.Action("_Create", "Projects", new { projectID = Model.ID })" id="mt-link-stores-create" class="pull-right">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     }
@@ -127,7 +119,7 @@
                     İşler
                     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                     {
-                        <a href="@Url.Action("_Create", "Issues", new { projectID = Model.ID })" id="mt-link-issues-create">
+                        <a href="@Url.Action("_Create", "Issues", new { projectID = Model.ID })" id="mt-link-issues-create" class="pull-right">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     }
@@ -140,6 +132,10 @@
 </div>
 
 @section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.projects-controller.js"></script>
 
     <script type="text/javascript">
 

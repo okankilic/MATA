@@ -1,0 +1,24 @@
+﻿@model MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.CountryDTO>
+
+<div class="form-group">
+    
+    <label class="control-label col-sm-4" for="@Model.SelectID">
+        Ülke
+    </label>
+
+    <div class="col-sm-8">
+
+        @Html.Hidden(Model.SelectName.ToString(), Model.SelectValue, new
+        {
+            autocomplete = "off",
+            @class = "form-control",
+            id = Model.SelectID,
+            data_select = string.Empty,
+            data_url = Url.Action("Search", "Countries"),
+            data_text_field = "CountryName",
+            data_value_field = "ID"
+        })
+
+    </div>
+
+</div>

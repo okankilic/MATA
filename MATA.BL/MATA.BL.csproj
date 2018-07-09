@@ -71,30 +71,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountBL.cs" />
-    <Compile Include="CityBL.cs" />
-    <Compile Include="CountryBL.cs" />
+    <Compile Include="Impls\AccountBL.cs" />
+    <Compile Include="Impls\CityBL.cs" />
+    <Compile Include="Impls\CountryBL.cs" />
+    <Compile Include="Impls\ActionBL.cs" />
+    <Compile Include="Interfaces\IAccountBL.cs" />
+    <Compile Include="Interfaces\IMailBL.cs" />
+    <Compile Include="Interfaces\ISearchable.cs" />
+    <Compile Include="Interfaces\ITokenBL.cs" />
+    <Compile Include="Interfaces\IActionBL.cs" />
     <Compile Include="Interfaces\ICityBL.cs" />
     <Compile Include="Interfaces\ICountryBL.cs" />
     <Compile Include="Interfaces\IEntityBL.cs" />
+    <Compile Include="Interfaces\IIssueBL.cs" />
     <Compile Include="Interfaces\IProjectBL.cs" />
     <Compile Include="Interfaces\IStoreBL.cs" />
-    <Compile Include="IOC\BLUnityContainerExtension.cs" />
-    <Compile Include="IssueBL.cs" />
-    <Compile Include="MailAccountBL.cs" />
-    <Compile Include="MailAttachmentBL.cs" />
-    <Compile Include="MailBL.cs" />
+    <Compile Include="Ioc\BLUnityContainerExtension.cs" />
+    <Compile Include="Impls\IssueBL.cs" />
+    <Compile Include="Impls\MailAccountBL.cs" />
+    <Compile Include="Impls\MailAttachmentBL.cs" />
+    <Compile Include="Impls\MailBL.cs" />
     <Compile Include="Mappers\AccountMapper.cs" />
+    <Compile Include="Mappers\ActionMapper.cs" />
     <Compile Include="Mappers\CityMapper.cs" />
     <Compile Include="Mappers\CountryMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Mappers\IssueMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
     <Compile Include="Mappers\StoreMapper.cs" />
-    <Compile Include="ProjectBL.cs" />
+    <Compile Include="Impls\ProjectBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoreBL.cs" />
-    <Compile Include="TokenBL.cs" />
+    <Compile Include="Impls\StoreBL.cs" />
+    <Compile Include="Impls\TokenBL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MATA.Data.Common\MATA.Data.Common.csproj">
@@ -106,8 +114,16 @@
       <Name>MATA.Data.DTO</Name>
     </ProjectReference>
     <ProjectReference Include="..\MATA.Data.Entities\MATA.Data.Entities.csproj">
-      <Project>{f1314a7a-9ee6-4989-8ed5-99b305ba09f0}</Project>
+      <Project>{F1314A7A-9EE6-4989-8ED5-99B305BA09F0}</Project>
       <Name>MATA.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MATA.Data.Repositories\MATA.Data.Repositories.csproj">
+      <Project>{79ABA3B3-35E0-4AE0-ABF6-C61080FE6033}</Project>
+      <Name>MATA.Data.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MATA.Infrastructure.Utils\MATA.Infrastructure.Utils.csproj">
+      <Project>{36A25697-0FF0-4930-8C2A-28B5A3920846}</Project>
+      <Name>MATA.Infrastructure.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

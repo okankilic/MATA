@@ -1,11 +1,15 @@
 ﻿using MATA.BL.Interfaces;
 using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Interfaces;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Presentation.Web.Filters;
 using MATA.Presentation.Web.Interfaces;
+using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,45 +20,53 @@ namespace MATA.Presentation.Web.Base
     {
         protected const int DefaultPageSize = 10;
 
-        readonly IVMFactory<TIndexVM> vmFactory;
-        readonly IDTOFactory<TDTO> dtoFactory;
-        readonly IEntityBL<TDTO> entityBL;
+        protected readonly IVMFactory<TDTO, TIndexVM> vmFactory;
+        protected readonly IEntityBL<TDTO> entityBL;
 
-        public CustomEntityControllerBase(IVMFactory<TIndexVM> vmFactory,
+        readonly IDTOFactory<TDTO> dtoFactory;
+
+        public CustomEntityControllerBase(IUnitOfWorkFactory uowFactory, 
+            ILogger logger,
             IDTOFactory<TDTO> dtoFactory,
-            IEntityBL<TDTO> entityBL)
+            IVMFactory<TDTO, TIndexVM> vmFactory,
+            IEntityBL<TDTO> entityBL): base(uowFactory, logger)
         {
-            this.vmFactory = vmFactory;
             this.dtoFactory = dtoFactory;
+            this.vmFactory = vmFactory;
             this.entityBL = entityBL;
         }
 
-        public virtual ActionResult Index(int page = 1)
+        [HttpGet]
+        public async virtual Task<ActionResult> Index(int page = 1)
         {
-            var model = vmFactory.CreateIndexVM(page, DefaultPageSize, _DB);
+            TIndexVM vm;
 
-            return View(model);
-        }
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = await vmFactory.CreateNewIndexVMAsync(page, DefaultPageSize, uow);
+            }
 
-        public virtual ActionResult _Index(int projectID, int page = 1)
-        {
-            var model = vmFactory.CreateIndexVM(page, DefaultPageSize, _DB);
-
-            return PartialView(model);
+            return View(vm);
         }
 
         public virtual ActionResult Details(int id)
         {
-            var project = entityBL.Get(id, _DB);
+            TDTO dto;
 
-            return PartialView(project);
+            using (var uow = uowFactory.CreateNew())
+            {
+                dto = entityBL.Get(id, uow);
+            }
+
+            return PartialView(dto);
         }
 
+        [HttpGet]
         public virtual ActionResult _Create()
         {
-            var model = dtoFactory.CreateNew();
+            TDTO dto = dtoFactory.CreateNew();
 
-            return PartialView(model);
+            return PartialView(dto);
         }
 
         [ValidateAntiForgeryToken]
@@ -66,7 +78,11 @@ namespace MATA.Presentation.Web.Base
                 return PartialView("_Create", dto);
             }
 
-            var entityID = entityBL.Create(dto, TokenString, _DB);
+            using (var uow = uowFactory.CreateNew())
+            {
+                entityBL.Create(dto, TokenString, uow);
+                uow.Commit();
+            }
 
             return new ContentResult
             {
@@ -74,9 +90,15 @@ namespace MATA.Presentation.Web.Base
             };
         }
 
+        [HttpGet]
         public virtual ActionResult _Edit(int id)
         {
-            var dto = entityBL.Get(id, _DB);
+            TDTO dto;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                dto = entityBL.Get(id, uow);
+            }
 
             return PartialView(dto);
         }
@@ -90,7 +112,11 @@ namespace MATA.Presentation.Web.Base
                 return PartialView("_Edit", dto);
             }
 
-            entityBL.Update(id, dto, TokenString, _DB);
+            using (var uow = uowFactory.CreateNew())
+            {
+                entityBL.Update(id, dto, TokenString, uow);
+                uow.Commit();
+            }
 
             return new ContentResult
             {
@@ -102,12 +128,34 @@ namespace MATA.Presentation.Web.Base
         [HttpPost]
         public virtual ActionResult Delete(int id)
         {
-            entityBL.Delete(id, _DB);
+            using (var uow = uowFactory.CreateNew())
+            {
+                entityBL.Delete(id, TokenString, uow);
+                uow.Commit();
+            }
 
             return new ContentResult
             {
                 Content = "OK"
             };
         }
+
+        [HttpPost]
+        public virtual async Task<JsonResult> Search(string q, int page)
+        {
+            IEnumerable<TDTO> items;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                items = await entityBL.Search(q, (page - 1) * DefaultPageSize, DefaultPageSize, uow);
+            }
+
+            return Json(items);
+        }
+
+        //protected HtmlHelper<TDTO> GetHtmlHelper()
+        //{
+        //    return new HtmlHelper<TDTO>(new ViewContext(), new ViewPage());
+        //}
     }
 }

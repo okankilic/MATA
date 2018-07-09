@@ -1,6 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Impls;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
-using MATA.Data.DTO.IOC;
+using MATA.Data.DTO.Ioc;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;
@@ -11,29 +12,45 @@ using System.Threading.Tasks;
 using Unity;
 using Unity.Extension;
 
-namespace MATA.BL.IOC
+namespace MATA.BL.Ioc
 {
     public class BLUnityContainerExtension : UnityContainerExtension
     {
         protected override void Initialize()
         {
             Container.AddNewExtension<DTOUnityContainerExtension>();
-            
-            Container.RegisterType(typeof(IMapper<Country, vCountry, CountryDTO>), typeof(CountryMapper));
+
+            Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
+            Container.RegisterType<IEntityBL<AccountDTO>, IAccountBL>();
+            Container.RegisterType<IAccountBL, AccountBL>();
+
+            //Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
+            //Container.RegisterType<IEntityBL<TokenDTO>, ITokenBL>();
+            Container.RegisterType<ITokenBL, TokenBL>();
+
+            Container.RegisterType<IMapper<Country, vCountry, CountryDTO>, CountryMapper>();
             Container.RegisterType<IEntityBL<CountryDTO>, ICountryBL>();
             Container.RegisterType<ICountryBL, CountryBL>();
 
-            Container.RegisterType(typeof(IMapper<City, vCity, CityDTO>), typeof(CityMapper));
+            Container.RegisterType<IMapper<City, vCity, CityDTO>, CityMapper>();
             Container.RegisterType<IEntityBL<CityDTO>, ICityBL>();
             Container.RegisterType<ICityBL, CityBL>();
             
-            Container.RegisterType(typeof(IMapper<Project, vProject, ProjectDTO>), typeof(ProjectMapper));
+            Container.RegisterType<IMapper<Project, vProject, ProjectDTO>, ProjectMapper>();
             Container.RegisterType<IEntityBL<ProjectDTO>, IProjectBL>();
             Container.RegisterType<IProjectBL, ProjectBL>();
 
-            Container.RegisterType(typeof(IMapper<Store, vStore, StoreDTO>), typeof(StoreMapper));
+            Container.RegisterType<IMapper<Store, vStore, StoreDTO>, StoreMapper>();
             Container.RegisterType<IEntityBL<StoreDTO>, IStoreBL>();
             Container.RegisterType<IStoreBL, StoreBL>();
+
+            Container.RegisterType<IMapper<Issue, vIssue, IssueDTO>, IssueMapper>();
+            Container.RegisterType<IEntityBL<IssueDTO>, IIssueBL>();
+            Container.RegisterType<IIssueBL, IssueBL>();
+
+            Container.RegisterType<IMapper<Data.Entities.Action, vAction, ActionDTO>, ActionMapper>();
+            Container.RegisterType<IEntityBL<ActionDTO>, IActionBL>();
+            Container.RegisterType<IActionBL, ActionBL>();
         }
     }
 }

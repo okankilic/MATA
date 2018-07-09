@@ -1,180 +1,155 @@
-﻿module MATA.Accounts {
+﻿namespace MATA.Accounts {
 
-    const _createFormSelector = '#mt-form-accounts-create';
-    const _editFormSelector = '#mt-form-accounts-edit';
-    const _deleteFormSelector = '#mt-form-accounts-delete';
-    const _forgotPasswordFormSelector = "#mt-form-accounts-forgot-password";
+    export class AccountsController extends EntityBaseController {
 
-    export function openCreateModal() {
+        readonly forgotPasswordLinkSelector: string;
+        readonly forgotPasswordActionUrl: string;
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Accounts/_Create'),
-                data: null
-            },
-            onShown: function () {
+        constructor(options: IEntityBaseControllerOptions) {
+            super(options);
 
-                Utils.validateForm(_createFormSelector);
+            this.forgotPasswordLinkSelector = '#mt-link-' + options.entityName + '-forgot-password';
+            this.forgotPasswordActionUrl = options.controllerName + '/_ForgotPassword';
+        }
 
-                $(_createFormSelector).submit(function (e) {
-                    e.preventDefault();
+        onOpenModalShown() {
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            var that = this;
 
-                    if (!isFormValid) {
-                        return false;
+            Utils.validateForm(that.createFormSelector);
+
+            $('#Password').on('change', function (e) {
+                $('#ExPassword').val(this.value);
+            });
+
+            $(that.createFormSelector).submit(function (e) {
+                e.preventDefault();
+
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Hesap başarılı bir şekilde oluşturuldu');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Hesap başarılı bir şekilde oluşturuldu');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#FullName").focus();
+                return false;
+            });
 
-            }
-        });
+            $("#FullName").focus();
+        }
 
-    }
+        onEditModalShown() {
 
-    export function openEditModal(id: number) {
+            var that = this;
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Accounts/_Edit/' + id),
-                data: null
-            },
-            onShown: function () {
+            Utils.validateForm(that.editFormSelector);
 
-                Utils.validateForm(_editFormSelector);
+            $(that.deleteFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                $(_deleteFormSelector).submit(function (e) {
-                    e.preventDefault();
+                var $form = $(this),
+                    isFormValid = $form.valid();
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+                if (!isFormValid) {
+                    return false;
+                }
 
-                    if (!isFormValid) {
-                        return false;
+                $.ajax({
+                    method: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Hesap başarılı bir şekilde silindi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'GET',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Hesap başarılı bir şekilde silindi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $(_editFormSelector).submit(function (e) {
-                    e.preventDefault();
+                return false;
+            });
 
-                    var $form = $(this),
-                        isFormValid = $form.valid();
+            $(that.editFormSelector).submit(function (e) {
+                e.preventDefault();
 
-                    if (!isFormValid) {
-                        return false;
+                var $form = $(this),
+                    isFormValid = $form.valid();
+
+                if (!isFormValid) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize()
+                }).done(function (response) {
+
+                    if (response === "OK") {
+                        Utils.showSuccess('Hesap başarılı bir şekilde güncellendi');
+                        Utils.closeModal(true);
+                    } else {
+                        Utils.setModalContentHTML(response);
                     }
 
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Hesap başarılı bir şekilde güncellendi');
-                            Utils.closeModal(true);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
+                }).fail(function (jqXHR: JQueryXHR) {
+                    Utils.setModalContentHTML(jqXHR.responseText);
                 });
 
-                $("#FullName").focus().select();
+                return false;
+            });
 
-            }
-        });
+            $("#FullName").focus().select();
+        }
 
-    }
+        openForgotPasswordModal() {
 
-    export function openForgotPasswordModal() {
+            var that = this;
 
-        Utils.openModal({
-            ajax: {
-                url: Utils.getAppPath('Accounts/_ForgotPassword'),
-                data: null
-            },
-            onShown: function () {
+            Utils.openModal({
+                ajax: {
+                    url: Utils.getAppPath(that.forgotPasswordActionUrl),
+                    data: null
+                },
+                onShown: function () {
 
-                Utils.validateForm(_forgotPasswordFormSelector);
-
-                $(_forgotPasswordFormSelector).submit(function (e) {
-                    e.preventDefault();
-
-                    var $form = $(this),
-                        isFormValid = $form.valid();
-
-                    if (!isFormValid) {
-                        return false;
-                    }
-
-                    $.ajax({
-                        method: 'POST',
-                        url: $form.attr('action'),
-                        data: $form.serialize()
-                    }).done(function (response) {
-
-                        if (response === "OK") {
-                            Utils.showSuccess('Şifreniz email adresinize gönderilmiştir');
-                            Utils.closeModal(false);
-                        } else {
-                            Utils.setModalContentHTML(response);
-                        }
-
-                    }).fail(function (jqXHR: JQueryXHR) {
-                        Utils.setModalContentHTML(jqXHR.responseText);
-                    });
-
-                    return false;
-                });
-
-                $(_forgotPasswordFormSelector + " #Email").focus();
-            }
-        });
-
+                }
+            })
+        }
     }
 }
+
+var accountsController: MATA.Accounts.AccountsController;
+
+$(function () {
+
+    accountsController = new MATA.Accounts.AccountsController({
+        entityName: 'accounts',
+        controllerName: 'Accounts'
+    });
+
+    accountsController.initGridEvents();
+
+})

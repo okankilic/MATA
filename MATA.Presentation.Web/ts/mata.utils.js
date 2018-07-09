@@ -4,6 +4,13 @@ var MATA;
     (function (Utils) {
         Utils.APP_BASE_URL = '';
         var _genericModalSelector = "#mata-generic-modal";
+        function generateGuid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            }
+            return (s4() + s4() + '-' + s4() + '-4' + s4().substring(0, 3) + '-' + s4() + '-' + s4() + s4() + s4()).toLowerCase();
+        }
+        Utils.generateGuid = generateGuid;
         function openModal(options) {
             if (options.html) {
                 setModalContentHTML(options.html);
@@ -53,7 +60,9 @@ var MATA;
             $(_genericModalSelector).on('hidden.bs.modal', function () {
                 $(_genericModalSelector).off('hidden.bs.modal');
                 if (reload) {
-                    location.reload();
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
                 }
             }).modal('hide');
         }
@@ -100,6 +109,22 @@ var MATA;
                 timeout: timeout
             });
         }
+        function hideElement(selector) {
+            $(selector).addClass('hidden');
+        }
+        Utils.hideElement = hideElement;
+        function showElement(selector) {
+            $(selector).removeClass('hidden');
+        }
+        Utils.showElement = showElement;
+        function initSelects() {
+            $('[data-select]').each(function (_i, _el) {
+                var s = new MATA.Select.AjaxSelect({
+                    el: _el
+                });
+            });
+        }
+        Utils.initSelects = initSelects;
     })(Utils = MATA.Utils || (MATA.Utils = {}));
 })(MATA || (MATA = {}));
 //# sourceMappingURL=mata.utils.js.map

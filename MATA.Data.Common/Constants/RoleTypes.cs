@@ -17,5 +17,16 @@ namespace MATA.Data.Common.Constants
             public const string Any = Admin + "," + Staff + "," + Customer;
             public const string AdminStaff = Admin + "," + Staff;
         }
+
+        public static IEnumerable<string> GetRoleTypes()
+        {
+            var roleTypeList = new List<string>();
+
+            roleTypeList.Add(Admin);
+            roleTypeList.Add(Staff);
+            roleTypeList.Add(Customer);
+
+            return roleTypeList;
+        }
     }
 }

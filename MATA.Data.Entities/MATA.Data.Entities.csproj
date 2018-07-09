@@ -50,103 +50,124 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Action.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Attachment.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="City.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Country.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Issue.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Mail.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="MailAccount.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="MataEntities.Context.cs">
+    <Compile Include="MataDbEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MataEntities.Context.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="MataEntities.cs">
+    <Compile Include="MataDbEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="MataEntities.Designer.cs">
+    <Compile Include="MataDbEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MataEntities.edmx</DependentUpon>
+      <DependentUpon>MataDbEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Project.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectVersion.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Token.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vAccount.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vAction.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vCity.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vCountry.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vIssue.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vMailAccount.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vMailAttachment.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vProject.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vStore.cs">
-      <DependentUpon>MataEntities.tt</DependentUpon>
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="MataEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MataEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <Compile Include="vToken.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="MataEntities.edmx.diagram">
-      <DependentUpon>MataEntities.edmx</DependentUpon>
+    <EntityDeploy Include="MataDbEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MataDbEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MataDbEntities.edmx.diagram">
+      <DependentUpon>MataDbEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MataEntities.Context.tt">
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Impls\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Ioc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MataDbEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MataEntities.Context.cs</LastGenOutput>
-      <DependentUpon>MataEntities.edmx</DependentUpon>
+      <DependentUpon>MataDbEntities.edmx</DependentUpon>
+      <LastGenOutput>MataDbEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="MataEntities.tt">
+    <Content Include="MataDbEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MataEntities.edmx</DependentUpon>
-      <LastGenOutput>MataEntities.cs</LastGenOutput>
+      <DependentUpon>MataDbEntities.edmx</DependentUpon>
+      <LastGenOutput>MataDbEntities.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <ProjectReference Include="..\MATA.Data.Common\MATA.Data.Common.csproj">
+      <Project>{3BB50E27-9367-414D-AD25-20B4805CD404}</Project>
+      <Name>MATA.Data.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

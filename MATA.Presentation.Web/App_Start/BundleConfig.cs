@@ -26,9 +26,12 @@ namespace MATA.Presentation.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/animate.css"));
+                      "~/Content/animate.css",
+                      "~/Content/mt.select.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/ts").Include(
+                "~/ts/mata.select.js",
+                "~/ts/mata.entityBase-controller.js",
                 "~/ts/mata.utils.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/noty").Include(

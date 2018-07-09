@@ -1,22 +1,18 @@
-﻿using MATA.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using MATA.Data.Repositories.Interfaces;
 
 namespace MATA.BL.Interfaces
 {
-    public interface IEntityBL<TDTO>
+    public interface IEntityBL<TDTO>: ISearchable<TDTO>
     {
-        int Create(TDTO dto, string tokenString, MataDBEntities db);
+        int Create(TDTO dto, string tokenString, IUnitOfWork uow);
 
-        void Update(int id, TDTO dto, string tokenString, MataDBEntities db);
+        void Update(int id, TDTO dto, string tokenString, IUnitOfWork uow);
 
-        void Delete(int id, MataDBEntities db);
+        void Delete(int id, string tokenString, IUnitOfWork uow);
 
-        TDTO Get(int id, MataDBEntities db);
+        TDTO Get(int id, IUnitOfWork uow);
 
-        int Count(MataDBEntities db);
+        int Count(IUnitOfWork uow);
     }
 }

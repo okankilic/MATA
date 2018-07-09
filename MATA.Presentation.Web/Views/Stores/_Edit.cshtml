@@ -1,0 +1,81 @@
+﻿@model MATA.Data.DTO.Models.StoreDTO
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">@Model.StoreName</h4>
+</div>
+
+<div class="mt-div-store-edit collapse in">
+
+    @using (Html.BeginForm("Edit", "Stores", FormMethod.Post, new { id = "mt-form-stores-edit", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StoreName, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.Partial("_ProjectSelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.ProjectDTO> {
+                SelectID = Html.IdFor(m => m.ProjectID),
+                SelectName = Html.NameFor(m => m.ProjectID),
+                SelectValue = Model.ProjectName
+            })
+
+            @Html.Partial("_CitySelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.CityDTO> {
+                SelectID = Html.IdFor(m => m.CityID),
+                SelectName = Html.NameFor(m => m.CityID),
+                SelectValue = Model.CityName
+            })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
+            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-store-edit">Sil</button>
+            <input type="submit" value="Kaydet" class="btn btn-primary" />
+        </div>
+    }
+
+</div>
+
+<div class="mt-div-store-edit collapse">
+
+    @using (Html.BeginForm("Delete", "Stores", new { id = Model.ID }, FormMethod.Post, new { id = "mt-form-stores-delete", @class = "form-horizontal" }))
+    {
+
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            <div class="alert alert-warning">
+                @Model.StoreName projesi silinecek. Emin misiniz?
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-store-edit">Vazgeç</button>
+            <input type="submit" value="Sil" class="btn btn-primary" />
+        </div>
+    }
+
+</div>

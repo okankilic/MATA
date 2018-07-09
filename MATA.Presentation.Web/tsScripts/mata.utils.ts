@@ -4,6 +4,15 @@
 
     const _genericModalSelector = "#mata-generic-modal";
 
+    export function generateGuid() {
+
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+
+        return (s4() + s4() + '-' + s4() + '-4' + s4().substring(0, 3) + '-' + s4() + '-' + s4() + s4() + s4()).toLowerCase();
+    }
+
     export function openModal(options: ModalOptions) {
 
         if (options.html) {
@@ -77,7 +86,9 @@
             $(_genericModalSelector).off('hidden.bs.modal');
 
             if (reload) {
-                location.reload();
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
             }
 
         }).modal('hide');
@@ -124,6 +135,26 @@
             text: message,
             theme: 'relax',
             timeout: timeout
+        });
+
+    }
+
+    export function hideElement(selector: string) {
+        $(selector).addClass('hidden');
+    }
+
+    export function showElement(selector: string) {
+        $(selector).removeClass('hidden');
+    }
+
+    export function initSelects() {
+
+        $('[data-select]').each(function (_i, _el) {
+
+            var s = new Select.AjaxSelect({
+                el: <HTMLInputElement>_el
+            });
+
         });
 
     }

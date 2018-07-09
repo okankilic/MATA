@@ -1,11 +1,11 @@
 ﻿
-@model MATA.Presentation.Web.Models.Issues.IssuesIndexViewModel
+@model MATA.Presentation.Web.Models.Issues.IssuesIndexVM
 
 @{
     WebGrid grid = new WebGrid(
         rowsPerPage: Model.PageSize,
         ajaxUpdateContainerId: "issue-grid",
-        ajaxUpdateCallback: "InitGridEvents"
+        ajaxUpdateCallback: "issuesController.initGridEvents"
     );
 
     grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
@@ -49,7 +49,7 @@
         new WebGridColumn
         {
             //Style = "auto-width",
-            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_issue_id = item.ID })
+            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_entity_id = item.ID })
         }
     },
     mode: WebGridPagerModes.Numeric,
@@ -62,29 +62,5 @@
 
     <script src="~/ts/mata.issues-controller.js"></script>
 
-    <script type="text/javascript">
-
-        $(function () {
-            InitGridEvents();
-        });
-
-        function InitGridEvents() {
-
-            $('#mt-link-issues-create').click(function (e) {
-                e.preventDefault();
-                MATA.Issues.openCreateModal();
-                return false;
-            });
-
-            $('.mt-link-issues-edit').click(function (e) {
-                e.preventDefault();
-                var $this = $(this),
-                    issueID = $this.data("issueId");
-                MATA.Issues.openEditModal(issueID);
-                return false;
-            });
-        }
-
-    </script>
 }
 

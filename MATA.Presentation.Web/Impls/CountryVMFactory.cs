@@ -1,15 +1,20 @@
 ﻿using MATA.BL.Interfaces;
-using MATA.Data.Entities;
+using MATA.Data.DTO.Interfaces;
+using MATA.Data.DTO.Models;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Presentation.Web.Interfaces;
+using MATA.Presentation.Web.Models;
 using MATA.Presentation.Web.Models.Countries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MATA.Presentation.Web.Impls
 {
-    public class CountryVMFactory : IVMFactory<CountriesIndexVM>
+    public class CountryVMFactory : IVMFactory<CountryDTO, CountriesIndexVM>
     {
         readonly ICountryBL countryBL;
 
@@ -18,13 +23,13 @@ namespace MATA.Presentation.Web.Impls
             this.countryBL = countryBL;
         }
 
-        public CountriesIndexVM CreateIndexVM(int page, int pageSize, MataDBEntities db)
+        public async Task<CountriesIndexVM> CreateNewIndexVMAsync(int page, int pageSize, IUnitOfWork uow)
         {
             return new CountriesIndexVM
             {
                 PageSize = pageSize,
-                TotalCount = countryBL.Count(db),
-                Countries = countryBL.GetCountries((page - 1) * pageSize, pageSize, db)
+                TotalCount = countryBL.Count(uow),
+                Countries = await countryBL.GetCountries((page - 1) * pageSize, pageSize, uow)
             };
         }
     }

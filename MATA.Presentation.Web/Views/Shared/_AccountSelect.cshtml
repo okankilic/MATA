@@ -1,0 +1,11 @@
+﻿@model MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.AccountDTO>
+
+<div class="form-group">
+    <label class="control-label col-sm-4" for="@Model.SelectID">
+        Hesap
+    </label>
+    <div class="col-sm-8">
+        @Html.DropDownList(Model.SelectName.ToHtmlString(), new SelectList(Model.Options, "ID", "FullName", Model.SelectValue), new { @class = "form-control", id = Model.SelectID })
+    </div>
+</div>
+

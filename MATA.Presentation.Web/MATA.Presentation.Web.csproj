@@ -185,6 +185,7 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\WebViewPageExtensions.cs" />
     <Compile Include="Filters\AuthenticateUserAttribute.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
@@ -193,22 +194,24 @@
     </Compile>
     <Compile Include="Helpers\AuthenticationHelper.cs" />
     <Compile Include="Helpers\SelectHelper.cs" />
+    <Compile Include="Impls\AccountVMFactory.cs" />
     <Compile Include="Impls\CitiesVMFactory.cs" />
     <Compile Include="Impls\CountryVMFactory.cs" />
+    <Compile Include="Impls\IssuesVMFactory.cs" />
     <Compile Include="Impls\ProjectsVMFactory.cs" />
     <Compile Include="Impls\StoresVMFactory.cs" />
     <Compile Include="Interfaces\IVMFactory.cs" />
-    <Compile Include="Mappers\AccountMapper.cs" />
-    <Compile Include="Models\Accounts\AccountCreateViewModel.cs" />
-    <Compile Include="Models\Accounts\AccountEditViewModel.cs" />
+    <Compile Include="Ioc\PresentationWebUnityContainerExtension.cs" />
     <Compile Include="Models\Accounts\AccountForgotPasswordViewModel.cs" />
+    <Compile Include="Models\Accounts\AccountsIndexVM.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
     <Compile Include="Models\BaseIndexViewModel.cs" />
+    <Compile Include="Models\BaseSelectVM.cs" />
     <Compile Include="Models\Cities\CitiesIndexVM.cs" />
     <Compile Include="Models\Countries\CountriesIndexVM.cs" />
     <Compile Include="Models\CustomJsonResult.cs" />
-    <Compile Include="Models\Issues\IssuesIndexViewModel.cs" />
+    <Compile Include="Models\Issues\IssuesIndexVM.cs" />
     <Compile Include="Models\Projects\ProjectsIndexVM.cs" />
     <Compile Include="Models\Stores\StoresIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -308,6 +311,14 @@
     <Content Include="Views\Cities\Index.cshtml" />
     <Content Include="Views\Cities\_Create.cshtml" />
     <Content Include="Views\Cities\_Edit.cshtml" />
+    <Content Include="Views\Stores\_Edit.cshtml" />
+    <Content Include="Views\Issues\Index.cshtml" />
+    <Content Include="Views\Shared\_CountrySelect.cshtml" />
+    <Content Include="Views\Shared\_CitySelect.cshtml" />
+    <Content Include="Views\Shared\_ProjectSelect.cshtml" />
+    <Content Include="Views\Shared\_AccountSelect.cshtml" />
+    <Content Include="Views\Shared\_StoreSelect.cshtml" />
+    <Content Include="Views\Issues\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -341,9 +352,9 @@
       <Project>{0af947f0-fbe4-40c2-850c-f2087c8c577a}</Project>
       <Name>MATA.Data.DTO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MATA.Data.Entities\MATA.Data.Entities.csproj">
-      <Project>{f1314a7a-9ee6-4989-8ed5-99b305ba09f0}</Project>
-      <Name>MATA.Data.Entities</Name>
+    <ProjectReference Include="..\MATA.Data.Repositories\MATA.Data.Repositories.csproj">
+      <Project>{79aba3b3-35e0-4ae0-abf6-c61080fe6033}</Project>
+      <Name>MATA.Data.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\MATA.Infrastructure.Utils\MATA.Infrastructure.Utils.csproj">
       <Project>{36a25697-0ff0-4930-8c2a-28b5a3920846}</Project>
@@ -354,11 +365,14 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\mt.select.css" />
     <TypeScriptCompile Include="tsScripts\mata.accounts-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.entityBase-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.cities-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.countries-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.issues-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.projects-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.select.ts" />
     <TypeScriptCompile Include="tsScripts\mata.stores-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.utils.ts" />
     <TypeScriptCompile Include="tsScripts\typings\globals\bootstrap\index.d.ts" />

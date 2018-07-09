@@ -9,5 +9,5 @@
 	ua.FullName as UpdatedBy,
 	p.UpdateTime
 	FROM [dbo].[Project] p
-	left join [dbo].[vAccount] ca on p.CreatedByAccountID = ca.ID
-	left join [dbo].[vAccount] ua on p.UpdatedByAccountID = ua.ID
+	LEFT JOIN [dbo].[Account] ca on p.CreatedByAccountID = ca.ID
+	LEFT JOIN [dbo].[Account] ua on p.UpdatedByAccountID = ua.ID

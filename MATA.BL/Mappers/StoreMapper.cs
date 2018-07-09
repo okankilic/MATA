@@ -16,16 +16,7 @@ namespace MATA.BL.Mappers
             {
                 ID = entity.ID,
                 Address = entity.Address,
-                CityID = entity.CityID,
-                //CreatedBy = entity.CreatedBy,
-                CreatedByAccountID = entity.CreatedByAccountID,
-                CreateTime = entity.CreateTime,
-                ProjectID = entity.ProjectID,
-                //ProjectName = entity.ProjectName,
-                StoreName = entity.StoreName,
-                //UpdatedBy = entity.UpdatedBy,
-                UpdatedByAccountID = entity.UpdatedByAccountID,
-                UpdateTime = entity.UpdateTime
+                CityID = entity.CityID
             };
         }
 
@@ -35,15 +26,18 @@ namespace MATA.BL.Mappers
             {
                 ID = view.ID,
                 Address = view.Address,
+                CountryID = view.CountryID,
+                CountryName = view.CountryName,
                 CityID = view.CityID,
-                CreatedBy = view.CreatedBy,
-                CreatedByAccountID = view.CreatedByAccountID,
-                CreateTime = view.CreateTime,
+                CityName = view.CityName,
                 ProjectID = view.ProjectID,
                 ProjectName = view.ProjectName,
                 StoreName = view.StoreName,
-                UpdatedBy = view.UpdatedBy,
+                CreatedByAccountID = view.CreatedByAccountID,
+                CreatedBy = view.CreatedBy,
+                CreateTime = view.CreateTime,
                 UpdatedByAccountID = view.UpdatedByAccountID,
+                UpdatedBy = view.UpdatedBy,
                 UpdateTime = view.UpdateTime
             };
         }
@@ -55,12 +49,8 @@ namespace MATA.BL.Mappers
                 ID = dto.ID,
                 Address = dto.Address,
                 CityID = dto.CityID,
-                CreatedByAccountID = dto.CreatedByAccountID,
-                CreateTime = dto.CreateTime,
                 ProjectID = dto.ProjectID,
-                StoreName = dto.StoreName,
-                UpdatedByAccountID = dto.UpdatedByAccountID,
-                UpdateTime = dto.UpdateTime
+                StoreName = dto.StoreName
             };
         }
     }

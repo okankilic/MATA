@@ -1,0 +1,70 @@
+﻿@model MATA.Data.DTO.Models.IssueDTO
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Yeni İş</h4>
+</div>
+
+@using (Html.BeginForm("Create", "Issues", FormMethod.Post, new { id = "mt-form-issues-create", @class = "form-horizontal" }))
+{
+
+    <div class="modal-body">
+
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.Partial("_StoreSelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.StoreDTO> {
+            SelectID = Html.IdFor(m => m.StoreID),
+            SelectName = Html.NameFor(m => m.StoreID),
+            SelectValue = Model.StoreName
+        })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestedByFullName, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.RequestedByFullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestedByFullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SourceType, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8">
+                @Html.EnumDropDownListFor(model => model.SourceType, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SourceType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+    </div>
+}
+

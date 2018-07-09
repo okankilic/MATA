@@ -1,12 +1,15 @@
 ﻿using MATA.BL;
+using MATA.BL.Interfaces;
 using MATA.Data.DTO;
-using MATA.Data.Entities;
+using MATA.Data.DTO.Models;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Presentation.Web.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
@@ -16,14 +19,40 @@ namespace MATA.Presentation.Web.Filters
 {
     public class AuthenticateUserAttribute : ActionFilterAttribute, IAuthenticationFilter
     {
-        private readonly MataDBEntities _DB = new MataDBEntities();
+        IAccountBL accountBL;
+        IUnitOfWorkFactory uowFactory;
+        ILogger logger;
 
-        private readonly Logger _Logger = LogManager.GetCurrentClassLogger();
+        IDependencyResolver dependencyResolver;
+
+        IDependencyResolver CurrentDependencyResolver
+        {
+            get
+            {
+                if(dependencyResolver == null)
+                {
+                    return DependencyResolver.Current;
+                }
+                else
+                {
+                    return dependencyResolver;
+                }
+            }
+
+            set
+            {
+                dependencyResolver = value;
+            }
+        }
 
         public void OnAuthentication(AuthenticationContext filterContext)
         {
             if (IsAnonymousAction(filterContext.ActionDescriptor) == true)
                 return;
+
+            accountBL = CurrentDependencyResolver.GetService<IAccountBL>();
+            uowFactory = CurrentDependencyResolver.GetService<IUnitOfWorkFactory>();
+            logger = CurrentDependencyResolver.GetService<ILogger>();
 
             FormsAuthenticationTicket ticket = null;
 
@@ -33,7 +62,7 @@ namespace MATA.Presentation.Web.Filters
             }
             catch (Exception ex)
             {
-                _Logger.Debug(ex, "An error occured and supressed while trying to get FormsAuthentication ticket");
+                logger.Debug(ex, "An error occured and supressed while trying to get FormsAuthentication ticket");
 
                 filterContext.Result = new HttpUnauthorizedResult();
                 return;
@@ -45,11 +74,14 @@ namespace MATA.Presentation.Web.Filters
 
             try
             {
-                account = AccountBL.Get(userData.TokenString, _DB);
+                using (var uow = uowFactory.CreateNew())
+                {
+                    account = accountBL.GetByToken(userData.TokenString, uow);
+                }
             }
             catch (Exception exc)
             {
-                _Logger.Debug(exc, "Exception occured and suppressed while checking for authentication by token");
+                logger.Debug(exc, "Exception occured and suppressed while checking for authentication by token");
             }
 
             if (account == null)
@@ -63,6 +95,9 @@ namespace MATA.Presentation.Web.Filters
             var identity = new FormsIdentity(ticket);
 
             filterContext.Principal = new GenericPrincipal(identity, new string[] { account.RoleName });
+
+            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("tr");
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("tr");
         }
 
         public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)
