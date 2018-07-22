@@ -15,7 +15,7 @@ namespace MATA.Data.Entities
     public partial class vMailAttachment
     {
         public int ID { get; set; }
-        public Nullable<int> MailID { get; set; }
+        public int MailID { get; set; }
         public string AttachmentType { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }

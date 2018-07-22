@@ -28,21 +28,22 @@ namespace MATA.BL.Impls
             return storeList.Select(q => mapper.MapToDTO(q));
         }
 
-        public int GetProjectStoreCount(int projectID, IUnitOfWork uow)
-        {
-            return uow.StoreRepository.Find(q => q.ProjectID == projectID).Count();
-        }
-
-        public IEnumerable<StoreDTO> GetProjectStores(int projectID, int skip, int take, IUnitOfWork uow)
-        {
-            return uow.StoreRepository.GetProjectStores(projectID, skip, take).Select(q => mapper.MapToDTO(q));
-        }
-
         public int Create(StoreDTO dto, string tokenString, IUnitOfWork uow)
         {
             var store = mapper.MapToEntity(dto);
 
             uow.StoreRepository.Create(store);
+            uow.SaveChanges(tokenString);
+
+            foreach (var accountID in dto.AccountIDList)
+            {
+                uow.StoreAccountRepository.Create(new StoreAccount
+                {
+                    StoreID = store.ID,
+                    AccountID = accountID
+                });
+            }
+
             uow.SaveChanges(tokenString);
 
             return store.ID;
@@ -51,13 +52,31 @@ namespace MATA.BL.Impls
         public void Update(int id, StoreDTO dto, string tokenString, IUnitOfWork uow)
         {
             var store = uow.StoreRepository.GetByID(id);
-
-            //store.ProjectID = dto.ProjectID;
-            //store.CityID = dto.CityID;
+            
             store.StoreName = dto.StoreName;
             store.Address = dto.Address;
 
             uow.StoreRepository.Update(store);
+            uow.SaveChanges(tokenString);
+
+            var exAccountList = uow.StoreAccountRepository.GetStoreAccountList(id);
+            var exAccountIDList = exAccountList.Select(q => q.AccountID);
+
+            foreach (var accountID in dto.AccountIDList.Except(exAccountIDList))
+            {
+                uow.StoreAccountRepository.Create(new StoreAccount
+                {
+                    StoreID = store.ID,
+                    AccountID = accountID
+                });
+            }
+
+            foreach (var accountID in exAccountIDList.Except(dto.AccountIDList))
+            {
+                var storeAccount = exAccountList.Single(q => q.AccountID == accountID);
+                uow.StoreAccountRepository.Delete(storeAccount);
+            }
+
             uow.SaveChanges(tokenString);
         }
 
@@ -66,6 +85,13 @@ namespace MATA.BL.Impls
             var store = uow.StoreRepository.GetByID(id);
 
             uow.StoreRepository.Delete(store);
+
+            var storeAccountList = uow.StoreAccountRepository.GetStoreAccountList(id);
+            foreach (var storeAccount in storeAccountList)
+            {
+                uow.StoreAccountRepository.Delete(storeAccount);
+            }
+
             uow.SaveChanges(tokenString);
         }
 
@@ -73,7 +99,11 @@ namespace MATA.BL.Impls
         {
             var store = uow.StoreRepository.GetViewByID(id);
 
-            return mapper.MapToDTO(store);
+            var dto = mapper.MapToDTO(store);
+
+            dto.AccountIDList = uow.StoreAccountRepository.GetStoreAccountIDList(id);
+
+            return dto;
         }
 
         public int Count(IUnitOfWork uow)
@@ -90,9 +120,50 @@ namespace MATA.BL.Impls
                 items = items.Where(c => c.StoreName.Contains(q));
             }
 
-            var itemList = await items.OrderBy(c => c.StoreName).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
+            return await OrderStores(items, skip, take);
+        }
 
-            return itemList.Select(c => mapper.MapToDTO(c));
+        public int GetCountryStoresCount(int countryID, IUnitOfWork uow)
+        {
+            return uow.StoreRepository.Find(q => q.CountryID == countryID).Count();
+        }
+
+        public async Task<IEnumerable<StoreDTO>> GetCountryStores(int countryID, int skip, int take, IUnitOfWork uow)
+        {
+            var items = uow.StoreRepository.Find(q => q.CountryID == countryID);
+
+            return await OrderStores(items, skip, take);
+        }
+
+        public int GetCityStoresCount(int cityID, IUnitOfWork uow)
+        {
+            return uow.StoreRepository.Find(q => q.CityID == cityID).Count();
+        }
+
+        public async Task<IEnumerable<StoreDTO>> GetCityStores(int cityID, int skip, int take, IUnitOfWork uow)
+        {
+            var items = uow.StoreRepository.Find(q => q.CityID == cityID);
+
+            return await OrderStores(items, skip, take);
+        }
+
+        public int GetProjectStoreCount(int projectID, IUnitOfWork uow)
+        {
+            return uow.StoreRepository.Find(q => q.ProjectID == projectID).Count();
+        }
+
+        public async Task<IEnumerable<StoreDTO>> GetProjectStores(int projectID, int skip, int take, IUnitOfWork uow)
+        {
+            var items = uow.StoreRepository.Find(q => q.ProjectID == projectID);
+
+            return await OrderStores(items, skip, take);
+        }
+
+        private async Task<IEnumerable<StoreDTO>> OrderStores(IQueryable<vStore> items, int skip, int take)
+        {
+            var itemList = await items.OrderBy(q => q.StoreName).ThenBy(q => q.ID).Skip(skip).Take(take).ToListAsync();
+
+            return itemList.Select(q => mapper.MapToDTO(q));
         }
     }
 }

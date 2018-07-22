@@ -17,6 +17,8 @@ namespace MATA.Presentation.Web.Base
     [OutputCache(Duration = 0)]
     public abstract class CustomControllerBase: Controller
     {
+        protected const int DefaultPageSize = 10;
+
         protected IUnitOfWorkFactory uowFactory;
         protected ILogger logger;
 

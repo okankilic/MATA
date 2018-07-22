@@ -19,7 +19,7 @@ var MATA;
                 _this.focusElementSelector = '#StoreName';
                 return _this;
             }
-            StoresController.prototype.onOpenModalShown = function () {
+            StoresController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 //$('#StoreID').change(function (e) {

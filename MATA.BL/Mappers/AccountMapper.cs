@@ -18,6 +18,7 @@ namespace MATA.BL.Mappers
                 ID = entity.ID,
                 FullName = entity.FullName,
                 Email = entity.Email,
+                PhoneNumber = entity.PhoneNumber,
                 Password = entity.Password,
                 RoleName = entity.RoleName,
                 IsActive = entity.IsActive
@@ -31,6 +32,7 @@ namespace MATA.BL.Mappers
                 ID = view.ID,
                 FullName = view.FullName,
                 Email = view.Email,
+                PhoneNumber = view.PhoneNumber,
                 //Password = view.Password,
                 RoleName = view.RoleName,
                 IsActive = view.IsActive
@@ -43,6 +45,7 @@ namespace MATA.BL.Mappers
             {
                 FullName = dto.FullName,
                 Email = dto.Email,
+                PhoneNumber = dto.PhoneNumber,
                 Password = dto.Password,
                 RoleName = dto.RoleName,
                 IsActive = dto.IsActive

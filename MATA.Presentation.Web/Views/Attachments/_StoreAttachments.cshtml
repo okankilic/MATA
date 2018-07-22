@@ -1,0 +1,67 @@
+﻿@model MATA.Presentation.Web.Models.Attachments.AttachmentsIndexVM
+
+@if (Model.TotalCount == 0)
+{
+    @:Bu şantiyeye ait dosya bulunmamaktadır
+}
+else
+{
+    WebGrid grid = new WebGrid(
+        rowsPerPage: Model.PageSize,
+        ajaxUpdateContainerId: "attachment-grid",
+        ajaxUpdateCallback: "attachmentsController.initGridEvents"
+    );
+
+    grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.PageSize);
+
+    var columnList = new List<WebGridColumn>()
+    {
+        new WebGridColumn
+        {
+            Header = "Dosya Adı",
+            //ColumnName = "FileName",
+            Format = (item) => Html.ActionLink((string)item.FileName, "Download", "Attachments", new { id = item.ID }, null)
+        },
+        new WebGridColumn
+        {
+            Header = "Dosya Tipi",
+            ColumnName = "AttachmentType"
+        },
+        //new WebGridColumn
+        //{
+        //    Header = "Adres",
+        //    ColumnName = "Address",
+        //    CanSort = false
+        //}
+    };
+
+    if (User.IsInRole(RoleTypes.Admin))
+    {
+        this.AddAuditColumns(columnList);
+    }
+
+    //if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    //{
+    //    columnList.Add(new WebGridColumn
+    //    {
+    //        //Style = "auto-width",
+    //        Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+    //    });
+
+    //    columnList.Add(new WebGridColumn
+    //    {
+    //        //Style = "auto-width",
+    //        Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_entity_id = item.ID })
+    //    });
+    //}
+
+    @grid.GetHtml(
+        htmlAttributes: new { id = "attachment-grid" },
+        tableStyle: "table table-hover",
+        columns: columnList,
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
+}
+
+<script src="~/ts/mata.attachments-controller.js"></script>

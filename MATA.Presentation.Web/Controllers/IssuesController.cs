@@ -18,22 +18,80 @@ namespace MATA.Presentation.Web.Controllers
 {
     public class IssuesController : CustomEntityControllerBase<IssueDTO, IssuesIndexVM>
     {
+        readonly IIssueBL issueBL;
+
         public IssuesController(IUnitOfWorkFactory uowFactory,
             ILogger logger,
             IDTOFactory<IssueDTO> dtoFactory,
             IVMFactory<IssueDTO, IssuesIndexVM> vmFactory,
-            IEntityBL<IssueDTO> entityBL) : base(uowFactory, logger, dtoFactory, vmFactory, entityBL)
+            IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-
+            issueBL = blFactory.CreateProxy<IIssueBL>();
         }
 
-        public async Task<ActionResult> _Index(int projectID, int page = 1)
+        public async Task<ActionResult> _CountryIssues(int countryID, int page = 1)
         {
             IssuesIndexVM vm = null;
 
             using (var uow = uowFactory.CreateNew())
             {
-                vm = await vmFactory.CreateNewIndexVMAsync(page, DefaultPageSize, uow);
+                vm = new IssuesIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = issueBL.GetCountryIssuesCount(countryID, uow),
+                    Issues = await issueBL.GetCountryIssues(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        public async Task<ActionResult> _CityIssues(int cityID, int page = 1)
+        {
+            IssuesIndexVM vm = null;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new IssuesIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = issueBL.GetCityIssuesCount(cityID, uow),
+                    Issues = await issueBL.GetCityIssues(cityID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        public async Task<ActionResult> _ProjectIssues(int projectID, int page = 1)
+        {
+            IssuesIndexVM vm = null;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new IssuesIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = issueBL.GetProjectIssuesCount(projectID, uow),
+                    Issues = await issueBL.GetProjectIssues(projectID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        public async Task<ActionResult> _StoreIssues(int storeID, int page = 1)
+        {
+            IssuesIndexVM vm = null;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new IssuesIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = issueBL.GetStoreIssuesCount(storeID, uow),
+                    Issues = await issueBL.GetStoreIssues(storeID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
             }
 
             return PartialView(vm);

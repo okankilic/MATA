@@ -25,19 +25,23 @@
             this.editActionUrl = options.controllerName + '/_Edit';
         }
 
-        openCreateModal() {
+        openCreateModal(url: string = null) {
+
+            if (!url) {
+                url = Utils.getAppPath(that.createActionUrl);
+            }
 
             var that = this;
 
             Utils.openModal({
                 ajax: {
-                    url: Utils.getAppPath(that.createActionUrl),
+                    url: url,
                     data: null
                 },
                 onShown: function () {
 
-                    if (that.onOpenModalShown) {
-                        that.onOpenModalShown();
+                    if (that.onCreateModalShown) {
+                        that.onCreateModalShown();
                     }
 
                     Utils.initSelects();
@@ -73,7 +77,7 @@
 
             $(this.createModalLinkSelector).on('click', function (e) {
                 e.preventDefault();
-                that.openCreateModal();
+                that.openCreateModal(this.href);
                 return false;
             });
 
@@ -86,7 +90,7 @@
 
         }
 
-        abstract onOpenModalShown(): void;
+        abstract onCreateModalShown(): void;
         abstract onEditModalShown(): void;
     }
 

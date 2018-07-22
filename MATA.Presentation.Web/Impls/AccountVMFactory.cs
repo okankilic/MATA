@@ -31,7 +31,7 @@ namespace MATA.Presentation.Web.Impls
             {
                 PageSize = pageSize,
                 TotalCount = accountBL.Count(uow),
-                Accounts = await accountBL.GetAccounts((page - 1) * pageSize, pageSize, uow)
+                Accounts = await accountBL.Search(null, (page - 1) * pageSize, pageSize, uow)
             };
         }
     }

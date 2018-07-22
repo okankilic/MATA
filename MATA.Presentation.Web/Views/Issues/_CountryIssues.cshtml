@@ -1,0 +1,71 @@
+﻿
+@model MATA.Presentation.Web.Models.Issues.IssuesIndexVM
+
+@if (Model.TotalCount == 0)
+{
+    @:Bu ülkeye ait iş bulunmamaktadır
+}
+else
+{
+    WebGrid grid = new WebGrid(
+        rowsPerPage: Model.PageSize,
+        ajaxUpdateContainerId: "issue-grid",
+        ajaxUpdateCallback: "issuesController.initGridEvents"
+    );
+
+    grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+    var columnList = new List<WebGridColumn>()
+    {
+        new WebGridColumn
+        {
+            Header = "İş Tanımı",
+            ColumnName = "Description",
+            CanSort = false
+        },
+        new WebGridColumn
+        {
+            Header = "Şantiye Adı",
+            ColumnName = "StoreName",
+            CanSort = false,
+            //Style = "width: 300px"
+        },
+        new WebGridColumn
+        {
+            Header = "Açıklamalar",
+            ColumnName = "Remarks",
+            CanSort = false
+        }
+    };
+
+    if (User.IsInRole(RoleTypes.Admin))
+    {
+        this.AddAuditColumns(columnList);
+    }
+
+    if(User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    {
+        columnList.Add(new WebGridColumn
+        {
+            //Style = "auto-width",
+            Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+        });
+
+        columnList.Add(new WebGridColumn
+        {
+            //Style = "auto-width",
+            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_entity_id = item.ID })
+        });
+    }
+
+    @grid.GetHtml(
+        htmlAttributes: new { id = "issue-grid" },
+        tableStyle: "table table-hover",
+        columns: columnList,
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
+}
+
+<script src="~/ts/mata.issues-controller.js"></script>
+

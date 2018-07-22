@@ -2,7 +2,7 @@
 
     export class CountriesController extends EntityBaseController {
 
-        onOpenModalShown(): void {
+        onCreateModalShown(): void {
             var that = this;
 
             Utils.validateForm(that.createFormSelector);

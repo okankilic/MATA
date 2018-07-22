@@ -102,6 +102,10 @@
     <Build Include="Security\LOG.sql" />
     <Build Include="LOG\Views\vAction.sql" />
     <Build Include="dbo\Views\vToken.sql" />
+    <Build Include="dbo\Views\vMail.sql" />
+    <Build Include="dbo\Tables\StoreAccount.sql" />
+    <Build Include="dbo\Views\vAttachment.sql" />
+    <Build Include="dbo\Views\vStoreAccount.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MataDB.refactorlog" />

@@ -80,13 +80,6 @@ namespace MATA.BL.Impls
             return cityList.Select(q => mapper.MapToDTO(q));
         }
 
-        public IEnumerable<CityDTO> GetCitiesByCountry(int countryID, IUnitOfWork uow)
-        {
-            var cities = uow.CityRepository.Find(q => q.CountryID == countryID).OrderBy(q => q.CityName).ThenBy(q => q.ID).ThenBy(q => q.ID);
-
-            return cities.Select(q => mapper.MapToDTO(q));
-        }
-
         public async Task<IEnumerable<CityDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.CityRepository.Find();
@@ -96,9 +89,26 @@ namespace MATA.BL.Impls
                 items = items.Where(c => c.CityName.Contains(q));
             }
 
-            var itemList = await items.OrderBy(c => c.CityName).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
+            return await OrderCities(items, skip, take);
+        }
 
-            return itemList.Select(c => mapper.MapToDTO(c));
+        public int GetCountryCitiesCount(int countryID, IUnitOfWork uow)
+        {
+            return uow.CityRepository.GetCount(q => q.CountryID == countryID);
+        }
+
+        public async Task<IEnumerable<CityDTO>> GetCountryCities(int countryID, int skip, int take, IUnitOfWork uow)
+        {
+            var items = uow.CityRepository.Find(q => q.CountryID == countryID);
+
+            return await OrderCities(items, skip, take);
+        }
+
+        private async Task<IEnumerable<CityDTO>> OrderCities(IQueryable<vCity> items, int skip, int take)
+        {
+            var itemList = await items.OrderBy(q => q.CityName).ThenBy(q => q.ID).Skip(skip).Take(take).ToListAsync();
+
+            return itemList.Select(q => mapper.MapToDTO(q));
         }
     }
 }

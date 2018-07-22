@@ -35,7 +35,7 @@ namespace MATA.Presentation.Web.Impls
             {
                 PageSize = pageSize,
                 TotalCount = cityBL.Count(uow),
-                Cities = await cityBL.GetCities((page - 1) * pageSize, pageSize, uow)
+                Cities = await cityBL.Search(null, (page - 1) * pageSize, pageSize, uow)
             };
         }
     }

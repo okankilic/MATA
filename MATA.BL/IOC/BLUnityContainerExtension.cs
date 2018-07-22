@@ -23,8 +23,7 @@ namespace MATA.BL.Ioc
             Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
             Container.RegisterType<IEntityBL<AccountDTO>, IAccountBL>();
             Container.RegisterType<IAccountBL, AccountBL>();
-
-            //Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
+            
             //Container.RegisterType<IEntityBL<TokenDTO>, ITokenBL>();
             Container.RegisterType<ITokenBL, TokenBL>();
 
@@ -51,6 +50,16 @@ namespace MATA.BL.Ioc
             Container.RegisterType<IMapper<Data.Entities.Action, vAction, ActionDTO>, ActionMapper>();
             Container.RegisterType<IEntityBL<ActionDTO>, IActionBL>();
             Container.RegisterType<IActionBL, ActionBL>();
+
+            Container.RegisterType<IMapper<Mail, vMail, MailDTO>, MailMapper>();
+            Container.RegisterType<IEntityBL<MailDTO>, IMailBL>();
+            Container.RegisterType<IMailBL, MailBL>();
+
+            Container.RegisterType<IMapper<Attachment, vAttachment, AttachmentDTO>, AttachmentMapper>();
+            Container.RegisterType<IEntityBL<AttachmentDTO>, IAttachmentBL>();
+            Container.RegisterType<IAttachmentBL, AttachmentBL>();
+
+            Container.RegisterType<IBLFactory, BLFactory>();
         }
     }
 }

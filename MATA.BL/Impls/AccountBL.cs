@@ -1,5 +1,6 @@
 ﻿using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.DTO;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
@@ -16,6 +17,8 @@ namespace MATA.BL.Impls
 {
     public class AccountBL: IAccountBL
     {
+        private const string cacheName = "AccountBL";
+
         private readonly IMapper<Account, vAccount, AccountDTO> mapper;
 
         public AccountBL(IMapper<Account, vAccount, AccountDTO> mapper)
@@ -23,6 +26,7 @@ namespace MATA.BL.Impls
             this.mapper = mapper;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Admin)]
         public int Create(AccountDTO accountDTO, string tokenString, IUnitOfWork uow)
         {
             var account = mapper.MapToEntity(accountDTO);
@@ -55,6 +59,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Admin)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.GetByID(id);
@@ -65,6 +70,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCache(CacheName = cacheName)]
         public AccountDTO Get(int id, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.GetViewByID(id);
@@ -77,13 +83,7 @@ namespace MATA.BL.Impls
             return uow.AccountRepository.GetCount();
         }
 
-        public async Task<IEnumerable<AccountDTO>> GetAccounts(int skip, int take, IUnitOfWork uow)
-        {
-            var accountList = await uow.AccountRepository.GetAccounts(skip, take);
-
-            return accountList.Select(q => mapper.MapToDTO(q));
-        }
-
+        [CustomCache(CacheName = cacheName)]
         public AccountDTO GetByToken(string tokenString, IUnitOfWork uow)
         {
             var tokenGuid = Guid.Parse(tokenString);
@@ -92,11 +92,13 @@ namespace MATA.BL.Impls
             return Get(token.AccountID, uow);
         }
 
+        [CustomCache(CacheName = cacheName)]
         public bool IsExists(string email, IUnitOfWork uow)
         {
             return uow.AccountRepository.Find(q => q.Email == email).Any();
         }
 
+        [CustomCache(CacheName = cacheName)]
         public AccountDTO GetByEmailAndPassword(string email, string password, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.Find().Single(q => q.Email == email && q.Password == password);
@@ -116,6 +118,24 @@ namespace MATA.BL.Impls
             var itemList = await items.OrderBy(c => c.FullName).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
 
             return itemList.Select(c => mapper.MapToDTO(c));
+        }
+
+        public int GetStoreAccountsCount(int storeID, IUnitOfWork uow)
+        {
+            return uow.StoreAccountRepository.GetCount(q => q.StoreID == storeID);
+        }
+
+        public async Task<IEnumerable<AccountDTO>> GetStoreAccounts(int storeID, int skip, int take, IUnitOfWork uow)
+        {
+            var accountIDs = uow.StoreAccountRepository.Find(q => q.StoreID == storeID).Select(q => q.AccountID);
+
+            var items = from aID in accountIDs
+                        join a in uow.AccountRepository.Find() on aID equals a.ID
+                        select a;
+
+            var itemList = await items.OrderBy(q => q.FullName).ThenBy(q => q.ID).ToListAsync();
+
+            return itemList.Select(q => mapper.MapToDTO(q));
         }
     }
 }

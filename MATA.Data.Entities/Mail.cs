@@ -17,7 +17,6 @@ namespace MATA.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Mail()
         {
-            this.Attachment = new HashSet<Attachment>();
             this.MailAccount = new HashSet<MailAccount>();
         }
     
@@ -29,8 +28,6 @@ namespace MATA.Data.Entities
         public int TryCount { get; set; }
         public System.DateTime LastTryTime { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachment> Attachment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MailAccount> MailAccount { get; set; }
     }

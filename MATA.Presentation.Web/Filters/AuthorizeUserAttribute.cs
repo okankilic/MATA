@@ -15,14 +15,20 @@ namespace MATA.Presentation.Web.Filters
         {
             var isAnonymous = IsAnonymousAction(filterContext.ActionDescriptor);
             if (isAnonymous)
+            {
                 return;
+            }
             
             if (filterContext.HttpContext.User.IsInRole(RoleTypes.Admin))
+            {
                 return;
+            }
 
             var isAuthorized = AuthorizeCore(filterContext.HttpContext);
             if (isAuthorized)
+            {
                 return;
+            }
 
             HandleUnauthorizedRequest(filterContext);
         }
@@ -37,7 +43,9 @@ namespace MATA.Presentation.Web.Filters
                 {
                     isInRole = httpContext.User.IsInRole(role);
                     if (isInRole)
+                    {
                         break;
+                    }
                 }
             }
 
@@ -47,9 +55,13 @@ namespace MATA.Presentation.Web.Filters
         private void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
                 filterContext.Result = new HttpUnauthorizedResult();
+            }
             else
+            {
                 filterContext.Result = new RedirectResult("~/Errors/Unauthorized");
+            }
         }
 
         private bool IsAnonymousAction(ActionDescriptor actionDescriptor)

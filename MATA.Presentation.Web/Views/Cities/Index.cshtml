@@ -16,7 +16,6 @@
 <div class="panel panel-default">
     <div class="panel-body">
 
-
         @{
             WebGrid grid = new WebGrid(
                 rowsPerPage: Model.PageSize,
@@ -25,41 +24,43 @@
             );
 
             grid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
-        }
 
-        @grid.GetHtml(
-            htmlAttributes: new { id = "city-grid" },
-            tableStyle: "table table-hover",
-            columns: new List<WebGridColumn>()
+            var columnList = new List<WebGridColumn>()
             {
                 new WebGridColumn
                 {
-                    Header = "Ülke Adı",
-                    ColumnName = "CountryName",
-                    CanSort = false,
-                    //Style = "width: 300px"
+                    Header = "Ülke",
+                    Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
                 },
                 new WebGridColumn
                 {
                     Header = "Şehir Adı",
                     ColumnName = "CityName",
-                    CanSort = false,
-                    //Style = "width: 300px"
-                },
-                new WebGridColumn
-                {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
-                },
-                new WebGridColumn
-                {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-cities-edit", data_entity_id = item.ID })
+                    CanSort = false
                 }
-            },
-            mode: WebGridPagerModes.Numeric,
-            numericLinksCount: 5
-        )
+            };
+
+            if (User.IsInRole(RoleTypes.Admin))
+            {
+                columnList.Add(new WebGridColumn
+                {
+                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                });
+
+                columnList.Add(new WebGridColumn
+                {
+                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-cities-edit", data_entity_id = item.ID })
+                });
+            }
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "city-grid" },
+    tableStyle: "table table-hover",
+    columns: columnList,
+    mode: WebGridPagerModes.Numeric,
+    numericLinksCount: 5
+)
 
     </div>
 </div>

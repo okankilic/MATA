@@ -177,6 +177,8 @@
     <Compile Include="Base\CustomControllerBase.cs" />
     <Compile Include="Base\CustomEntityControllerBase.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\ActionsController.cs" />
+    <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Helpers\AuthenticationHelper.cs" />
     <Compile Include="Helpers\SelectHelper.cs" />
     <Compile Include="Impls\AccountVMFactory.cs" />
+    <Compile Include="Impls\ActionsVMFactory.cs" />
     <Compile Include="Impls\CitiesVMFactory.cs" />
     <Compile Include="Impls\CountryVMFactory.cs" />
     <Compile Include="Impls\IssuesVMFactory.cs" />
@@ -206,6 +209,9 @@
     <Compile Include="Models\Accounts\AccountsIndexVM.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
+    <Compile Include="Models\Actions\ActionsIndexVM.cs" />
+    <Compile Include="Models\Attachments\AttachmentsCreateVM.cs" />
+    <Compile Include="Models\Attachments\AttachmentsIndexVM.cs" />
     <Compile Include="Models\BaseIndexViewModel.cs" />
     <Compile Include="Models\BaseSelectVM.cs" />
     <Compile Include="Models\Cities\CitiesIndexVM.cs" />
@@ -301,8 +307,8 @@
     <Content Include="Views\Projects\_Create.cshtml" />
     <Content Include="Views\Projects\_Edit.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
-    <Content Include="Views\Stores\_Index.cshtml" />
-    <Content Include="Views\Issues\_Index.cshtml" />
+    <Content Include="Views\Stores\_ProjectStores.cshtml" />
+    <Content Include="Views\Issues\_ProjectIssues.cshtml" />
     <Content Include="Views\Stores\Index.cshtml" />
     <Content Include="Views\Stores\_Create.cshtml" />
     <Content Include="Views\Countries\Index.cshtml" />
@@ -319,6 +325,21 @@
     <Content Include="Views\Shared\_AccountSelect.cshtml" />
     <Content Include="Views\Shared\_StoreSelect.cshtml" />
     <Content Include="Views\Issues\_Create.cshtml" />
+    <Content Include="Views\Actions\Index.cshtml" />
+    <Content Include="Views\Actions\_AccountActions.cshtml" />
+    <Content Include="Views\Accounts\Details.cshtml" />
+    <Content Include="Views\Issues\_StoreIssues.cshtml" />
+    <Content Include="Views\Stores\Details.cshtml" />
+    <Content Include="Views\Accounts\_StoreAccounts.cshtml" />
+    <Content Include="Views\Countries\Details.cshtml" />
+    <Content Include="Views\Stores\_CityStores.cshtml" />
+    <Content Include="Views\Stores\_CountryStores.cshtml" />
+    <Content Include="Views\Issues\_CityIssues.cshtml" />
+    <Content Include="Views\Issues\_CountryIssues.cshtml" />
+    <Content Include="Views\Cities\_CountryCities.cshtml" />
+    <Content Include="Views\Cities\Details.cshtml" />
+    <Content Include="Views\Attachments\_StoreAttachments.cshtml" />
+    <Content Include="Views\Attachments\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -367,6 +388,7 @@
   <ItemGroup>
     <Content Include="Content\mt.select.css" />
     <TypeScriptCompile Include="tsScripts\mata.accounts-controller.ts" />
+    <TypeScriptCompile Include="tsScripts\mata.attachments-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.entityBase-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.cities-controller.ts" />
     <TypeScriptCompile Include="tsScripts\mata.countries-controller.ts" />

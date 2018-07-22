@@ -1,7 +1,7 @@
 ﻿namespace MATA.Issues {
     export class IssuesController extends EntityBaseController {
         readonly focusElementSelector = '#Description';
-        onOpenModalShown(): void {
+        onCreateModalShown(): void {
             var that = this;
             Utils.validateForm(that.createFormSelector);
 

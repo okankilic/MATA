@@ -26,13 +26,13 @@
                 </div>
             </div>
 
-            @Html.Partial("_ProjectSelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.ProjectDTO> {
+            @Html.Partial("_ProjectSelect", new BaseSelectVM<MATA.Data.DTO.Models.ProjectDTO> {
                 SelectID = Html.IdFor(m => m.ProjectID),
                 SelectName = Html.NameFor(m => m.ProjectID),
                 SelectValue = Model.ProjectName
             })
 
-            @Html.Partial("_CitySelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.CityDTO> {
+            @Html.Partial("_CitySelect", new BaseSelectVM<MATA.Data.DTO.Models.CityDTO> {
                 SelectID = Html.IdFor(m => m.CityID),
                 SelectName = Html.NameFor(m => m.CityID),
                 SelectValue = Model.CityName
@@ -43,6 +43,13 @@
                 <div class="col-sm-8">
                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Accounts, htmlAttributes: new { @class = "control-label col-sm-4" })
+                <div class="col-sm-8">
+                    @Html.ListBoxFor(model => model.AccountIDList, new SelectList(Model.Accounts, "ID", "FullName"), new { @class = "form-control" })
                 </div>
             </div>
 

@@ -23,9 +23,9 @@ namespace MATA.Presentation.Web.Controllers
             ILogger logger,
             IDTOFactory<CityDTO> dtoFactory,
             IVMFactory<CityDTO, CitiesIndexVM> vmFactory, 
-            IEntityBL<CityDTO> entityBL) : base(uowFactory, logger, dtoFactory, vmFactory, entityBL)
+            IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-            cityBL = entityBL as ICityBL;
+            cityBL = blFactory.Create<ICityBL>();
         }
 
         public async Task<ActionResult> _CitySelect(int selectedCityID)
@@ -36,10 +36,27 @@ namespace MATA.Presentation.Web.Controllers
 
             using (var uow = uowFactory.CreateNew())
             {
-                cities = await cityBL.GetCities(0, 0, uow);
+                cities = await cityBL.Search(null, 0, 0, uow);
             }
 
             return PartialView(cities);
+        }
+
+        public async Task<ActionResult> _CountryCities(int countryID, int page = 1)
+        {
+            CitiesIndexVM vm;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new CitiesIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = cityBL.GetCountryCitiesCount(countryID, uow),
+                    Cities = await cityBL.GetCountryCities(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
         }
     }
 }

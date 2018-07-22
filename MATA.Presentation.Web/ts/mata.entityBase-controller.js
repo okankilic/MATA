@@ -10,16 +10,20 @@ var MATA;
             this.createActionUrl = options.controllerName + '/_Create';
             this.editActionUrl = options.controllerName + '/_Edit';
         }
-        EntityBaseController.prototype.openCreateModal = function () {
+        EntityBaseController.prototype.openCreateModal = function (url) {
+            if (url === void 0) { url = null; }
+            if (!url) {
+                url = MATA.Utils.getAppPath(that.createActionUrl);
+            }
             var that = this;
             MATA.Utils.openModal({
                 ajax: {
-                    url: MATA.Utils.getAppPath(that.createActionUrl),
+                    url: url,
                     data: null
                 },
                 onShown: function () {
-                    if (that.onOpenModalShown) {
-                        that.onOpenModalShown();
+                    if (that.onCreateModalShown) {
+                        that.onCreateModalShown();
                     }
                     MATA.Utils.initSelects();
                 }
@@ -44,7 +48,7 @@ var MATA;
             var that = this;
             $(this.createModalLinkSelector).on('click', function (e) {
                 e.preventDefault();
-                that.openCreateModal();
+                that.openCreateModal(this.href);
                 return false;
             });
             $(this.editModalLinkSelector).on('click', function (e) {

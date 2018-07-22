@@ -18,22 +18,23 @@ namespace MATA.Presentation.Web.Base
     [AuthorizeUser(Roles = RoleTypes.Combines.AdminStaff)]
     public abstract class CustomEntityControllerBase<TDTO, TIndexVM>: CustomControllerBase
     {
-        protected const int DefaultPageSize = 10;
-
         protected readonly IVMFactory<TDTO, TIndexVM> vmFactory;
-        protected readonly IEntityBL<TDTO> entityBL;
-
+        
         readonly IDTOFactory<TDTO> dtoFactory;
+        readonly IBLFactory blFactory;
+        readonly IEntityBL<TDTO> entityBL;
 
         public CustomEntityControllerBase(IUnitOfWorkFactory uowFactory, 
             ILogger logger,
             IDTOFactory<TDTO> dtoFactory,
             IVMFactory<TDTO, TIndexVM> vmFactory,
-            IEntityBL<TDTO> entityBL): base(uowFactory, logger)
+            IBLFactory blFactory): base(uowFactory, logger)
         {
             this.dtoFactory = dtoFactory;
             this.vmFactory = vmFactory;
-            this.entityBL = entityBL;
+            this.blFactory = blFactory;
+            //this.entityBL = entityBL;
+            this.entityBL = blFactory.Create<IEntityBL<TDTO>>();
         }
 
         [HttpGet]
@@ -62,9 +63,12 @@ namespace MATA.Presentation.Web.Base
         }
 
         [HttpGet]
-        public virtual ActionResult _Create()
+        public virtual async Task<ActionResult> _Create()
         {
-            TDTO dto = dtoFactory.CreateNew();
+            TDTO dto = await Task.Factory.StartNew(() =>
+            {
+                return dtoFactory.CreateNew();
+            });
 
             return PartialView(dto);
         }
@@ -91,14 +95,15 @@ namespace MATA.Presentation.Web.Base
         }
 
         [HttpGet]
-        public virtual ActionResult _Edit(int id)
+        public virtual async Task<ActionResult> _Edit(int id)
         {
-            TDTO dto;
-
-            using (var uow = uowFactory.CreateNew())
+            TDTO dto = await Task.Factory.StartNew(() =>
             {
-                dto = entityBL.Get(id, uow);
-            }
+                using (var uow = uowFactory.CreateNew())
+                {
+                    return entityBL.Get(id, uow);
+                }
+            });
 
             return PartialView(dto);
         }

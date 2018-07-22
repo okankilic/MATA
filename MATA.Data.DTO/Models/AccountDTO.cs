@@ -21,6 +21,11 @@ namespace MATA.Data.DTO.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        [MinLength(10)]
+        [MaxLength(10)]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
         [DataType(DataType.Password)]
         [Required]
         [MaxLength(8)]

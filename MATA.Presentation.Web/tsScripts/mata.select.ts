@@ -136,6 +136,7 @@
             this._el.id = Utils.generateGuid();
             this._el.classList.add('form-control');
             this._el.setAttribute('type', 'text');
+            this._el.value = this._hiddenEl.value;
 
             this._hiddenEl.parentElement.appendChild(this._el);
 

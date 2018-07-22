@@ -1,0 +1,49 @@
+﻿@model MATA.Presentation.Web.Models.Cities.CitiesIndexVM
+
+@if (Model.TotalCount == 0)
+{
+    @:Bu ülkeye ait şehir bulunmamaktadır
+}
+else
+{
+    WebGrid grid = new WebGrid(
+        rowsPerPage: Model.PageSize,
+        ajaxUpdateContainerId: "city-grid",
+        ajaxUpdateCallback: "citiesController.initGridEvents"
+    );
+
+    grid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+    var columnList = new List<WebGridColumn>()
+    {
+        new WebGridColumn
+        {
+            Header = "Şehir Adı",
+            ColumnName = "CityName",
+            CanSort = false
+        }
+    };
+
+    if (User.IsInRole(RoleTypes.Admin))
+    {
+        columnList.Add(new WebGridColumn
+        {
+            Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+        });
+
+        columnList.Add(new WebGridColumn
+        {
+            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-cities-edit", data_entity_id = item.ID })
+        });
+    }
+
+    @grid.GetHtml(
+        htmlAttributes: new { id = "city-grid" },
+        tableStyle: "table table-hover",
+        columns: columnList,
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
+}
+
+<script src="~/ts/mata.cities-controller.js"></script>

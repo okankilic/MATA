@@ -10,13 +10,26 @@ namespace MATA.Data.Repositories.Interfaces
     public interface IUnitOfWork: IDisposable
     {
         ActionRepository ActionRepository { get; }
+
         TokenRepository TokenRepository { get; }
+
         AccountRepository AccountRepository { get; }
+
         ProjectRepository ProjectRepository { get; }
+
         StoreRepository StoreRepository { get; }
+
         CountryRepository CountryRepository { get; }
+
         CityRepository CityRepository { get; }
+
         IssueRepository IssueRepository { get; }
+
+        MailRepository MailRepository { get; }
+
+        StoreAccountRepository StoreAccountRepository { get; }
+
+        AttachmentRepository AttachmentRepository { get; }
 
         void SaveChanges(string tokenString);
 

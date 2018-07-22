@@ -73,10 +73,13 @@
   <ItemGroup>
     <Compile Include="Impls\AccountRepository.cs" />
     <Compile Include="Impls\ActionRepository.cs" />
+    <Compile Include="Impls\AttachmentRepository.cs" />
     <Compile Include="Impls\CityRepository.cs" />
     <Compile Include="Impls\CountryRepository.cs" />
     <Compile Include="Impls\GenericRepository.cs" />
+    <Compile Include="Impls\StoreAccountRepository.cs" />
     <Compile Include="Impls\IssueRepository.cs" />
+    <Compile Include="Impls\MailRepository.cs" />
     <Compile Include="Impls\ProjectRepository.cs" />
     <Compile Include="Impls\StoreRepository.cs" />
     <Compile Include="Impls\TokenRepository.cs" />

@@ -18,6 +18,8 @@ namespace MATA.Data.Entities
         public Account()
         {
             this.Action = new HashSet<Action>();
+            this.Attachment = new HashSet<Attachment>();
+            this.Attachment1 = new HashSet<Attachment>();
             this.Issue = new HashSet<Issue>();
             this.Issue1 = new HashSet<Issue>();
             this.MailAccount = new HashSet<MailAccount>();
@@ -25,6 +27,7 @@ namespace MATA.Data.Entities
             this.Project1 = new HashSet<Project>();
             this.Store = new HashSet<Store>();
             this.Store1 = new HashSet<Store>();
+            this.StoreAccount = new HashSet<StoreAccount>();
             this.Token = new HashSet<Token>();
         }
     
@@ -32,12 +35,17 @@ namespace MATA.Data.Entities
         public System.Guid UID { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string RoleName { get; set; }
         public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Action> Action { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attachment> Attachment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attachment> Attachment1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Issue> Issue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -52,6 +60,8 @@ namespace MATA.Data.Entities
         public virtual ICollection<Store> Store { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Store1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreAccount> StoreAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Token> Token { get; set; }
     }

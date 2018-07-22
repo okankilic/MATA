@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MATA.Data.DTO
+namespace MATA.Data.DTO.Models
 {
     public class MailDTO
     {
@@ -12,7 +12,15 @@ namespace MATA.Data.DTO
 
         public string Subject { get; set; }
 
+        public bool IsBodyHtml { get; set; }
+
         public string MailBody { get; set; }
+
+        public string State { get; set; }
+
+        public int TryCount { get; set; }
+
+        public DateTime LastTryTime { get; set; }
 
         public List<string> TOList { get; set; }
 

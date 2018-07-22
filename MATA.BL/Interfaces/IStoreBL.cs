@@ -13,8 +13,16 @@ namespace MATA.BL.Interfaces
     {
         Task<IEnumerable<StoreDTO>> GetStores(int skip, int take, IUnitOfWork uow);
 
+        int GetCountryStoresCount(int countryID, IUnitOfWork uow);
+
+        Task<IEnumerable<StoreDTO>> GetCountryStores(int countryID, int skip, int take, IUnitOfWork uow);
+
+        int GetCityStoresCount(int cityID, IUnitOfWork uow);
+
+        Task<IEnumerable<StoreDTO>> GetCityStores(int cityID, int skip, int take, IUnitOfWork uow);
+
         int GetProjectStoreCount(int projectID, IUnitOfWork uow);
 
-        IEnumerable<StoreDTO> GetProjectStores(int projectID, int skip, int take, IUnitOfWork uow);
+        Task<IEnumerable<StoreDTO>> GetProjectStores(int projectID, int skip, int take, IUnitOfWork uow);
     }
 }

@@ -8,7 +8,9 @@
 <h2>@Model.ProjectName</h2>
 
 <div class="row">
+
     <div class="col-sm-4">
+
         <div class="panel panel-default">
             <div class="panel-body">
                 <div>
@@ -16,13 +18,13 @@
                         Proje Bilgileri
                         @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                         {
-                            <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })">
+                            <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })" class="pull-right">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
                         }
                     </h4>
                     <hr />
-                    <dl class="dl-horizontal">
+                    <dl class="">
                         <dt>
                             @Html.DisplayNameFor(model => model.ProjectName)
                         </dt>
@@ -39,60 +41,44 @@
                             @Html.DisplayFor(model => model.Remarks)
                         </dd>
 
-                        <dt>
-                            @Html.DisplayNameFor(model => model.CreatedByAccountID)
-                        </dt>
+                    </dl>
+                </div>
+            </div>
+        </div>
 
+        @if (User.IsInRole(RoleTypes.Admin))
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>
+                        Düzenleme Bilgileri
+                    </h4>
+                    <hr />
+                    <dl>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedBy) / @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.CreatedByAccountID)
+                            @Html.DisplayFor(model => model.CreatedBy) (@Html.DisplayFor(model => model.CreateTime))
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.CreatedBy)
+                            @Html.DisplayNameFor(model => model.UpdatedBy) / @Html.DisplayNameFor(model => model.UpdateTime)
                         </dt>
-
                         <dd>
-                            @Html.DisplayFor(model => model.CreatedBy)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.CreateTime)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.CreateTime)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.UpdatedByAccountID)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.UpdatedByAccountID)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.UpdatedBy)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.UpdatedBy)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.UpdateTime)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.UpdateTime)
+                            @Html.DisplayFor(model => model.UpdatedBy) (@Html.DisplayFor(model => model.UpdateTime))
                         </dd>
 
                     </dl>
                 </div>
             </div>
-        </div>
+        }
+
     </div>
+
     <div class="col-sm-8">
+
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>
@@ -105,14 +91,10 @@
                     }
                 </h4>
                 <hr />
-                @Html.PartialViewContainer(Url.Action("_Index", "Stores", new { projectID = Model.ID, page = 1 }))
+                @Html.PartialViewContainer(Url.Action("_ProjectStores", "Stores", new { projectID = Model.ID, page = 1 }))
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4>
@@ -125,9 +107,20 @@
                     }
                 </h4>
                 <hr />
-                @Html.PartialViewContainer(Url.Action("_Index", "Issues", new { projectID = Model.ID, page = 1 }))
+                @Html.PartialViewContainer(Url.Action("_ProjectIssues", "Issues", new { projectID = Model.ID, page = 1 }))
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Dosyalar
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_ProjectAttachments", "Attachments", new { projectID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
     </div>
 </div>
 

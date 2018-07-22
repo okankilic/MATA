@@ -2,17 +2,19 @@
 
     export class AccountsController extends EntityBaseController {
 
+        readonly forgotPasswordFormSelector: string;
         readonly forgotPasswordLinkSelector: string;
         readonly forgotPasswordActionUrl: string;
 
         constructor(options: IEntityBaseControllerOptions) {
             super(options);
 
+            this.forgotPasswordFormSelector = '#mt-form-' + options.entityName + '-forgot-password';
             this.forgotPasswordLinkSelector = '#mt-link-' + options.entityName + '-forgot-password';
             this.forgotPasswordActionUrl = options.controllerName + '/_ForgotPassword';
         }
 
-        onOpenModalShown() {
+        onCreateModalShown() {
 
             var that = this;
 
@@ -135,6 +137,39 @@
                 },
                 onShown: function () {
 
+                    Utils.validateForm(that.forgotPasswordFormSelector);
+
+                    $(that.forgotPasswordFormSelector).on('submit', function (e) {
+                        e.preventDefault();
+
+                        var $form = $(this),
+                            isFormValid = $form.valid();
+
+                        if (!isFormValid) {
+                            return false;
+                        }
+
+                        $.ajax({
+                            method: $form.attr('method'),
+                            url: $form.attr('action'),
+                            data: $form.serialize()
+                        }).done(function (response) {
+
+                            if (response === "OK") {
+                                Utils.showSuccess('Şifreniz e-mail adresinize gönderilmiştir');
+                                Utils.closeModal(true);
+                            } else {
+                                Utils.setModalContentHTML(response);
+                            }
+
+                        }).fail(function (jqXHR: JQueryXHR) {
+                            Utils.setModalContentHTML(jqXHR.responseText);
+                        });
+
+                        return false;
+                    });
+
+                    $(that.forgotPasswordFormSelector).find('#Email').focus();
                 }
             })
         }

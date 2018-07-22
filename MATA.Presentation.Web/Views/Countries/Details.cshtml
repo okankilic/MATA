@@ -1,0 +1,146 @@
+﻿@model MATA.Data.DTO.Models.CountryDTO
+
+@{
+    ViewBag.Title = Model.CountryName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.CountryName</h2>
+
+<div class="row">
+    <div class="col-sm-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Ülke Bilgileri
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Edit", "Countries", new { id = Model.ID })" class="pull-right">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                <dl class="">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CountryName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CountryName)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+
+        @*@if (User.IsInRole(RoleTypes.Admin))
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>
+                        Düzenleme Bilgileri
+                    </h4>
+                    <hr />
+                    <dl>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedBy) / @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedBy) (@Html.DisplayFor(model => model.CreateTime))
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdatedBy) / @Html.DisplayNameFor(model => model.UpdateTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdatedBy) (@Html.DisplayFor(model => model.UpdateTime))
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        }*@
+
+    </div>
+
+    <div class="col-sm-8">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Şehirler
+                    @if (User.IsInRole(RoleTypes.Admin))
+                    {
+                        <a href="@Url.Action("_Create", "Cities")" id="mt-link-stores-create" class="pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_CountryCities", "Cities", new { countryID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Şantiyeler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Stores")" id="mt-link-stores-create" class="pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_CountryStores", "Stores", new { countryID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    İşler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Issues")" id="mt-link-issues-create" class="pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_CountryIssues", "Issues", new { countryID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.countries-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.mt-partial-view-container').each(function () {
+
+                var $this = $(this),
+                    url = $this.attr('data-url');
+
+                $this.load(url);
+
+            });
+
+        });
+
+    </script>
+
+}

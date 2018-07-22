@@ -12,7 +12,11 @@ namespace MATA.Data.DTO.Impls
     {
         public override StoreDTO CreateNew()
         {
-            return new StoreDTO();
+            var dto = new StoreDTO();
+
+            dto.AccountIDList = new List<int>();
+
+            return dto;
         }
     }
 }

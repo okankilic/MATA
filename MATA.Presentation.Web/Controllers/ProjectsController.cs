@@ -23,15 +23,13 @@ namespace MATA.Presentation.Web.Controllers
     
     public class ProjectsController : CustomEntityControllerBase<ProjectDTO, ProjectsIndexVM>
     {
-        readonly IProjectBL projectBL;
-
         public ProjectsController(IUnitOfWorkFactory uowFactory,
             ILogger logger,
             IDTOFactory<ProjectDTO> dtoFactory,
             IVMFactory<ProjectDTO, ProjectsIndexVM> vmFactory,
-            IEntityBL<ProjectDTO> entityBL): base(uowFactory, logger, dtoFactory, vmFactory, entityBL)
+            IBLFactory blFactory): base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-            projectBL = entityBL as IProjectBL;
+
         }
     }
 }

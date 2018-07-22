@@ -38,9 +38,14 @@ namespace MATA.Data.Repositories.Impls
             return dbSetView.Where(expression);
         }
 
-        public virtual int GetCount()
+        public virtual int GetCount(Expression<Func<TView, bool>> expression = null)
         {
-            return dbSetEntity.Count();
+            if(expression != null)
+            {
+                return dbSetView.Count(expression);
+            }
+
+            return dbSetView.Count();
         }
 
         public virtual TEntity GetByID(int id)

@@ -18,7 +18,11 @@
 
             @Html.HiddenFor(model => model.ID)
 
-            @*@Html.Partial("_CountrySelect", Model.CountrySelect)*@
+            @*@Html.Partial("_CountrySelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.CountryDTO> {
+                SelectID = Html.IdFor(m => m.CountryID),
+                SelectName = Html.NameFor(m => m.CountryID),
+                SelectValue = Model.CountryName
+            })*@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.CityName, htmlAttributes: new { @class = "control-label col-sm-4" })

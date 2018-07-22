@@ -17,7 +17,7 @@ var MATA;
             function CountriesController() {
                 return _super !== null && _super.apply(this, arguments) || this;
             }
-            CountriesController.prototype.onOpenModalShown = function () {
+            CountriesController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 $(that.createFormSelector).submit(function (e) {

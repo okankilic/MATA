@@ -13,7 +13,7 @@ using System.Data.Entity;
 
 namespace MATA.Data.Repositories.Impls
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MataDBEntities dbContext;
 
@@ -27,6 +27,9 @@ namespace MATA.Data.Repositories.Impls
         private CountryRepository countryRepository;
         private CityRepository cityRepository;
         private IssueRepository issueRepository;
+        private MailRepository mailRepository;
+        private StoreAccountRepository storeAccountRepository;
+        private AttachmentRepository attachmentRepository;
 
         private bool disposed = false;
 
@@ -45,14 +48,14 @@ namespace MATA.Data.Repositories.Impls
         //{
         //    this.dbContext = dbContext;
 
-            
+
         //}
 
         public ActionRepository ActionRepository
         {
             get
             {
-                if(actionRepository == null)
+                if (actionRepository == null)
                 {
                     actionRepository = new ActionRepository(dbContext);
                 }
@@ -65,7 +68,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(tokenRepository == null)
+                if (tokenRepository == null)
                 {
                     tokenRepository = new TokenRepository(dbContext);
                 }
@@ -91,7 +94,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(projectRepository == null)
+                if (projectRepository == null)
                 {
                     projectRepository = new ProjectRepository(dbContext);
                 }
@@ -104,7 +107,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(storeRepository == null)
+                if (storeRepository == null)
                 {
                     storeRepository = new StoreRepository(dbContext);
                 }
@@ -117,7 +120,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(countryRepository == null)
+                if (countryRepository == null)
                 {
                     countryRepository = new CountryRepository(dbContext);
                 }
@@ -130,7 +133,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(cityRepository == null)
+                if (cityRepository == null)
                 {
                     cityRepository = new CityRepository(dbContext);
                 }
@@ -143,7 +146,7 @@ namespace MATA.Data.Repositories.Impls
         {
             get
             {
-                if(issueRepository == null)
+                if (issueRepository == null)
                 {
                     issueRepository = new IssueRepository(dbContext);
                 }
@@ -152,36 +155,84 @@ namespace MATA.Data.Repositories.Impls
             }
         }
 
+        public MailRepository MailRepository
+        {
+            get
+            {
+                if (mailRepository == null)
+                {
+                    mailRepository = new MailRepository(dbContext);
+                }
+                return mailRepository;
+            }
+        }
+
+        public StoreAccountRepository StoreAccountRepository
+        {
+            get
+            {
+                if(storeAccountRepository == null)
+                {
+                    storeAccountRepository = new StoreAccountRepository(dbContext);
+                }
+                return storeAccountRepository;
+            }
+        }
+
+        public AttachmentRepository AttachmentRepository
+        {
+            get
+            {
+                if(attachmentRepository == null)
+                {
+                    attachmentRepository = new AttachmentRepository(dbContext);
+                }
+                return attachmentRepository;
+            }
+        }
+
         public void SaveChanges(string tokenString)
         {
-            Token token = null;
-
-            if (!string.IsNullOrWhiteSpace(tokenString))
-            {
-                var tokenGuid = Guid.Parse(tokenString);
-
-                token = dbContext.Token.Single(q => q.TokenString == tokenGuid);
-            }
-
             var actionList = new List<Entities.Action>();
 
             foreach (var entry in dbContext.ChangeTracker.Entries())
             {
-                if (entry.Entity is Token)
+                var entity = entry.Entity;
+
+                if (entity is Entities.Action)
                 {
                     continue;
                 }
 
-
-                if (token != null)
+                if(entity is Token)
                 {
+                    if(entry.State == EntityState.Added)
+                    {
+                        var action = new Entities.Action
+                        {
+                            AccountID = ((Token)entry.Entity).AccountID,
+                            ActionTime = DateTime.UtcNow,
+                            ActionType = ActionTypes.LOGIN.ToString()
+                        };
+
+                        actionList.Add(action);
+                    }
+
+                    continue;
+                }
+
+                if (!string.IsNullOrWhiteSpace(tokenString))
+                {
+                    var tokenGuid = Guid.Parse(tokenString);
+
+                    var token = dbContext.Token.Single(q => q.TokenString == tokenGuid);
+
                     switch (entry.State)
                     {
                         case EntityState.Added:
                         case EntityState.Modified:
                         case EntityState.Deleted:
                             {
-                                var entity = entry.Entity;
                                 var entityType = entity.GetType();
                                 var entityName = entityType.Name.Contains('_') ? entityType.Name.Split('_')[0] : entityType.Name;
                                 var entityProps = entityType.GetProperties();
@@ -275,12 +326,12 @@ namespace MATA.Data.Repositories.Impls
             {
                 if (disposing)
                 {
-                    if(dbContextTransaction != null)
+                    if (dbContextTransaction != null)
                     {
                         dbContextTransaction.Dispose();
                     }
-                    
-                    if(dbContext != null)
+
+                    if (dbContext != null)
                     {
                         dbContext.Dispose();
                     }

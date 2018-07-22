@@ -38,5 +38,10 @@ namespace MATA.Data.DTO.Models
 
         [Display(Name = "Şehir")]
         public string CityName { get; set; }
+
+        [Display(Name = "Hesaplar")]
+        public IEnumerable<AccountDTO> Accounts { get; set; }
+
+        public IList<int> AccountIDList { get; set; }
     }
 }

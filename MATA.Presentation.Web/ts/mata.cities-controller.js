@@ -19,7 +19,7 @@ var MATA;
                 _this.focusElementSelector = '#CountryName';
                 return _this;
             }
-            CitiesController.prototype.onOpenModalShown = function () {
+            CitiesController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 $(that.createFormSelector).submit(function (e) {

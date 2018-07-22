@@ -15,7 +15,7 @@ namespace MATA.Data.DTO.Models
 
         public string EntityName { get; set; }
 
-        public int EntityID { get; set; }
+        public int? EntityID { get; set; }
 
         public ActionTypes ActionType { get; set; }
 

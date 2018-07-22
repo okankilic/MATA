@@ -1,0 +1,91 @@
+﻿@model MATA.Data.DTO.Models.AccountDTO
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.FullName</h2>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <h4>
+                        Hesap Bilgileri
+                        @if (User.IsInRole(RoleTypes.Admin))
+                        {
+                            <a href="@Url.Action("_Edit", "Accounts", new { id = Model.ID })" class="pull-right">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        }
+                    </h4>
+                    <hr />
+                    <dl class="">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FullName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RoleName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.RoleName)
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Hareketler
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_AccountActions", "Actions", new { accountID = Model.ID, page = 1 }))
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.accounts-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.mt-partial-view-container').each(function () {
+
+                let $this = $(this),
+                    url = $this.attr('data-url');
+
+                $this.load(url);
+
+            });
+
+        });
+
+    </script>
+
+}

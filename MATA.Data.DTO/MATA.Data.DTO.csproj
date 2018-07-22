@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impls\AccountDTOFactory.cs" />
+    <Compile Include="Impls\ActionDTOFactory.cs" />
+    <Compile Include="Impls\AttachmentDTOFactory.cs" />
+    <Compile Include="Impls\MailDTOFactory.cs" />
+    <Compile Include="Impls\StoreAccountDTOFactory.cs" />
     <Compile Include="Models\AccountDTO.cs" />
     <Compile Include="Impls\CityDTOFactory.cs" />
     <Compile Include="Impls\CountryDTOFactory.cs" />
@@ -76,13 +80,15 @@
     <Compile Include="Interfaces\IDeletable.cs" />
     <Compile Include="Interfaces\IDTOFactory.cs" />
     <Compile Include="Ioc\DTOUnityContainerExtension.cs" />
-    <Compile Include="MailDTO.cs" />
+    <Compile Include="Models\AttachmentDTO.cs" />
+    <Compile Include="Models\MailDTO.cs" />
     <Compile Include="Models\ActionDTO.cs" />
     <Compile Include="Models\AuditDTO.cs" />
     <Compile Include="Models\CityDTO.cs" />
     <Compile Include="Models\CountryDTO.cs" />
     <Compile Include="Models\IssueDTO.cs" />
     <Compile Include="Models\ProjectDTO.cs" />
+    <Compile Include="Models\StoreAccountDTO.cs" />
     <Compile Include="Models\StoreDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

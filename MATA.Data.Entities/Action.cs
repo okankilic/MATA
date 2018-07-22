@@ -17,7 +17,7 @@ namespace MATA.Data.Entities
         public int ID { get; set; }
         public int AccountID { get; set; }
         public string EntityName { get; set; }
-        public int EntityID { get; set; }
+        public Nullable<int> EntityID { get; set; }
         public string ActionType { get; set; }
         public System.DateTime ActionTime { get; set; }
     

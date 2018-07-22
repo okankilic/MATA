@@ -18,6 +18,7 @@ namespace MATA.Data.Entities
         public Store()
         {
             this.Issue = new HashSet<Issue>();
+            this.StoreAccount = new HashSet<StoreAccount>();
         }
     
         public int ID { get; set; }
@@ -36,5 +37,7 @@ namespace MATA.Data.Entities
         public virtual ICollection<Issue> Issue { get; set; }
         public virtual Project Project { get; set; }
         public virtual City City { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreAccount> StoreAccount { get; set; }
     }
 }

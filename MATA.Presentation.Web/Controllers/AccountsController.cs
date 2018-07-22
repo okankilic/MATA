@@ -1,4 +1,5 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Impls;
+using MATA.BL.Interfaces;
 using MATA.Data.Common.Constants;
 using MATA.Data.Common.Enums;
 using MATA.Data.DTO.Interfaces;
@@ -11,17 +12,21 @@ using MATA.Presentation.Web.Helpers;
 using MATA.Presentation.Web.Interfaces;
 using MATA.Presentation.Web.Models.Accounts;
 using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI.WebControls;
 
 namespace MATA.Presentation.Web.Controllers
 {
     public class AccountsController : CustomEntityControllerBase<AccountDTO, AccountsIndexVM>
     {
+        readonly IAccountBL accountBL;
         readonly ITokenBL tokenBL;
         readonly IMailBL mailBL;
 
@@ -29,12 +34,11 @@ namespace MATA.Presentation.Web.Controllers
             ILogger logger,
             IVMFactory<AccountDTO, AccountsIndexVM> vmFactory,
             IDTOFactory<AccountDTO> dtoFactory,
-            IAccountBL accountBL,
-            ITokenBL tokenBL,
-            IMailBL mailBL) : base(uowFactory, logger, dtoFactory, vmFactory, accountBL)
+            IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-            this.tokenBL = tokenBL;
-            this.mailBL = mailBL;
+            accountBL = blFactory.Create<IAccountBL>();
+            tokenBL = blFactory.Create<ITokenBL>();
+            mailBL = blFactory.Create<IMailBL>();
         }
 
         [AllowAnonymous]
@@ -51,10 +55,10 @@ namespace MATA.Presentation.Web.Controllers
                     RoleName = RoleTypes.Admin
                 };
 
-                var isAdminAccountExists = (entityBL as IAccountBL).IsExists(adminAccount.Email, uow);
+                var isAdminAccountExists = accountBL.IsExists(adminAccount.Email, uow);
                 if (isAdminAccountExists == false)
                 {
-                    entityBL.Create(adminAccount, null, uow);
+                    accountBL.Create(adminAccount, null, uow);
                     uow.Commit();
                 }
             }
@@ -81,9 +85,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 using (var uow = uowFactory.CreateNew())
                 {
-                    account = (entityBL as IAccountBL).GetByEmailAndPassword(model.Email, model.Password, uow);
+                    account = accountBL.GetByEmailAndPassword(model.Email, model.Password, uow);
 
-                    var tokenString = tokenBL.GetOrCreate(account.ID, uow);
+                    var tokenString = tokenBL.Create(account.ID, uow);
 
                     var ticket = AuthenticationHelper.CreateTicket(tokenString, account, model.RememberMe);
                     var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
@@ -93,9 +97,9 @@ namespace MATA.Presentation.Web.Controllers
                     uow.Commit();
                 }
             }
-            catch
+            catch(Exception e)
             {
-
+                logger.Error(e, "An error occured in AccountsController:Login");
             }
 
             if (account != null)
@@ -126,21 +130,37 @@ namespace MATA.Presentation.Web.Controllers
         }
 
         [AuthorizeUser(Roles = RoleTypes.Admin)]
-        public override ActionResult _Create()
+        public override async Task<ActionResult> _Create()
         {
-            return base._Create();
+            return await base._Create();
         }
 
         [AuthorizeUser(Roles = RoleTypes.Admin)]
         public override ActionResult Create(AccountDTO dto)
         {
-            return base.Create(dto);
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_Create", dto);
+            }
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                accountBL.Create(dto, TokenString, uow);
+                uow.Commit();
+            }
+
+            return new ContentResult
+            {
+                Content = "OK"
+            };
+
+            //return base.Create(dto);
         }
 
         [AuthorizeUser(Roles = RoleTypes.Admin)]
-        public override ActionResult _Edit(int id)
+        public override async Task<ActionResult> _Edit(int id)
         {
-            return base._Edit(id);
+            return await base._Edit(id);
         }
 
         [AuthorizeUser(Roles = RoleTypes.Admin)]
@@ -166,7 +186,7 @@ namespace MATA.Presentation.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult _ForgotPassword(AccountForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPassword(AccountForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -175,7 +195,7 @@ namespace MATA.Presentation.Web.Controllers
 
             using (var uow = uowFactory.CreateNew())
             {
-                mailBL.QueueMail(model.Email, MailTypes.FORGOT_PASSWORD, uow);
+                await mailBL.CreateForgotPasswordMail(model.Email, uow);
                 uow.Commit();
             }
 
@@ -184,5 +204,32 @@ namespace MATA.Presentation.Web.Controllers
                 Content = "OK"
             };
         }
+
+        public async Task<ActionResult> _StoreAccounts(int storeID, int page = 1)
+        {
+            AccountsIndexVM vm;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new AccountsIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = accountBL.GetStoreAccountsCount(storeID, uow),
+                    Accounts = await accountBL.GetStoreAccounts(storeID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        //[AuthorizeUser(Roles = RoleTypes.Combines.AdminStaff)]
+        //public ActionResult _CreateStoreAccount(int storeID)
+        //{
+        //    var vm = dtoFactory.CreateNew();
+
+        //    vm.s
+
+        //    return PartialView();
+        //}
     }
 }

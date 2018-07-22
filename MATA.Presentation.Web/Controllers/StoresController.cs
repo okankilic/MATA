@@ -21,22 +21,96 @@ namespace MATA.Presentation.Web.Controllers
     [AuthorizeUser(Roles = RoleTypes.Combines.AdminStaff)]
     public class StoresController : CustomEntityControllerBase<StoreDTO, StoresIndexVM>
     {
+        readonly IStoreBL storeBL;
+        readonly IAccountBL accountBL;
+        readonly IDTOFactory<StoreDTO> dtoFactory;
+
         public StoresController(IUnitOfWorkFactory uowFactory,
             ILogger logger,
             IDTOFactory<StoreDTO> dtoFactory,
             IVMFactory<StoreDTO, StoresIndexVM> vmFactory,
-            IEntityBL<StoreDTO> entityBL) : base(uowFactory, logger, dtoFactory, vmFactory, entityBL)
+            IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
+            storeBL = blFactory.CreateProxy<IStoreBL>();
+            accountBL = blFactory.CreateProxy<IAccountBL>();
 
+            this.dtoFactory = dtoFactory;
+        }
+        
+        public override async Task<ActionResult> _Create()
+        {
+            var dto = dtoFactory.CreateNew();
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                dto.Accounts = await accountBL.Search(null, 0, accountBL.Count(uow), uow);
+            }
+
+            return PartialView(dto);
         }
 
-        public async Task<ActionResult> _Index(int projectID, int page = 1)
+        public override async Task<ActionResult> _Edit(int id)
         {
-            var uow = uowFactory.CreateNew();
+            StoreDTO dto;
 
-            var model = await vmFactory.CreateNewIndexVMAsync(page, DefaultPageSize, uow);
+            using (var uow = uowFactory.CreateNew())
+            {
+                dto = storeBL.Get(id, uow);
+                dto.Accounts = await accountBL.Search(null, 0, accountBL.Count(uow), uow);
+            }
 
-            return PartialView(model);
+            return PartialView(dto);
+        }
+
+        public async Task<ActionResult> _CountryStores(int countryID, int page = 1)
+        {
+            StoresIndexVM vm;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new StoresIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = storeBL.GetCountryStoresCount(countryID, uow),
+                    Stores = await storeBL.GetCountryStores(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        public async Task<ActionResult> _CityStores(int cityID, int page = 1)
+        {
+            StoresIndexVM vm;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new StoresIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = storeBL.GetCityStoresCount(cityID, uow),
+                    Stores = await storeBL.GetCityStores(cityID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
+        }
+
+        public async Task<ActionResult> _ProjectStores(int projectID, int page = 1)
+        {
+            StoresIndexVM vm;
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                vm = new StoresIndexVM
+                {
+                    PageSize = DefaultPageSize,
+                    TotalCount = storeBL.GetProjectStoreCount(projectID, uow),
+                    Stores = await storeBL.GetProjectStores(projectID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                };
+            }
+
+            return PartialView(vm);
         }
     }
 }

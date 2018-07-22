@@ -19,7 +19,7 @@ var MATA;
                 _this.focusElementSelector = '#Description';
                 return _this;
             }
-            IssuesController.prototype.onOpenModalShown = function () {
+            IssuesController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 $(that.createFormSelector).submit(function (e) {

@@ -1,0 +1,70 @@
+﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexVM
+
+@if (Model.TotalCount == 0)
+{
+    @:Bu şehire ait şantiye bulunmamaktadır
+}
+else
+{
+    WebGrid grid = new WebGrid(
+        rowsPerPage: Model.PageSize,
+        ajaxUpdateContainerId: "store-grid",
+        ajaxUpdateCallback: "storesController.initGridEvents"
+    );
+
+    grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.PageSize);
+
+    var columnList = new List<WebGridColumn>()
+    {
+        new WebGridColumn
+        {
+            Header = "Şantiye Adı",
+            ColumnName = "StoreName",
+            CanSort = false,
+            //Style = "width: 300px"
+        },
+        new WebGridColumn
+        {
+            Header = "Proje",
+            ColumnName = "ProjectName",
+            CanSort = false,
+            //Style = "width: 300px"
+        },
+        new WebGridColumn
+        {
+            Header = "Adres",
+            ColumnName = "Address",
+            CanSort = false
+        }
+    };
+
+    if(User.IsInRole(RoleTypes.Admin))
+    {
+        this.AddAuditColumns(columnList);
+    }
+
+    if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    {
+        columnList.Add(new WebGridColumn
+        {
+            //Style = "auto-width",
+            Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+        });
+
+        columnList.Add(new WebGridColumn
+        {
+            //Style = "auto-width",
+            Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_entity_id = item.ID })
+        });
+    }
+
+    @grid.GetHtml(
+        htmlAttributes: new { id = "store-grid" },
+        tableStyle: "table table-hover",
+        columns: columnList,
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
+}
+
+<script src="~/ts/mata.stores-controller.js"></script>

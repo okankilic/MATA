@@ -31,10 +31,5 @@ namespace MATA.Data.Repositories.Impls
 
             return storeList;
         }
-
-        public IEnumerable<vStore> GetProjectStores(int projectID, int skip, int take)
-        {
-            return dbSetView.Where(q => q.ProjectID == projectID).OrderBy(q => q.ID).ThenBy(q => q.ProjectName).Skip(skip).Take(take).ToList();
-        }
     }
 }

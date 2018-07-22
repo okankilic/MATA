@@ -13,36 +13,49 @@ namespace MATA.Presentation.Web.Filters
         public void OnException(ExceptionContext filterContext)
         {
             if (filterContext.ExceptionHandled)
+            {
                 return;
+            }
 
             var ex = filterContext.Exception;
 
             if (ex.InnerException != null)
+            {
                 ex = ex.InnerException;
+            }
 
             filterContext.ExceptionHandled = true;
 
             Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
 
+            var routeValueDictionary = new RouteValueDictionary
+            {
+                { "controller", "Errors" }
+            };
+
             var exMessage = ex.Message;
 
-            if(ex is BusinessException)
+            if (ex is BusinessException)
             {
                 // do nothing
+            }
+            else if (ex is AuthorizationException)
+            {
+                exMessage = "Bu işlem için yetkiniz bulunmamaktadır";
             }
             else
             {
                 exMessage = "Beklenmeyen bir hata oluştu";
             }
 
-            var routeValueDictionary = new RouteValueDictionary();
-
-            routeValueDictionary.Add("controller", "Errors");
-
             if (filterContext.HttpContext.Request.IsAjaxRequest())
+            {
                 routeValueDictionary.Add("action", "_Partial");
+            }
             else
+            {
                 routeValueDictionary.Add("action", "Internal");
+            }
 
             routeValueDictionary.Add("errorMessage", exMessage);
 

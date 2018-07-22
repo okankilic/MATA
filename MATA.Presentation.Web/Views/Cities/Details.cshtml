@@ -1,0 +1,138 @@
+﻿@model MATA.Data.DTO.Models.CityDTO
+
+@{
+    ViewBag.Title = Model.CityName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.CityName</h2>
+
+<div class="row">
+    <div class="col-sm-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Şehir Bilgileri
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Edit", "Cities", new { id = Model.ID })" class="pull-right">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                <dl class="">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CityName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CityName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CountryName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CountryName)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+
+        @*@if (User.IsInRole(RoleTypes.Admin))
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>
+                        Düzenleme Bilgileri
+                    </h4>
+                    <hr />
+                    <dl>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedBy) / @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedBy) (@Html.DisplayFor(model => model.CreateTime))
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdatedBy) / @Html.DisplayNameFor(model => model.UpdateTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdatedBy) (@Html.DisplayFor(model => model.UpdateTime))
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        }*@
+
+    </div>
+
+    <div class="col-sm-8">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    Şantiyeler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Stores")" id="mt-link-stores-create" class="pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_CityStores", "Stores", new { cityID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    İşler
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Create", "Issues")" id="mt-link-issues-create" class="pull-right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                @Html.PartialViewContainer(Url.Action("_CityIssues", "Issues", new { cityID = Model.ID, page = 1 }))
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.cities-controller.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.mt-partial-view-container').each(function () {
+
+                var $this = $(this),
+                    url = $this.attr('data-url');
+
+                $this.load(url);
+
+            });
+
+        });
+
+    </script>
+
+}

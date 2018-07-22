@@ -19,15 +19,15 @@
 
 
         @{
-            WebGrid grid = new WebGrid(
-                rowsPerPage: Model.PageSize,
-                ajaxUpdateContainerId: "issue-grid",
-                ajaxUpdateCallback: "issuesController.initGridEvents"
-            );
+                WebGrid grid = new WebGrid(
+                    rowsPerPage: Model.PageSize,
+                    ajaxUpdateContainerId: "issue-grid",
+                    ajaxUpdateCallback: "issuesController.initGridEvents"
+                );
 
-            grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
+                grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
 
-            var columnList = new List<WebGridColumn>()
+                var columnList = new List<WebGridColumn>()
             {
                 new WebGridColumn
                 {
@@ -37,7 +37,7 @@
                 },
                 new WebGridColumn
                 {
-                    Header = "Açıklama",
+                    Header = "İş Tanımı",
                     ColumnName = "Description",
                     CanSort = false
                 },
@@ -51,26 +51,22 @@
                 new WebGridColumn
                 {
                     Header = "Proje",
-                    ColumnName = "ProjectName",
-                    CanSort = false
+                    Format = (item) => Html.ActionLink((string)item.ProjectName, "Details", "Projects", new { id = item.ProjectID }, null)
                 },
                 new WebGridColumn
                 {
                     Header = "Ülke",
-                    ColumnName = "CountryName",
-                    CanSort = false
+                    Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
                 },
                 new WebGridColumn
                 {
                     Header = "Şehir",
-                    ColumnName = "CityName",
-                    CanSort = false
+                    Format = (item) => Html.ActionLink((string)item.CityName, "Details", "Cities", new { id = item.CityID }, null)
                 },
                 new WebGridColumn
                 {
                     Header = "Şantiye",
-                    ColumnName = "StoreName",
-                    CanSort = false
+                    Format = (item) => Html.ActionLink((string)item.StoreName, "Details", "Stores", new { id = item.StoreID }, null)
                 },
                 new WebGridColumn
                 {
@@ -87,29 +83,29 @@
                 }
             };
 
-            if (User.IsInRole(RoleTypes.Admin))
-            {
-                this.AddAuditColumns(columnList);
+                if (User.IsInRole(RoleTypes.Admin))
+                {
+                    this.AddAuditColumns(columnList);
+                }
+
+                if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                {
+                    columnList.Add(new WebGridColumn
+                    {
+                        //Style = "auto-width",
+                        Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                    });
+
+                    columnList.Add(new WebGridColumn
+                    {
+                        //Style = "auto-width",
+                        Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_entity_id = item.ID })
+                    });
+                }
             }
 
-            if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
-            {
-                columnList.Add(new WebGridColumn
-                {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
-                });
-
-                columnList.Add(new WebGridColumn
-                {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-issues-edit", data_entity_id = item.ID })
-                });
-            }
-        }
-
-        @grid.GetHtml(
-            htmlAttributes: new { id = "issue-grid" },
+            @grid.GetHtml(
+                htmlAttributes: new { id = "issue-grid" },
             tableStyle: "table table-hover",
             columns: columnList,
             mode: WebGridPagerModes.Numeric,

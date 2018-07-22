@@ -17,7 +17,9 @@ namespace MATA.Presentation.Web.Helpers
             var authCookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
 
             if (authCookie == null)
+            {
                 throw new UnauthorizedAccessException();
+            }
 
             return FormsAuthentication.Decrypt(authCookie.Value);
         }

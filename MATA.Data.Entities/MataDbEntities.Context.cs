@@ -32,19 +32,23 @@ namespace MATA.Data.Entities
         public virtual DbSet<MailAccount> MailAccount { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<Store> Store { get; set; }
+        public virtual DbSet<StoreAccount> StoreAccount { get; set; }
         public virtual DbSet<Token> Token { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Action> Action { get; set; }
         public virtual DbSet<ProjectVersion> ProjectVersion { get; set; }
         public virtual DbSet<vAccount> vAccount { get; set; }
+        public virtual DbSet<vAttachment> vAttachment { get; set; }
         public virtual DbSet<vCity> vCity { get; set; }
         public virtual DbSet<vCountry> vCountry { get; set; }
         public virtual DbSet<vIssue> vIssue { get; set; }
+        public virtual DbSet<vMail> vMail { get; set; }
         public virtual DbSet<vMailAccount> vMailAccount { get; set; }
         public virtual DbSet<vMailAttachment> vMailAttachment { get; set; }
         public virtual DbSet<vProject> vProject { get; set; }
         public virtual DbSet<vStore> vStore { get; set; }
+        public virtual DbSet<vStoreAccount> vStoreAccount { get; set; }
         public virtual DbSet<vToken> vToken { get; set; }
         public virtual DbSet<vAction> vAction { get; set; }
     }

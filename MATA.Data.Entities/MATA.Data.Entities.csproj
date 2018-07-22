@@ -98,6 +98,9 @@
     <Compile Include="Store.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="StoreAccount.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Token.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
@@ -107,6 +110,9 @@
     <Compile Include="vAction.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="vAttachment.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="vCity.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
@@ -114,6 +120,9 @@
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vIssue.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vMail.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vMailAccount.cs">
@@ -126,6 +135,9 @@
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vStore.cs">
+      <DependentUpon>MataDbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vStoreAccount.cs">
       <DependentUpon>MataDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="vToken.cs">

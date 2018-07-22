@@ -11,8 +11,8 @@ namespace MATA.BL.Interfaces
 {
     public interface ICityBL: IEntityBL<CityDTO>
     {
-        Task<IEnumerable<CityDTO>> GetCities(int skip, int take, IUnitOfWork uow);
+        int GetCountryCitiesCount(int countryID, IUnitOfWork uow);
 
-        IEnumerable<CityDTO> GetCitiesByCountry(int countryID, IUnitOfWork uow);
+        Task<IEnumerable<CityDTO>> GetCountryCities(int countryID, int skip, int take, IUnitOfWork uow);
     }
 }

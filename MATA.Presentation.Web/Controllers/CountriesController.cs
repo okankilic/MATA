@@ -21,7 +21,7 @@ namespace MATA.Presentation.Web.Controllers
             ILogger logger,
             IDTOFactory<CountryDTO> dtoFactory,
             IVMFactory<CountryDTO, CountriesIndexVM> vmFactory,
-            IEntityBL<CountryDTO> entityBL): base(uowFactory, logger, dtoFactory, vmFactory, entityBL)
+            IBLFactory blFactory): base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
 
         }

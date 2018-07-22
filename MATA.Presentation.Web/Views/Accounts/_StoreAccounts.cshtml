@@ -1,0 +1,60 @@
+﻿@model MATA.Presentation.Web.Models.Accounts.AccountsIndexVM
+
+@if (Model.TotalCount == 0)
+{
+    @:Bu şantiyeye atanmış hesap bulunmamaktadır
+}
+else
+{
+    WebGrid grid = new WebGrid(
+        rowsPerPage: Model.PageSize,
+        ajaxUpdateContainerId: "account-grid",
+        ajaxUpdateCallback: "accountsController.initGridEvents"
+    );
+
+    grid.Bind(Model.Accounts, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+    @grid.GetHtml(
+        htmlAttributes: new { id = "account-grid" },
+        tableStyle: "table table-hover",
+        columns: new List<WebGridColumn>()
+        {
+            new WebGridColumn
+            {
+                Header = "Ad Soyad",
+                ColumnName = "FullName",
+                CanSort = false
+            },
+            new WebGridColumn
+            {
+                Header = "E-mail",
+                ColumnName = "Email",
+                CanSort = false
+            },
+            //new WebGridColumn
+            //{
+            //    Header = "Rol",
+            //    ColumnName = "RoleName",
+            //    CanSort = false
+            //},
+            //new WebGridColumn
+            //{
+            //    Header = "Aktif",
+            //    ColumnName = "IsActive",
+            //    CanSort = false
+            //},
+            //new WebGridColumn
+            //{
+            //    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+            //},
+            //new WebGridColumn
+            //{
+            //    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-accounts-edit", data_entity_id = item.ID })
+            //}
+        },
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
+}
+
+<script src="~/ts/mata.accounts-controller.js"></script>

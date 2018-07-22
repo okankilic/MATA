@@ -1,4 +1,5 @@
 ﻿using MATA.Data.Common.Enums;
+using MATA.Data.DTO.Models;
 using MATA.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace MATA.BL.Interfaces
 {
-    public interface IMailBL
+    public interface IMailBL: IEntityBL<MailDTO>
     {
-        Task QueueMail(string email, MailTypes mailType, IUnitOfWork uow);
+        Task CreateForgotPasswordMail(string email, IUnitOfWork uow);
     }
 }

@@ -16,11 +16,12 @@ var MATA;
             __extends(AccountsController, _super);
             function AccountsController(options) {
                 var _this = _super.call(this, options) || this;
+                _this.forgotPasswordFormSelector = '#mt-form-' + options.entityName + '-forgot-password';
                 _this.forgotPasswordLinkSelector = '#mt-link-' + options.entityName + '-forgot-password';
                 _this.forgotPasswordActionUrl = options.controllerName + '/_ForgotPassword';
                 return _this;
             }
-            AccountsController.prototype.onOpenModalShown = function () {
+            AccountsController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 $('#Password').on('change', function (e) {
@@ -110,6 +111,31 @@ var MATA;
                         data: null
                     },
                     onShown: function () {
+                        MATA.Utils.validateForm(that.forgotPasswordFormSelector);
+                        $(that.forgotPasswordFormSelector).on('submit', function (e) {
+                            e.preventDefault();
+                            var $form = $(this), isFormValid = $form.valid();
+                            if (!isFormValid) {
+                                return false;
+                            }
+                            $.ajax({
+                                method: $form.attr('method'),
+                                url: $form.attr('action'),
+                                data: $form.serialize()
+                            }).done(function (response) {
+                                if (response === "OK") {
+                                    MATA.Utils.showSuccess('Şifreniz e-mail adresinize gönderilmiştir');
+                                    MATA.Utils.closeModal(true);
+                                }
+                                else {
+                                    MATA.Utils.setModalContentHTML(response);
+                                }
+                            }).fail(function (jqXHR) {
+                                MATA.Utils.setModalContentHTML(jqXHR.responseText);
+                            });
+                            return false;
+                        });
+                        $(that.forgotPasswordFormSelector).find('#Email').focus();
                     }
                 });
             };

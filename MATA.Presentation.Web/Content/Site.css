@@ -35,4 +35,8 @@ textarea {
 
 /*.body-content {
     background-color: white;
-}*/z
+}*/
+
+.mt-partial-view-container {
+    overflow-x: auto;
+}

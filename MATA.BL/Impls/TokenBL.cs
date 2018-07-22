@@ -26,18 +26,5 @@ namespace MATA.BL.Impls
 
             return token.TokenString.ToString();
         }
-
-        public string GetOrCreate(int accountID, IUnitOfWork uow)
-        {
-            var utcNow = DateTime.UtcNow;
-
-            var token = uow.TokenRepository.Find(q => q.AccountID == accountID && q.StartTime <= utcNow && q.EndTime >= utcNow).SingleOrDefault();
-            if (token != null)
-            {
-                return token.TokenString.ToString();
-            }
-
-            return Create(accountID, uow);
-        }
     }
 }

@@ -2,6 +2,7 @@
 using MATA.Presentation.Web.Impls;
 using MATA.Presentation.Web.Interfaces;
 using MATA.Presentation.Web.Models.Accounts;
+using MATA.Presentation.Web.Models.Actions;
 using MATA.Presentation.Web.Models.Cities;
 using MATA.Presentation.Web.Models.Countries;
 using MATA.Presentation.Web.Models.Issues;
@@ -31,6 +32,7 @@ namespace MATA.Presentation.Web.Ioc
             Container.RegisterType(typeof(IVMFactory<ProjectDTO, ProjectsIndexVM>), typeof(ProjectsVMFactory));
             Container.RegisterType(typeof(IVMFactory<StoreDTO, StoresIndexVM>), typeof(StoresVMFactory));
             Container.RegisterType(typeof(IVMFactory<IssueDTO, IssuesIndexVM>), typeof(IssuesVMFactory));
+            Container.RegisterType(typeof(IVMFactory<ActionDTO, ActionsIndexVM>), typeof(ActionsVMFactory));
         }
     }
 }

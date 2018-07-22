@@ -12,6 +12,5 @@ namespace MATA.BL.Interfaces
     public interface ITokenBL
     {
         string Create(int accountID, IUnitOfWork uow);
-        string GetOrCreate(int accountID, IUnitOfWork uow);
     }
 }

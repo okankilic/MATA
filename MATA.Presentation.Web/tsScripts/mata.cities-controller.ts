@@ -4,7 +4,7 @@
 
         readonly focusElementSelector = '#CountryName';
 
-        onOpenModalShown(): void {
+        onCreateModalShown(): void {
 
             var that = this;
 

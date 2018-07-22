@@ -3,6 +3,7 @@
 	a.[UID],
 	a.FullName,
 	a.Email,
+	a.PhoneNumber,
 	a.[Password],
 	a.RoleName,
 	a.IsActive

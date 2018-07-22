@@ -2,7 +2,7 @@
 
     export class StoresController extends EntityBaseController {
         readonly focusElementSelector = '#StoreName';
-        onOpenModalShown(): void {
+        onCreateModalShown(): void {
             var that = this;
             Utils.validateForm(that.createFormSelector);
 

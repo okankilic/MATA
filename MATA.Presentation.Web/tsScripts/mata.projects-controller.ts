@@ -4,7 +4,7 @@
 
         readonly focusElementSelector = '#ProjectName';
 
-        onOpenModalShown(): void {
+        onCreateModalShown(): void {
 
             var that = this;
 

@@ -14,12 +14,6 @@ namespace MATA.Data.Entities
     
     public partial class Issue
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Issue()
-        {
-            this.Attachment = new HashSet<Attachment>();
-        }
-    
         public int ID { get; set; }
         public int StoreID { get; set; }
         public string Description { get; set; }
@@ -35,8 +29,6 @@ namespace MATA.Data.Entities
     
         public virtual Account Account { get; set; }
         public virtual Account Account1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachment> Attachment { get; set; }
         public virtual Store Store { get; set; }
     }
 }

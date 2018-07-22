@@ -13,6 +13,7 @@
           <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="10" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -23,10 +24,14 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="MailID" Type="int" />
-          <Property Name="IssueID" Type="int" />
+          <Property Name="EntityName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EntityID" Type="int" Nullable="false" />
           <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -55,7 +60,7 @@
           <Property Name="IsBodyHtml" Type="bit" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="TryCount" Type="int" Nullable="false" />
-          <Property Name="LastTryTime" Type="datetime" Nullable="false" />
+          <Property Name="LastTryTime" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="MailAccount">
           <Key>
@@ -92,6 +97,14 @@
           <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreID" Type="int" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Token">
           <Key>
             <PropertyRef Name="ID" />
@@ -123,8 +136,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountID" Type="int" Nullable="false" />
-          <Property Name="EntityName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EntityID" Type="int" Nullable="false" />
+          <Property Name="EntityName" Type="varchar" MaxLength="50" />
+          <Property Name="EntityID" Type="int" />
           <Property Name="ActionType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ActionTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -159,9 +172,40 @@ warning 6002: The table/view 'MataDB.dbo.vAccount' does not have a primary key d
           <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="10" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vAttachment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AttachmentType" />
+            <PropertyRef Name="EntityName" />
+            <PropertyRef Name="EntityID" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FilePath" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EntityName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EntityID" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CreatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vCity' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -233,6 +277,26 @@ warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key def
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vMail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vMail">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="IsBodyHtml" />
+            <PropertyRef Name="MailBody" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Subject" />
+            <PropertyRef Name="TryCount" />
+            <PropertyRef Name="LastTryTime" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsBodyHtml" Type="bit" Nullable="false" />
+          <Property Name="MailBody" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="TryCount" Type="int" Nullable="false" />
+          <Property Name="LastTryTime" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vMailAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vMailAccount">
           <Key>
@@ -255,12 +319,13 @@ warning 6002: The table/view 'MataDB.dbo.vMailAttachment' does not have a primar
         <EntityType Name="vMailAttachment">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="MailID" />
             <PropertyRef Name="AttachmentType" />
             <PropertyRef Name="FileName" />
             <PropertyRef Name="FilePath" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MailID" Type="int" />
+          <Property Name="MailID" Type="int" Nullable="false" />
           <Property Name="AttachmentType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
@@ -321,6 +386,37 @@ warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key def
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vStoreAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vStoreAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="StoreID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="AccountID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="StoreID" Type="int" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vToken' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vToken">
           <Key>
@@ -345,16 +441,14 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <PropertyRef Name="ID" />
             <PropertyRef Name="AccountID" />
             <PropertyRef Name="FullName" />
-            <PropertyRef Name="EntityName" />
-            <PropertyRef Name="EntityID" />
             <PropertyRef Name="ActionType" />
             <PropertyRef Name="ActionTime" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EntityName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EntityID" Type="int" Nullable="false" />
+          <Property Name="EntityName" Type="varchar" MaxLength="50" />
+          <Property Name="EntityID" Type="int" />
           <Property Name="ActionType" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ActionTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -370,27 +464,27 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Attachment_Issue">
-          <End Role="Issue" Type="Self.Issue" Multiplicity="0..1" />
+        <Association Name="FK_Attachment_CreatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Issue">
+            <Principal Role="Account">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Attachment">
-              <PropertyRef Name="IssueID" />
+              <PropertyRef Name="CreatedByAccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Attachment_Mail">
-          <End Role="Mail" Type="Self.Mail" Multiplicity="0..1" />
+        <Association Name="FK_Attachment_UpdatedByAccount">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Mail">
+            <Principal Role="Account">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Attachment">
-              <PropertyRef Name="MailID" />
+              <PropertyRef Name="UpdatedByAccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -562,6 +656,30 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreAccount_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="StoreAccount" Type="Self.StoreAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StoreAccount">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAccount_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreAccount" Type="Self.StoreAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StoreAccount">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Token_Account">
           <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="Token" Type="Self.Token" Multiplicity="*" />
@@ -582,6 +700,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="MailAccount" EntityType="Self.MailAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreAccount" EntityType="Self.StoreAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
@@ -601,10 +720,27 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
     [vAccount].[UID] AS [UID], 
     [vAccount].[FullName] AS [FullName], 
     [vAccount].[Email] AS [Email], 
+    [vAccount].[PhoneNumber] AS [PhoneNumber], 
     [vAccount].[Password] AS [Password], 
     [vAccount].[RoleName] AS [RoleName], 
     [vAccount].[IsActive] AS [IsActive]
     FROM [dbo].[vAccount] AS [vAccount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vAttachment" EntityType="Self.vAttachment" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAttachment].[ID] AS [ID], 
+    [vAttachment].[AttachmentType] AS [AttachmentType], 
+    [vAttachment].[EntityName] AS [EntityName], 
+    [vAttachment].[EntityID] AS [EntityID], 
+    [vAttachment].[FileName] AS [FileName], 
+    [vAttachment].[FilePath] AS [FilePath], 
+    [vAttachment].[CreatedByAccountID] AS [CreatedByAccountID], 
+    [vAttachment].[CreatedBy] AS [CreatedBy], 
+    [vAttachment].[CreateTime] AS [CreateTime], 
+    [vAttachment].[UpdatedByAccountID] AS [UpdatedByAccountID], 
+    [vAttachment].[UpdatedBy] AS [UpdatedBy], 
+    [vAttachment].[UpdateTime] AS [UpdateTime]
+    FROM [dbo].[vAttachment] AS [vAttachment]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vCity" EntityType="Self.vCity" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -644,6 +780,17 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
     [vIssue].[UpdatedBy] AS [UpdatedBy], 
     [vIssue].[UpdateTime] AS [UpdateTime]
     FROM [dbo].[vIssue] AS [vIssue]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vMail" EntityType="Self.vMail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vMail].[ID] AS [ID], 
+    [vMail].[IsBodyHtml] AS [IsBodyHtml], 
+    [vMail].[MailBody] AS [MailBody], 
+    [vMail].[State] AS [State], 
+    [vMail].[Subject] AS [Subject], 
+    [vMail].[TryCount] AS [TryCount], 
+    [vMail].[LastTryTime] AS [LastTryTime]
+    FROM [dbo].[vMail] AS [vMail]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vMailAccount" EntityType="Self.vMailAccount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -696,6 +843,23 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
     [vStore].[UpdateTime] AS [UpdateTime]
     FROM [dbo].[vStore] AS [vStore]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vStoreAccount" EntityType="Self.vStoreAccount" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vStoreAccount].[ID] AS [ID], 
+    [vStoreAccount].[StoreID] AS [StoreID], 
+    [vStoreAccount].[StoreName] AS [StoreName], 
+    [vStoreAccount].[ProjectID] AS [ProjectID], 
+    [vStoreAccount].[ProjectName] AS [ProjectName], 
+    [vStoreAccount].[CountryID] AS [CountryID], 
+    [vStoreAccount].[CountryName] AS [CountryName], 
+    [vStoreAccount].[CityID] AS [CityID], 
+    [vStoreAccount].[CityName] AS [CityName], 
+    [vStoreAccount].[AccountID] AS [AccountID], 
+    [vStoreAccount].[FullName] AS [FullName], 
+    [vStoreAccount].[Email] AS [Email], 
+    [vStoreAccount].[PhoneNumber] AS [PhoneNumber]
+    FROM [dbo].[vStoreAccount] AS [vStoreAccount]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vToken" EntityType="Self.vToken" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vToken].[ID] AS [ID], 
@@ -721,12 +885,12 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="Account" EntitySet="Account" />
             <End Role="Action" EntitySet="Action" />
           </AssociationSet>
-          <AssociationSet Name="FK_Attachment_Issue" Association="Self.FK_Attachment_Issue">
-            <End Role="Issue" EntitySet="Issue" />
+          <AssociationSet Name="FK_Attachment_CreatedByAccount" Association="Self.FK_Attachment_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
             <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
-          <AssociationSet Name="FK_Attachment_Mail" Association="Self.FK_Attachment_Mail">
-            <End Role="Mail" EntitySet="Mail" />
+          <AssociationSet Name="FK_Attachment_UpdatedByAccount" Association="Self.FK_Attachment_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
             <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="Self.FK_City_Country">
@@ -785,6 +949,14 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="Account" EntitySet="Account" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreAccount_Account" Association="Self.FK_StoreAccount_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="StoreAccount" EntitySet="StoreAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAccount_Store" Association="Self.FK_StoreAccount_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreAccount" EntitySet="StoreAccount" />
+          </AssociationSet>
           <AssociationSet Name="FK_Token_Account" Association="Self.FK_Token_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="Token" EntitySet="Token" />
@@ -802,24 +974,36 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="MailAccount" EntityType="MataDBModel.MailAccount" />
           <EntitySet Name="Project" EntityType="MataDBModel.Project" />
           <EntitySet Name="Store" EntityType="MataDBModel.Store" />
+          <EntitySet Name="StoreAccount" EntityType="MataDBModel.StoreAccount" />
           <EntitySet Name="Token" EntityType="MataDBModel.Token" />
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
           <EntitySet Name="Action" EntityType="MataDBModel.Action" />
           <EntitySet Name="ProjectVersion" EntityType="MataDBModel.ProjectVersion" />
           <EntitySet Name="vAccount" EntityType="MataDBModel.vAccount" />
+          <EntitySet Name="vAttachment" EntityType="MataDBModel.vAttachment" />
           <EntitySet Name="vCity" EntityType="MataDBModel.vCity" />
           <EntitySet Name="vCountry" EntityType="MataDBModel.vCountry" />
           <EntitySet Name="vIssue" EntityType="MataDBModel.vIssue" />
+          <EntitySet Name="vMail" EntityType="MataDBModel.vMail" />
           <EntitySet Name="vMailAccount" EntityType="MataDBModel.vMailAccount" />
           <EntitySet Name="vMailAttachment" EntityType="MataDBModel.vMailAttachment" />
           <EntitySet Name="vProject" EntityType="MataDBModel.vProject" />
           <EntitySet Name="vStore" EntityType="MataDBModel.vStore" />
+          <EntitySet Name="vStoreAccount" EntityType="MataDBModel.vStoreAccount" />
           <EntitySet Name="vToken" EntityType="MataDBModel.vToken" />
           <EntitySet Name="vAction" EntityType="MataDBModel.vAction" />
           <AssociationSet Name="FK_Action_Account" Association="MataDBModel.FK_Action_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attachment_CreatedByAccount" Association="MataDBModel.FK_Attachment_CreatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attachment_UpdatedByAccount" Association="MataDBModel.FK_Attachment_UpdatedByAccount">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
           <AssociationSet Name="FK_Issue_CreatedByAccount" Association="MataDBModel.FK_Issue_CreatedByAccount">
             <End Role="Account" EntitySet="Account" />
@@ -849,17 +1033,13 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="Account" EntitySet="Account" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreAccount_Account" Association="MataDBModel.FK_StoreAccount_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="StoreAccount" EntitySet="StoreAccount" />
+          </AssociationSet>
           <AssociationSet Name="FK_Token_Account" Association="MataDBModel.FK_Token_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="Token" EntitySet="Token" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Attachment_Issue" Association="MataDBModel.FK_Attachment_Issue">
-            <End Role="Issue" EntitySet="Issue" />
-            <End Role="Attachment" EntitySet="Attachment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Attachment_Mail" Association="MataDBModel.FK_Attachment_Mail">
-            <End Role="Mail" EntitySet="Mail" />
-            <End Role="Attachment" EntitySet="Attachment" />
           </AssociationSet>
           <AssociationSet Name="FK_Issue_Store" Association="MataDBModel.FK_Issue_Store">
             <End Role="Store" EntitySet="Store" />
@@ -881,6 +1061,10 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="City" EntitySet="City" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreAccount_Store" Association="MataDBModel.FK_StoreAccount_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreAccount" EntitySet="StoreAccount" />
+          </AssociationSet>
           <AssociationSet Name="FK_City_Country" Association="MataDBModel.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="City" EntitySet="City" />
@@ -898,10 +1082,13 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UID" Type="Guid" Nullable="false" />
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Action" Relationship="MataDBModel.FK_Action_Account" FromRole="Account" ToRole="Action" />
+          <NavigationProperty Name="Attachment" Relationship="MataDBModel.FK_Attachment_CreatedByAccount" FromRole="Account" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment1" Relationship="MataDBModel.FK_Attachment_UpdatedByAccount" FromRole="Account" ToRole="Attachment" />
           <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Issue_CreatedByAccount" FromRole="Account" ToRole="Issue" />
           <NavigationProperty Name="Issue1" Relationship="MataDBModel.FK_Issue_UpdatedByAccount" FromRole="Account" ToRole="Issue" />
           <NavigationProperty Name="MailAccount" Relationship="MataDBModel.FK_MailAccount_Account" FromRole="Account" ToRole="MailAccount" />
@@ -909,6 +1096,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <NavigationProperty Name="Project1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Account" ToRole="Project" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_CreatedByAccount" FromRole="Account" ToRole="Store" />
           <NavigationProperty Name="Store1" Relationship="MataDBModel.FK_Store_UpdatedByAccount" FromRole="Account" ToRole="Store" />
+          <NavigationProperty Name="StoreAccount" Relationship="MataDBModel.FK_StoreAccount_Account" FromRole="Account" ToRole="StoreAccount" />
           <NavigationProperty Name="Token" Relationship="MataDBModel.FK_Token_Account" FromRole="Account" ToRole="Token" />
         </EntityType>
         <EntityType Name="Attachment">
@@ -917,12 +1105,16 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="MailID" Type="Int32" />
-          <Property Name="IssueID" Type="Int32" />
+          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EntityID" Type="Int32" Nullable="false" />
           <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Attachment_Issue" FromRole="Attachment" ToRole="Issue" />
-          <NavigationProperty Name="Mail" Relationship="MataDBModel.FK_Attachment_Mail" FromRole="Attachment" ToRole="Mail" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Attachment_CreatedByAccount" FromRole="Attachment" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Attachment_UpdatedByAccount" FromRole="Attachment" ToRole="Account" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -942,7 +1134,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Issue_CreatedByAccount" FromRole="Issue" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Issue_UpdatedByAccount" FromRole="Issue" ToRole="Account" />
-          <NavigationProperty Name="Attachment" Relationship="MataDBModel.FK_Attachment_Issue" FromRole="Issue" ToRole="Attachment" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Issue_Store" FromRole="Issue" ToRole="Store" />
         </EntityType>
         <EntityType Name="Mail">
@@ -955,8 +1146,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="IsBodyHtml" Type="Boolean" Nullable="false" />
           <Property Name="State" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TryCount" Type="Int32" Nullable="false" />
-          <Property Name="LastTryTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Attachment" Relationship="MataDBModel.FK_Attachment_Mail" FromRole="Mail" ToRole="Attachment" />
+          <Property Name="LastTryTime" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="MailAccount" Relationship="MataDBModel.FK_MailAccount_Mail" FromRole="Mail" ToRole="MailAccount" />
         </EntityType>
         <EntityType Name="MailAccount">
@@ -1004,6 +1194,17 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <NavigationProperty Name="Issue" Relationship="MataDBModel.FK_Issue_Store" FromRole="Store" ToRole="Issue" />
           <NavigationProperty Name="Project" Relationship="MataDBModel.FK_Store_Project" FromRole="Store" ToRole="Project" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_Store_City" FromRole="Store" ToRole="City" />
+          <NavigationProperty Name="StoreAccount" Relationship="MataDBModel.FK_StoreAccount_Store" FromRole="Store" ToRole="StoreAccount" />
+        </EntityType>
+        <EntityType Name="StoreAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreID" Type="Int32" Nullable="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="MataDBModel.FK_StoreAccount_Account" FromRole="StoreAccount" ToRole="Account" />
+          <NavigationProperty Name="Store" Relationship="MataDBModel.FK_StoreAccount_Store" FromRole="StoreAccount" ToRole="Store" />
         </EntityType>
         <EntityType Name="Token">
           <Key>
@@ -1041,8 +1242,8 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
-          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EntityID" Type="Int32" Nullable="false" />
+          <Property Name="EntityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EntityID" Type="Int32" />
           <Property Name="ActionType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Action_Account" FromRole="Action" ToRole="Account" />
@@ -1076,9 +1277,38 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UID" Type="Guid" Nullable="false" />
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vAttachment">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AttachmentType" />
+            <PropertyRef Name="EntityName" />
+            <PropertyRef Name="EntityID" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FilePath" />
+            <PropertyRef Name="CreatedByAccountID" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreateTime" />
+            <PropertyRef Name="UpdatedByAccountID" />
+            <PropertyRef Name="UpdatedBy" />
+            <PropertyRef Name="UpdateTime" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EntityID" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="vCity">
           <Key>
@@ -1143,6 +1373,24 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="vMail">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="IsBodyHtml" />
+            <PropertyRef Name="MailBody" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Subject" />
+            <PropertyRef Name="TryCount" />
+            <PropertyRef Name="LastTryTime" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsBodyHtml" Type="Boolean" Nullable="false" />
+          <Property Name="MailBody" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TryCount" Type="Int32" Nullable="false" />
+          <Property Name="LastTryTime" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
         <EntityType Name="vMailAccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -1162,12 +1410,13 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
         <EntityType Name="vMailAttachment">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="MailID" />
             <PropertyRef Name="AttachmentType" />
             <PropertyRef Name="FileName" />
             <PropertyRef Name="FilePath" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MailID" Type="Int32" />
+          <Property Name="MailID" Type="Int32" Nullable="false" />
           <Property Name="AttachmentType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="FilePath" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -1223,6 +1472,35 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="vStoreAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="StoreID" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="ProjectID" />
+            <PropertyRef Name="ProjectName" />
+            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="CountryName" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="CityName" />
+            <PropertyRef Name="AccountID" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="StoreID" Type="Int32" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="vToken">
           <Key>
             <PropertyRef Name="ID" />
@@ -1244,16 +1522,14 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <PropertyRef Name="ID" />
             <PropertyRef Name="AccountID" />
             <PropertyRef Name="FullName" />
-            <PropertyRef Name="EntityName" />
-            <PropertyRef Name="EntityID" />
             <PropertyRef Name="ActionType" />
             <PropertyRef Name="ActionTime" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EntityID" Type="Int32" Nullable="false" />
+          <Property Name="EntityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EntityID" Type="Int32" />
           <Property Name="ActionType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
@@ -1266,6 +1542,30 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Principal>
             <Dependent Role="Action">
               <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attachment_CreatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="CreatedByAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attachment_UpdatedByAccount">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="UpdatedByAccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1353,6 +1653,18 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreAccount_Account">
+          <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="MataDBModel.StoreAccount" Role="StoreAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StoreAccount">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Token_Account">
           <End Type="MataDBModel.Account" Role="Account" Multiplicity="1" />
           <End Type="MataDBModel.Token" Role="Token" Multiplicity="*" />
@@ -1362,30 +1674,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Principal>
             <Dependent Role="Token">
               <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Attachment_Issue">
-          <End Type="MataDBModel.Issue" Role="Issue" Multiplicity="0..1" />
-          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Issue">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Attachment">
-              <PropertyRef Name="IssueID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Attachment_Mail">
-          <End Type="MataDBModel.Mail" Role="Mail" Multiplicity="0..1" />
-          <End Type="MataDBModel.Attachment" Role="Attachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Mail">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Attachment">
-              <PropertyRef Name="MailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1449,6 +1737,18 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreAccount_Store">
+          <End Type="MataDBModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="MataDBModel.StoreAccount" Role="StoreAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StoreAccount">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_City_Country">
           <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
           <End Type="MataDBModel.City" Role="City" Multiplicity="*" />
@@ -1485,6 +1785,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UID" ColumnName="UID" />
@@ -1495,10 +1796,14 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySetMapping Name="Attachment">
             <EntityTypeMapping TypeName="MataDBModel.Attachment">
               <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
-                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
-                <ScalarProperty Name="MailID" ColumnName="MailID" />
+                <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+                <ScalarProperty Name="EntityName" ColumnName="EntityName" />
                 <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -1573,6 +1878,15 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="StoreAccount">
+            <EntityTypeMapping TypeName="MataDBModel.StoreAccount">
+              <MappingFragment StoreEntitySet="StoreAccount">
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Token">
             <EntityTypeMapping TypeName="MataDBModel.Token">
               <MappingFragment StoreEntitySet="Token">
@@ -1630,9 +1944,28 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAttachment">
+            <EntityTypeMapping TypeName="MataDBModel.vAttachment">
+              <MappingFragment StoreEntitySet="vAttachment">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByAccountID" ColumnName="UpdatedByAccountID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+                <ScalarProperty Name="EntityName" ColumnName="EntityName" />
+                <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1678,6 +2011,19 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IssueState" ColumnName="IssueState" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vMail">
+            <EntityTypeMapping TypeName="MataDBModel.vMail">
+              <MappingFragment StoreEntitySet="vMail">
+                <ScalarProperty Name="LastTryTime" ColumnName="LastTryTime" />
+                <ScalarProperty Name="TryCount" ColumnName="TryCount" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="MailBody" ColumnName="MailBody" />
+                <ScalarProperty Name="IsBodyHtml" ColumnName="IsBodyHtml" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1737,6 +2083,25 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="CityName" ColumnName="CityName" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vStoreAccount">
+            <EntityTypeMapping TypeName="MataDBModel.vStoreAccount">
+              <MappingFragment StoreEntitySet="vStoreAccount">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -16,12 +16,16 @@ namespace MATA.Data.Entities
     {
         public int ID { get; set; }
         public string AttachmentType { get; set; }
-        public Nullable<int> MailID { get; set; }
-        public Nullable<int> IssueID { get; set; }
+        public string EntityName { get; set; }
+        public int EntityID { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }
+        public int CreatedByAccountID { get; set; }
+        public System.DateTime CreateTime { get; set; }
+        public int UpdatedByAccountID { get; set; }
+        public System.DateTime UpdateTime { get; set; }
     
-        public virtual Issue Issue { get; set; }
-        public virtual Mail Mail { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual Account Account1 { get; set; }
     }
 }

@@ -5,7 +5,7 @@
     [IsBodyHtml]  BIT            NOT NULL,
     [State]       VARCHAR (20)   NOT NULL,
     [TryCount]    INT            CONSTRAINT [DF_Mail_TryCount] DEFAULT ((0)) NOT NULL,
-    [LastTryTime] DATETIME       CONSTRAINT [DF_Mail_LastTryTime] DEFAULT (sysdatetime()) NOT NULL,
+    [LastTryTime] DATETIME2      CONSTRAINT [DF_Mail_LastTryTime] DEFAULT (sysdatetime()) NOT NULL,
     CONSTRAINT [PK_Mail] PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 

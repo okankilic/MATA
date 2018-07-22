@@ -19,7 +19,7 @@ var MATA;
                 _this.focusElementSelector = '#ProjectName';
                 return _this;
             }
-            ProjectsController.prototype.onOpenModalShown = function () {
+            ProjectsController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
                 $(that.createFormSelector).submit(function (e) {

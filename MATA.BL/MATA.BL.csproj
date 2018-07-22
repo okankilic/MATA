@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,9 +73,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impls\AccountBL.cs" />
+    <Compile Include="Impls\AttachmentBL.cs" />
+    <Compile Include="Impls\BLFactory.cs" />
+    <Compile Include="Impls\BLProxy.cs" />
     <Compile Include="Impls\CityBL.cs" />
     <Compile Include="Impls\CountryBL.cs" />
     <Compile Include="Impls\ActionBL.cs" />
+    <Compile Include="Impls\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Impls\CustomCacheAttribute.cs" />
+    <Compile Include="Interfaces\IAttachmentBL.cs" />
+    <Compile Include="Interfaces\IBLFactory.cs" />
     <Compile Include="Interfaces\IAccountBL.cs" />
     <Compile Include="Interfaces\IMailBL.cs" />
     <Compile Include="Interfaces\ISearchable.cs" />
@@ -93,10 +101,12 @@
     <Compile Include="Impls\MailBL.cs" />
     <Compile Include="Mappers\AccountMapper.cs" />
     <Compile Include="Mappers\ActionMapper.cs" />
+    <Compile Include="Mappers\AttachmentMapper.cs" />
     <Compile Include="Mappers\CityMapper.cs" />
     <Compile Include="Mappers\CountryMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Mappers\IssueMapper.cs" />
+    <Compile Include="Mappers\MailMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
     <Compile Include="Mappers\StoreMapper.cs" />
     <Compile Include="Impls\ProjectBL.cs" />

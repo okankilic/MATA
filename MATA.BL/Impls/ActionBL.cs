@@ -23,7 +23,7 @@ namespace MATA.BL.Impls
 
         public int Count(IUnitOfWork uow)
         {
-            throw new NotImplementedException();
+            return uow.ActionRepository.GetCount();
         }
 
         public int Create(ActionDTO dto, string tokenString, IUnitOfWork uow)
@@ -55,9 +55,23 @@ namespace MATA.BL.Impls
                 items = items.Where(c => c.FullName.Contains(q));
             }
 
-            var itemList = await items.OrderBy(c => c.FullName).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
+            var itemList = await items.OrderByDescending(c => c.ActionTime).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
 
             return itemList.Select(c => mapper.MapToDTO(c));
+        }
+
+        public int GetAccountActionsCount(int accountID, IUnitOfWork uow)
+        {
+            return uow.ActionRepository.GetCount(q => q.AccountID == accountID);
+        }
+
+        public async Task<IEnumerable<ActionDTO>> GetAccountActions(int accountID, int skip, int take, IUnitOfWork uow)
+        {
+            var items = uow.ActionRepository.Find(q => q.AccountID == accountID);
+
+            var itemList = await items.OrderByDescending(c => c.ActionTime).ThenBy(q => q.ID).Skip(skip).Take(take).ToListAsync();
+
+            return itemList.Select(q => mapper.MapToDTO(q));
         }
     }
 }

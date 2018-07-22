@@ -21,6 +21,10 @@ namespace MATA.Data.DTO.Ioc
             Container.RegisterType(typeof(IDTOFactory<ProjectDTO>), typeof(ProjectDTOFactory));
             Container.RegisterType(typeof(IDTOFactory<StoreDTO>), typeof(StoreDTOFactory));
             Container.RegisterType(typeof(IDTOFactory<IssueDTO>), typeof(IssueDTOFactory));
+            Container.RegisterType(typeof(IDTOFactory<MailDTO>), typeof(MailDTOFactory));
+            Container.RegisterType(typeof(IDTOFactory<ActionDTO>), typeof(ActionDTOFactory));
+            Container.RegisterType(typeof(IDTOFactory<StoreAccountDTO>), typeof(StoreAccountDTOFactory));
+            Container.RegisterType(typeof(IDTOFactory<AttachmentDTO>), typeof(AttachmentDTOFactory));
         }
     }
 }

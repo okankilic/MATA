@@ -48,7 +48,9 @@ namespace MATA.Presentation.Web.Filters
         public void OnAuthentication(AuthenticationContext filterContext)
         {
             if (IsAnonymousAction(filterContext.ActionDescriptor) == true)
+            {
                 return;
+            }
 
             accountBL = CurrentDependencyResolver.GetService<IAccountBL>();
             uowFactory = CurrentDependencyResolver.GetService<IUnitOfWorkFactory>();
@@ -90,23 +92,24 @@ namespace MATA.Presentation.Web.Filters
                 return;
             }
 
-            ticket = AuthenticationHelper.CreateTicket(userData.TokenString, account, ticket?.IsPersistent ?? true);
+            ticket = AuthenticationHelper.CreateTicket(userData.TokenString, account, ticket.IsPersistent);
 
             var identity = new FormsIdentity(ticket);
 
             filterContext.Principal = new GenericPrincipal(identity, new string[] { account.RoleName });
-
-            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("tr");
-            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("tr");
         }
 
         public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)
         {
             if (IsAnonymousAction(filterContext.ActionDescriptor) == true)
+            {
                 return;
+            }
 
             if (filterContext.Result == null || filterContext.Result is HttpUnauthorizedResult)
+            {
                 filterContext.Result = new RedirectResult(FormsAuthentication.LoginUrl + "?returnUrl=" + filterContext.HttpContext.Request.Path);
+            }
         }
 
         private bool IsAnonymousAction(ActionDescriptor actionDescriptor)

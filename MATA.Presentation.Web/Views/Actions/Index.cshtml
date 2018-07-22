@@ -1,0 +1,64 @@
+﻿@model MATA.Presentation.Web.Models.Actions.ActionsIndexVM
+
+@{
+    ViewBag.Title = "Hareketler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Hareketler
+</h2>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        @{
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "action-grid"
+            );
+
+            grid.Bind(Model.Actions, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+            var columnList = new List<WebGridColumn>()
+            {
+                new WebGridColumn
+                {
+                    Header = "Ad Soyad",
+                    ColumnName = "FullName",
+                    CanSort = true
+                },
+                new WebGridColumn
+                {
+                    Header = "",
+                    ColumnName = "ActionType"
+                },
+                new WebGridColumn
+                {
+                    Header = "",
+                    ColumnName = "EntityName"
+                },
+                new WebGridColumn
+                {
+                    Header = "",
+                    ColumnName = "EntityID"
+                },
+                new WebGridColumn
+                {
+                    Header = "",
+                    ColumnName = "ActionTime"
+                }
+            };
+
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "action-grid" },
+            tableStyle: "table table-hover",
+            columns: columnList,
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+
+    </div>
+</div>
