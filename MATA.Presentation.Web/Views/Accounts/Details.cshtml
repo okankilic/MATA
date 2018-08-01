@@ -73,18 +73,9 @@
 
     <script type="text/javascript">
 
-        $(function () {
-
-            $('.mt-partial-view-container').each(function () {
-
-                let $this = $(this),
-                    url = $this.attr('data-url');
-
-                $this.load(url);
-
-            });
-
-        });
+        window.onload = function () {
+            MATA.Utils.initPartialViewContainers();
+        }
 
     </script>
 

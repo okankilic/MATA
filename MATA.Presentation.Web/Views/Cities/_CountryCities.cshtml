@@ -1,5 +1,16 @@
 ﻿@model MATA.Presentation.Web.Models.Cities.CitiesIndexVM
 
+<h4>
+    Şehirler (@Model.TotalCount)
+    @if (User.IsInRole(RoleTypes.Admin))
+    {
+        <a href="@Url.Action("_Create", "Cities", new { countryID = ViewBag.CountryID })" id="mt-link-stores-create" class="pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    }
+</h4>
+<hr />
+
 @if (Model.TotalCount == 0)
 {
     @:Bu ülkeye ait şehir bulunmamaktadır
@@ -15,14 +26,14 @@ else
     grid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
-    {
-        new WebGridColumn
-        {
-            Header = "Şehir Adı",
-            ColumnName = "CityName",
-            CanSort = false
-        }
-    };
+{
+new WebGridColumn
+{
+Header = "Şehir Adı",
+ColumnName = "CityName",
+CanSort = false
+}
+};
 
     if (User.IsInRole(RoleTypes.Admin))
     {

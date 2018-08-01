@@ -111,6 +111,8 @@ namespace MATA.Presentation.Web.Controllers
         {
             AttachmentsIndexVM vm;
 
+            ViewBag.ProjectID = projectID;
+
             using (var uow = uowFactory.CreateNew())
             {
                 vm = new AttachmentsIndexVM
@@ -127,6 +129,8 @@ namespace MATA.Presentation.Web.Controllers
         public async Task<ActionResult> _StoreAttachments(int storeID, int page = 1)
         {
             AttachmentsIndexVM vm;
+
+            ViewBag.StoreID = storeID;
 
             using (var uow = uowFactory.CreateNew())
             {

@@ -1,4 +1,4 @@
-﻿module MATA {
+﻿namespace MATA {
 
     export abstract class EntityBaseController {
 

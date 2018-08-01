@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Hesaplar</h2>
+<h2>Hesaplar (@Model.TotalCount)</h2>
 
 <p class="text-right">
     @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-accounts-create", @class = "btn btn-default" })

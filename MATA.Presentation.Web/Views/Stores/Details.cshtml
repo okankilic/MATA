@@ -102,47 +102,11 @@
 
     <div class="col-sm-8">
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h4>
-                    İşler
-                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
-                    {
-                        <a href="@Url.Action("_Create", "Issues", new { projectID = Model.ID })" id="mt-link-issues-create" class="pull-right">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </a>
-                    }
-                </h4>
-                <hr />
-                @Html.PartialViewContainer(Url.Action("_StoreIssues", "Issues", new { storeID = Model.ID, page = 1 }))
-            </div>
-        </div>
+        @Html.PartialViewContainer(Url.Action("_StoreIssues", "Issues", new { storeID = Model.ID, page = 1 }))
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h4>
-                    Hesaplar
-                </h4>
-                <hr />
-                @Html.PartialViewContainer(Url.Action("_StoreAccounts", "Accounts", new { storeID = Model.ID, page = 1 }))
-            </div>
-        </div>
+        @Html.PartialViewContainer(Url.Action("_StoreAccounts", "Accounts", new { storeID = Model.ID, page = 1 }))
 
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h4>
-                    Dosyalar
-                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
-                    {
-                        <a href="@Url.Action("_Create", "Attachments", new { entityName = "Store", entityID = Model.ID })" id="mt-link-attachments-create" class="pull-right">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </a>
-                    }
-                </h4>
-                <hr />
-                @Html.PartialViewContainer(Url.Action("_StoreAttachments", "Attachments", new { storeID = Model.ID, page = 1 }))
-            </div>
-        </div>
+        @Html.PartialViewContainer(Url.Action("_StoreAttachments", "Attachments", new { storeID = Model.ID, page = 1 }))
 
     </div>
 
@@ -156,18 +120,9 @@
 
     <script type="text/javascript">
 
-        $(function () {
-
-            $('.mt-partial-view-container').each(function () {
-
-                var $this = $(this),
-                    url = $this.attr('data-url');
-
-                $this.load(url);
-
-            });
-
-        });
+        window.onload = function () {
+            MATA.Utils.initPartialViewContainers();
+        }
 
     </script>
 

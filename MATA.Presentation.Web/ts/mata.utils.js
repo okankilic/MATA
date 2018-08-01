@@ -4,6 +4,7 @@ var MATA;
     (function (Utils) {
         Utils.APP_BASE_URL = '';
         var _genericModalSelector = "#mata-generic-modal";
+        var PARTIAL_VIEW_CONTAINER_CLASS_NAME = 'mt-partial-view-container';
         function generateGuid() {
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -125,6 +126,13 @@ var MATA;
             });
         }
         Utils.initSelects = initSelects;
+        function initPartialViewContainers() {
+            $('.' + PARTIAL_VIEW_CONTAINER_CLASS_NAME).each(function () {
+                var $this = $(this), url = $this.attr('data-url');
+                $this.load(url);
+            });
+        }
+        Utils.initPartialViewContainers = initPartialViewContainers;
     })(Utils = MATA.Utils || (MATA.Utils = {}));
 })(MATA || (MATA = {}));
 //# sourceMappingURL=mata.utils.js.map

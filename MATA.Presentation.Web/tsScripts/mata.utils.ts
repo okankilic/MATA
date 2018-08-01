@@ -4,6 +4,8 @@
 
     const _genericModalSelector = "#mata-generic-modal";
 
+    const PARTIAL_VIEW_CONTAINER_CLASS_NAME = 'mt-partial-view-container';
+
     export function generateGuid() {
 
         function s4() {
@@ -154,6 +156,19 @@
             var s = new Select.AjaxSelect({
                 el: <HTMLInputElement>_el
             });
+
+        });
+
+    }
+
+    export function initPartialViewContainers() {
+
+        $('.' + PARTIAL_VIEW_CONTAINER_CLASS_NAME).each(function () {
+
+            var $this = $(this),
+                url = $this.attr('data-url');
+
+            $this.load(url);
 
         });
 

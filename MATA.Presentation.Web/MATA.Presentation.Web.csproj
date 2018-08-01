@@ -340,6 +340,8 @@
     <Content Include="Views\Cities\Details.cshtml" />
     <Content Include="Views\Attachments\_StoreAttachments.cshtml" />
     <Content Include="Views\Attachments\_Create.cshtml" />
+    <Content Include="Views\Attachments\_ProjectAttachments.cshtml" />
+    <Content Include="Views\Attachments\_IssueAttachments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

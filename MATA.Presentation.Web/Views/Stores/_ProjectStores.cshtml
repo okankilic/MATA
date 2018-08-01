@@ -1,5 +1,16 @@
 ﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexVM
 
+<h4>
+    Şantiyeler (@Model.TotalCount)
+    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    {
+        <a href="@Url.Action("_Create", "Stores", new { projectID = ViewBag.ProjectID })" id="mt-link-stores-create" class="pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    }
+</h4>
+<hr />
+
 @if (Model.TotalCount == 0)
 {
     @:Bu projeye ait şantiye bulunmamaktadır
@@ -15,21 +26,21 @@ else
     grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.PageSize);
 
     var columnList = new List<WebGridColumn>()
-    {
-        new WebGridColumn
-        {
-            Header = "Şantiye Adı",
-            ColumnName = "StoreName",
-            CanSort = false,
-            //Style = "width: 300px"
-        },
-        new WebGridColumn
-        {
-            Header = "Adres",
-            ColumnName = "Address",
-            CanSort = false
-        }
-    };
+{
+new WebGridColumn
+{
+Header = "Şantiye Adı",
+ColumnName = "StoreName",
+CanSort = false,
+//Style = "width: 300px"
+},
+new WebGridColumn
+{
+Header = "Adres",
+ColumnName = "Address",
+CanSort = false
+}
+};
 
     if (User.IsInRole(RoleTypes.Admin))
     {

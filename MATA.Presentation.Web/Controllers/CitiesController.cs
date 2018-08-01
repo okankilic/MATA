@@ -46,6 +46,8 @@ namespace MATA.Presentation.Web.Controllers
         {
             CitiesIndexVM vm;
 
+            ViewBag.CountryID = countryID;
+
             using (var uow = uowFactory.CreateNew())
             {
                 vm = new CitiesIndexVM

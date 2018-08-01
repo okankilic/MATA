@@ -1,6 +1,17 @@
 ﻿
 @model MATA.Presentation.Web.Models.Issues.IssuesIndexVM
 
+<h4>
+    İşler (@Model.TotalCount)
+    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    {
+        <a href="@Url.Action("_Create", "Issues", new { storeID = ViewBag.StoreID })" id="mt-link-issues-create" class="pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    }
+</h4>
+<hr />
+
 @if (Model.TotalCount == 0)
 {
     @:Bu şantiyeye ait iş bulunmamaktadır
@@ -16,20 +27,20 @@ else
     grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
-    {
-        new WebGridColumn
-        {
-            Header = "İş Tanımı",
-            ColumnName = "Description",
-            CanSort = false
-        },
-        new WebGridColumn
-        {
-            Header = "Açıklamalar",
-            ColumnName = "Remarks",
-            CanSort = false
-        }
-    };
+{
+new WebGridColumn
+{
+Header = "İş Tanımı",
+ColumnName = "Description",
+CanSort = false
+},
+new WebGridColumn
+{
+Header = "Açıklamalar",
+ColumnName = "Remarks",
+CanSort = false
+}
+};
 
     if (User.IsInRole(RoleTypes.Admin))
     {

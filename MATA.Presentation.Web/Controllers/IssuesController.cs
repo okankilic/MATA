@@ -33,6 +33,8 @@ namespace MATA.Presentation.Web.Controllers
         {
             IssuesIndexVM vm = null;
 
+            ViewBag.CountryID = countryID;
+
             using (var uow = uowFactory.CreateNew())
             {
                 vm = new IssuesIndexVM
@@ -49,6 +51,8 @@ namespace MATA.Presentation.Web.Controllers
         public async Task<ActionResult> _CityIssues(int cityID, int page = 1)
         {
             IssuesIndexVM vm = null;
+
+            ViewBag.CityID = cityID;
 
             using (var uow = uowFactory.CreateNew())
             {
@@ -67,6 +71,8 @@ namespace MATA.Presentation.Web.Controllers
         {
             IssuesIndexVM vm = null;
 
+            ViewBag.ProjectID = projectID;
+
             using (var uow = uowFactory.CreateNew())
             {
                 vm = new IssuesIndexVM
@@ -83,6 +89,8 @@ namespace MATA.Presentation.Web.Controllers
         public async Task<ActionResult> _StoreIssues(int storeID, int page = 1)
         {
             IssuesIndexVM vm = null;
+
+            ViewBag.StoreID = storeID;
 
             using (var uow = uowFactory.CreateNew())
             {
