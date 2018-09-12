@@ -9,9 +9,16 @@ namespace MATA.Presentation.Web.Helpers
 {
     public static class SelectHelper
     {
-        public static SelectList GetRoleTypes(string selectedRoleType)
+        public static IEnumerable<SelectListItem> GetRoleTypes(string selectedRoleType)
         {
-            return new SelectList(RoleTypes.GetRoleTypes(), selectedRoleType);
+            var roles = RoleTypes.GetRoleTypes().Select(q => new SelectListItem
+            {
+                Text = Resources.Properties.Resources.ResourceManager.GetString(string.Format("RoleTypes_{0}", q)),
+                Value = q,
+                Selected = q.Equals(selectedRoleType)
+            });
+
+            return roles;
         }
     }
 }

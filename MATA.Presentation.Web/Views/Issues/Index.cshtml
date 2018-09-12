@@ -1,16 +1,16 @@
 ﻿@model MATA.Presentation.Web.Models.Issues.IssuesIndexVM
 
 @{
-    ViewBag.Title = "Şantiyeler";
+    ViewBag.Title = $"{Html.Localize("Issues")} ({Model.TotalCount})";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>
-    İşler (@Model.TotalCount)
+    @ViewBag.Title
 </h2>
 
 <p class="text-right">
-    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-issues-create", @class = "btn btn-default" })
+    @Html.LocalizedActionLink("Create", "_Create", null, new { id = "mt-link-issues-create", @class = "btn btn-default" })
 </p>
 
 <div class="panel panel-default">

@@ -13,21 +13,25 @@ namespace MATA.Presentation.Web.Extensions
         {
             columns.Add(new WebGridColumn
             {
+                Header = Resources.Properties.Resources.CreatedBy,
                 ColumnName = "CreatedBy"
             });
 
             columns.Add(new WebGridColumn
             {
+                Header = Resources.Properties.Resources.CreateTime,
                 ColumnName = "CreateTime"
             });
 
             columns.Add(new WebGridColumn
             {
+                Header = Resources.Properties.Resources.UpdatedBy,
                 ColumnName = "UpdatedBy"
             });
 
             columns.Add(new WebGridColumn
             {
+                Header = Resources.Properties.Resources.UpdateTime,
                 ColumnName = "UpdateTime"
             });
         }

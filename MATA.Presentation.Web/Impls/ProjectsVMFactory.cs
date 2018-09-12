@@ -18,10 +18,10 @@ namespace MATA.Presentation.Web.Impls
         readonly IProjectBL projectBL;
         readonly IDTOFactory<ProjectDTO> dtoFactory;
 
-        public ProjectsVMFactory(IProjectBL projectBL,
+        public ProjectsVMFactory(IBLFactory blFactory,
             IDTOFactory<ProjectDTO> dtoFactory)
         {
-            this.projectBL = projectBL;
+            this.projectBL = blFactory.CreateProxy<IProjectBL>();
             this.dtoFactory = dtoFactory;
         }
 
@@ -31,7 +31,7 @@ namespace MATA.Presentation.Web.Impls
             {
                 PageSize = pageSize,
                 TotalCount = projectBL.Count(uow),
-                Projects = await projectBL.GetProjects((page - 1) * pageSize, pageSize, uow)
+                Projects = await projectBL.Search(null, (page - 1) * pageSize, pageSize, uow)
             };
         }
     }

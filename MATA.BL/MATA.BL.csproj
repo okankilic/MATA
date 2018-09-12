@@ -72,18 +72,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impls\CacheHelper.cs" />
+    <Compile Include="Filters\CustomCacheInvalidateAttribute.cs" />
     <Compile Include="Impls\AccountBL.cs" />
     <Compile Include="Impls\AttachmentBL.cs" />
     <Compile Include="Impls\BLFactory.cs" />
     <Compile Include="Impls\BLProxy.cs" />
+    <Compile Include="Impls\CacheBL.cs" />
     <Compile Include="Impls\CityBL.cs" />
     <Compile Include="Impls\CountryBL.cs" />
     <Compile Include="Impls\ActionBL.cs" />
-    <Compile Include="Impls\CustomAuthorizeAttribute.cs" />
-    <Compile Include="Impls\CustomCacheAttribute.cs" />
+    <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Filters\CustomCacheAttribute.cs" />
     <Compile Include="Interfaces\IAttachmentBL.cs" />
     <Compile Include="Interfaces\IBLFactory.cs" />
     <Compile Include="Interfaces\IAccountBL.cs" />
+    <Compile Include="Interfaces\ICacheAttribute.cs" />
+    <Compile Include="Interfaces\ICacheBL.cs" />
     <Compile Include="Interfaces\IMailBL.cs" />
     <Compile Include="Interfaces\ISearchable.cs" />
     <Compile Include="Interfaces\ITokenBL.cs" />

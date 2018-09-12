@@ -1,4 +1,5 @@
 ﻿using MATA.Infrastructure.Utils.Exceptions;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,38 @@ namespace MATA.Presentation.Web.Filters
 {
     public class CustomHandleErrorAttribute : FilterAttribute, IExceptionFilter
     {
+        ILogger logger;
+
+        IDependencyResolver dependencyResolver;
+
+        IDependencyResolver CurrentDependencyResolver
+        {
+            get
+            {
+                if (dependencyResolver == null)
+                {
+                    return DependencyResolver.Current;
+                }
+                else
+                {
+                    return dependencyResolver;
+                }
+            }
+
+            set
+            {
+                dependencyResolver = value;
+            }
+        }
+
         public void OnException(ExceptionContext filterContext)
         {
             if (filterContext.ExceptionHandled)
             {
                 return;
             }
+
+            logger = CurrentDependencyResolver.GetService<ILogger>();
 
             var ex = filterContext.Exception;
 
@@ -27,6 +54,8 @@ namespace MATA.Presentation.Web.Filters
             filterContext.ExceptionHandled = true;
 
             Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            
+            logger.Error(ex, ex.Message);
 
             var routeValueDictionary = new RouteValueDictionary
             {

@@ -1,5 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using MATA.Data.Repositories.Interfaces;
@@ -14,18 +16,23 @@ namespace MATA.BL.Impls
 {
     public class CityBL: ICityBL
     {
-        readonly IMapper<City, vCity, CityDTO> mapper;
+        private const string CacheKey = "CityBL";
+
+        private readonly IMapper<City, vCity, CityDTO> mapper;
 
         public CityBL(IMapper<City, vCity, CityDTO> mapper)
         {
             this.mapper = mapper;
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.CityRepository.GetCount();
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public int Create(CityDTO cityDTO, string tokenString, IUnitOfWork uow)
         {
             var city = mapper.MapToEntity(cityDTO);
@@ -36,6 +43,8 @@ namespace MATA.BL.Impls
             return city.ID;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Update(int id, CityDTO dto, string tokenString, IUnitOfWork uow)
         {
             var city = uow.CityRepository.GetByID(id);
@@ -47,6 +56,8 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var city = uow.CityRepository.GetByID(id);
@@ -55,6 +66,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public CityDTO Get(int id, IUnitOfWork uow)
         {
             var city = uow.CityRepository.GetViewByID(id);
@@ -62,24 +74,7 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(city);
         }
 
-        public async Task<IEnumerable<CityDTO>> GetCities(int skip, int take, IUnitOfWork uow)
-        {
-            var cityList = new List<vCity>();
-
-            var cities = uow.CityRepository.Find().OrderBy(q => q.CountryName).ThenBy(q => q.CityName).ThenBy(q => q.ID);
-
-            if (skip == 0 && take == 0)
-            {
-                cityList = await cities.ToListAsync();
-            }
-            else
-            {
-                cityList = await cities.Skip(skip).Take(take).ToListAsync();
-            }
-
-            return cityList.Select(q => mapper.MapToDTO(q));
-        }
-
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<CityDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.CityRepository.Find();
@@ -92,11 +87,13 @@ namespace MATA.BL.Impls
             return await OrderCities(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetCountryCitiesCount(int countryID, IUnitOfWork uow)
         {
             return uow.CityRepository.GetCount(q => q.CountryID == countryID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<CityDTO>> GetCountryCities(int countryID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.CityRepository.Find(q => q.CountryID == countryID);

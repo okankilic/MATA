@@ -18,9 +18,9 @@ namespace MATA.Presentation.Web.Impls
     {
         readonly ICountryBL countryBL;
 
-        public CountryVMFactory(ICountryBL countryBL)
+        public CountryVMFactory(IBLFactory blFactory)
         {
-            this.countryBL = countryBL;
+            this.countryBL = blFactory.CreateProxy<ICountryBL>();
         }
 
         public async Task<CountriesIndexVM> CreateNewIndexVMAsync(int page, int pageSize, IUnitOfWork uow)
@@ -29,7 +29,7 @@ namespace MATA.Presentation.Web.Impls
             {
                 PageSize = pageSize,
                 TotalCount = countryBL.Count(uow),
-                Countries = await countryBL.GetCountries((page - 1) * pageSize, pageSize, uow)
+                Countries = await countryBL.Search(null, (page - 1) * pageSize, pageSize, uow)
             };
         }
     }

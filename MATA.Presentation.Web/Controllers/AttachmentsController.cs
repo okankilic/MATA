@@ -149,6 +149,8 @@ namespace MATA.Presentation.Web.Controllers
         {
             AttachmentsIndexVM vm;
 
+            ViewBag.IssueID = issueID;
+
             using (var uow = uowFactory.CreateNew())
             {
                 vm = new AttachmentsIndexVM

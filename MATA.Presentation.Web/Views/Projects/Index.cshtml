@@ -1,21 +1,20 @@
 ﻿@model MATA.Presentation.Web.Models.Projects.ProjectsIndexVM
 
 @{
-    ViewBag.Title = "Projeler";
+    ViewBag.Title = $"{Html.Localize("Projects")} ({Model.TotalCount})";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>
-    Projeler (@Model.TotalCount)
+    @ViewBag.Title
 </h2>
 
 <p class="text-right">
-    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-projects-create", @class = "btn btn-default" })
+    @Html.LocalizedActionLink("Create", "_Create", null, new { id = "mt-link-projects-create", @class = "btn btn-default" })
 </p>
 
 <div class="panel panel-default">
     <div class="panel-body">
-
 
         @{
             WebGrid grid = new WebGrid(
@@ -28,19 +27,8 @@
 
             var columnList = new List<WebGridColumn>()
             {
-                new WebGridColumn
-                {
-                    Header = "Proje Adı",
-                    ColumnName = "ProjectName",
-                    CanSort = false,
-                    //Style = "width: 300px"
-                },
-                new WebGridColumn
-                {
-                    Header = "Açıklamalar",
-                    ColumnName = "Remarks",
-                    CanSort = false
-                }
+                WebGridHelper.LocalizedTextColumn("ProjectName"),
+                WebGridHelper.LocalizedTextColumn("Remarks")
             };
 
             if (User.IsInRole(RoleTypes.Admin))
@@ -52,14 +40,12 @@
             {
                 columnList.Add(new WebGridColumn
                 {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                    Format = (item) => Html.LocalizedActionLink("Details", "Details", new { id = item.ID })
                 });
 
                 columnList.Add(new WebGridColumn
                 {
-                    //Style = "auto-width",
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-projects-edit", data_entity_id = item.ID })
+                    Format = (item) => Html.LocalizedActionLink("Update", "_Edit", new { id = item.ID }, new { @class = "mt-link-projects-edit", data_entity_id = item.ID })
                 });
             }
         }

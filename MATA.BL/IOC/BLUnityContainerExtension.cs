@@ -20,6 +20,8 @@ namespace MATA.BL.Ioc
         {
             Container.AddNewExtension<DTOUnityContainerExtension>();
 
+            Container.RegisterType<ICacheBL, CacheBL>();
+
             Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
             Container.RegisterType<IEntityBL<AccountDTO>, IAccountBL>();
             Container.RegisterType<IAccountBL, AccountBL>();

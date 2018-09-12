@@ -11,13 +11,13 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "Şehir Adı")]
+        [Display(Name = "CityName", ResourceType = typeof(Resources.Properties.Resources))]
         public string CityName { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public int CountryID { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using MATA.Data.Repositories.Interfaces;
@@ -14,6 +16,8 @@ namespace MATA.BL.Impls
 {
     public class StoreBL: IStoreBL
     {
+        private const string CacheKey = "StoreBL";
+
         readonly IMapper<Store, vStore, StoreDTO> mapper;
 
         public StoreBL(IMapper<Store, vStore, StoreDTO> mapper)
@@ -21,6 +25,7 @@ namespace MATA.BL.Impls
             this.mapper = mapper;
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<StoreDTO>> GetStores(int skip, int take, IUnitOfWork uow)
         {
             var storeList = await uow.StoreRepository.GetStores(skip, take);
@@ -28,6 +33,8 @@ namespace MATA.BL.Impls
             return storeList.Select(q => mapper.MapToDTO(q));
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public int Create(StoreDTO dto, string tokenString, IUnitOfWork uow)
         {
             var store = mapper.MapToEntity(dto);
@@ -49,6 +56,8 @@ namespace MATA.BL.Impls
             return store.ID;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Update(int id, StoreDTO dto, string tokenString, IUnitOfWork uow)
         {
             var store = uow.StoreRepository.GetByID(id);
@@ -80,6 +89,8 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var store = uow.StoreRepository.GetByID(id);
@@ -95,6 +106,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public StoreDTO Get(int id, IUnitOfWork uow)
         {
             var store = uow.StoreRepository.GetViewByID(id);
@@ -106,11 +118,13 @@ namespace MATA.BL.Impls
             return dto;
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.StoreRepository.GetCount();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<StoreDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.StoreRepository.Find();
@@ -123,11 +137,13 @@ namespace MATA.BL.Impls
             return await OrderStores(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetCountryStoresCount(int countryID, IUnitOfWork uow)
         {
             return uow.StoreRepository.Find(q => q.CountryID == countryID).Count();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<StoreDTO>> GetCountryStores(int countryID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.StoreRepository.Find(q => q.CountryID == countryID);
@@ -135,11 +151,13 @@ namespace MATA.BL.Impls
             return await OrderStores(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetCityStoresCount(int cityID, IUnitOfWork uow)
         {
             return uow.StoreRepository.Find(q => q.CityID == cityID).Count();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<StoreDTO>> GetCityStores(int cityID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.StoreRepository.Find(q => q.CityID == cityID);
@@ -147,11 +165,13 @@ namespace MATA.BL.Impls
             return await OrderStores(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetProjectStoreCount(int projectID, IUnitOfWork uow)
         {
             return uow.StoreRepository.Find(q => q.ProjectID == projectID).Count();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<StoreDTO>> GetProjectStores(int projectID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.StoreRepository.Find(q => q.ProjectID == projectID);

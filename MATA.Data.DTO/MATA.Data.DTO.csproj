@@ -100,6 +100,10 @@
       <Project>{3BB50E27-9367-414D-AD25-20B4805CD404}</Project>
       <Name>MATA.Data.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MATA.Resources\MATA.Resources.csproj">
+      <Project>{aae8a1a0-f674-46c3-8172-5d0975e5df2c}</Project>
+      <Name>MATA.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

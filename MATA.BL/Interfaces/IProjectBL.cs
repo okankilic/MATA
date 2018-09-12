@@ -11,6 +11,6 @@ namespace MATA.BL.Interfaces
 {
     public interface IProjectBL: IEntityBL<ProjectDTO>
     {
-        Task<IEnumerable<ProjectDTO>> GetProjects(int skip, int take, IUnitOfWork uow);
+
     }
 }

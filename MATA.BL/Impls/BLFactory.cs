@@ -18,7 +18,7 @@ namespace MATA.BL.Impls
             this.container = container;
         }
 
-        public T Create<T>()
+        private T Create<T>()
         {
             return container.Resolve<T>();
         }

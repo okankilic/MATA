@@ -2,79 +2,37 @@
 
     export class AjaxSelect {
 
-        private readonly CONTAINER_CLASS_NAME = "mt-select-container";
-        private readonly HEADING_CLASS_NAME = "mt=select-heading";
-        private readonly BODY_CLASS_NAME = "mt-select-body";
-
         private _el: HTMLInputElement;
 
-        private _hiddenEl: HTMLInputElement;
+        private _input: AjaxSelectInput;
+
+        private _container: AjaxSelectContainer;
 
         private _url: string;
-        private _textFieldName: string;
-        private _valueFieldName: string;
 
         private _loadTimeoutHandle = 0;
-
         private _loadTimeout = 500;
 
-        //private _isLoaded = false;
-
-        private _reload = false;
+        private _isOpen = false;
 
         constructor(options: IAjaxSelectOptions) {
 
-            this._hiddenEl = options.el;
+            this._el = options.el;
 
-            this._url = this._hiddenEl.getAttribute("data-url");
-            this._textFieldName = this._hiddenEl.getAttribute("data-text-field");
-            this._valueFieldName = this._hiddenEl.getAttribute("data-value-field");
+            this._url = this._el.getAttribute("data-url");
 
-            this.createInputElement();
+            var inputValue = this._el.getAttribute("data-value");
 
-            this.initEvents();
+            this._render(inputValue);
         }
 
-        initEvents() {
+        private _clear() {
 
-            var that = this;
+            if (this._isOpen) {
+                this._isOpen = false;
+            }
 
-            this._el.addEventListener("focusin", function (e) {
-                e.preventDefault();
-
-                that.load();
-            });
-
-            this._el.addEventListener("focusout", function (e) {
-                e.preventDefault();
-
-                setTimeout(function () {
-                    that.clear();
-                }, 200);
-
-            });
-
-            this._el.addEventListener("keyup", function (e) {
-
-                e.preventDefault();
-
-                if (that._loadTimeoutHandle) {
-                    clearTimeout(that._loadTimeoutHandle);
-                }
-
-                that._loadTimeoutHandle = setTimeout(function () {
-
-                    that.load();
-
-                }, that._loadTimeout);
-
-            });
-
-        }
-
-        clear() {
-
-            var container = this._el.nextElementSibling;
+            var container = this._input.el.nextElementSibling;
 
             if (!container) {
                 return;
@@ -83,45 +41,30 @@
             var body = container.lastChild;
 
             while (body.firstChild) {
-
-                var el = (<HTMLElement>(body.firstChild));
-
-                if (el.hasAttribute("selected")) {
-                    this._el.value = el.innerText;
-                    this._hiddenEl.value = el.getAttribute('data-val');
-                }
-
                 body.removeChild(body.firstChild);
             }
 
             container.remove();
-
-            //this._isLoaded = false;
         }
 
-        load() {
-
-            //if (this._isLoaded) {
-            //    this._isLoaded = false;
-            //    return;
-            //}
+        private _load() {
 
             var that = this;
 
-            this.clear();
+            this._clear();
 
             $.ajax({
                 method: 'POST',
                 url: that._url,
                 data: {
-                    q: that._el.value,
+                    q: that._input.el.value,
                     page: 1
                 }
             }).done(function (data: any[]) {
 
                 if (data.length) {
-                    var div = that.createSelectList(data);
-                    that._el.parentElement.appendChild(div);
+                    that._renderContainer(data);
+                    that._isOpen = true;
                 }
 
             }).fail(function (err) {
@@ -130,109 +73,411 @@
 
         }
 
-        private createInputElement() {
-
-            this._el = document.createElement('input');
-            this._el.id = Utils.generateGuid();
-            this._el.classList.add('form-control');
-            this._el.setAttribute('type', 'text');
-            this._el.value = this._hiddenEl.value;
-
-            this._hiddenEl.parentElement.appendChild(this._el);
-
-        }
-
-        private createSelectList(data: any[]) {
+        private _render(value: any) {
 
             var that = this;
 
-            var container = document.createElement('div');
+            this._input = new AjaxSelectInput({
+                value: value,
+                onfocusin: function () {
 
-            container.classList.add(this.CONTAINER_CLASS_NAME);
+                    if (that._isOpen) {
+                        return;
+                    }
 
-            //var heading = document.createElement('div');
+                    that._load();
+                },
+                onkeydown: function (keyCode: number) {
 
-            //heading.classList.add('mt-select-heading');
+                    if (keyCode == 9) {
+                        return;
+                    }
 
-            //var textBox = document.createElement('input');
+                },
+                onkeyup: function (keyCode: number) {
 
-            //textBox.type = 'text';
-            //textBox.classList.add('form-control');
+                    if (keyCode == 9) {
+                        return;
+                    }
+                    else if (keyCode == 37
+                        || keyCode == 38
+                        || keyCode == 39
+                        //|| keyCode == 40
+                    ) {
+                        return;
+                    }
+                    else if (keyCode == 40) {
 
-            //heading.appendChild(textBox);
+                        if (that._container && that._container.ajaxSelectBody.listGroup.Items.length) {
+                            that._container.ajaxSelectBody.listGroup.Items[0].el.focus();
+                        }
 
-            //container.appendChild(heading);
+                        return;
+                    }
 
-            var body = document.createElement('div');
+                    if (that._loadTimeoutHandle) {
+                        clearTimeout(that._loadTimeoutHandle);
+                    }
 
-            body.classList.add('list-group');
-            body.classList.add(this.BODY_CLASS_NAME);
+                    that._loadTimeoutHandle = setTimeout(function () {
+                        that._load();
+                    }, that._loadTimeout);
 
-            container.appendChild(body);
-
-            //div.style.width = that._el.style.width;
-            //div.style.top = that._el.style.top + that._el.style.height;
-            //div.style.left = that._el.style.left;
-
-            data.forEach(function (_item) {
-                var li = that.createSelectListItem(_item);
-                body.appendChild(li);
+                }
             });
 
-            return container;
-
+            this._el.parentElement.appendChild(this._input.el);
         }
 
-        private createSelectListItem(item) {
+        private _renderContainer(data: any[]) {
 
-            var selectListItem = document.createElement('a');
-
-            selectListItem.href = "#";
-            selectListItem.innerText = item[this._textFieldName];
-            selectListItem.setAttribute("data-val", item[this._valueFieldName]);
-
-            selectListItem.classList.add('list-group-item');
-
-            selectListItem.addEventListener("click", function (e) {
-                e.preventDefault();
-                this.setAttribute("selected", null);
+            this._container = new AjaxSelectContainer({
+                data: data,
+                textFieldName: this._el.getAttribute("data-text-field"),
+                valueFieldName: this._el.getAttribute("data-value-field")
             });
 
-            return selectListItem;
+            this._container.onSelectChanged = () => {
+                this._input.el.value = this._container.ajaxSelectBody.listGroup.SelectedItem.text;
+                this._el.value = this._container.ajaxSelectBody.listGroup.SelectedItem.value;
+                this._clear();
+            };
+
+            this._el.parentElement.appendChild(this._container.el);
         }
-
-        //onSelect(el: HTMLLIElement) {
-
-        //    this._el.innerText = el.innerText;
-
-        //}
     }
 
     export interface IAjaxSelectOptions {
         el: HTMLInputElement
     }
 
-    //class okan {
+    interface IAjaxSelectContainerOptions {
+        data: any[],
+        textFieldName: string,
+        valueFieldName: string
+    }
 
-    //    constructor() {
+    class AjaxSelectContainer {
 
-    //    }
+        readonly CLASS_NAME = "mt-select-container";
 
-    //    func1() {
+        readonly el: HTMLDivElement;
 
-    //    }
-    //}
+        private _ajaxSelectBody: AjaxSelectBody;
 
-    //class okan2 extends okan {
+        private _options: IAjaxSelectContainerOptions;
 
-    //    constructor() {
-    //        super();
-    //    }
+        onSelectChanged: () => void;
 
-    //    func2() {
+        get ajaxSelectBody() {
+            return this._ajaxSelectBody;
+        }
 
-    //    }
+        constructor(options: IAjaxSelectContainerOptions) {
 
-    //}
+            this._options = options;
+
+            this.el = this._render();
+        }
+
+        private _render(): HTMLDivElement {
+
+            let el = document.createElement('div');
+
+            el.classList.add(this.CLASS_NAME);
+
+            this._ajaxSelectBody = new AjaxSelectBody(this._options);
+            this._ajaxSelectBody.onSelectChanged = () => {
+
+                if (this.onSelectChanged) {
+                    this.onSelectChanged();
+                }
+            };
+
+            el.appendChild(this._ajaxSelectBody.el);
+
+            return el;
+        }
+    }
+
+    interface IAjaxSelectInputOptions {
+        value: any,
+        onfocusin: () => void,
+        onkeyup: (keyCode: number) => void,
+        onkeydown: (keyCode: number) => void
+    }
+
+    class AjaxSelectInput {
+
+        readonly el: HTMLInputElement;
+
+        private readonly _options: IAjaxSelectInputOptions;
+
+        constructor(options: IAjaxSelectInputOptions) {
+
+            this._options = options;
+
+            this.el = this._render();
+        }
+
+        private _render(): HTMLInputElement {
+
+            let el = document.createElement('input');
+
+            el.id = Utils.generateGuid();
+
+            el.classList.add('form-control');
+
+            el.setAttribute('type', 'text');
+
+            el.value = this._options.value;
+
+            if (el.value) {
+                el.readOnly = true;
+            }
+
+            if (!el.readOnly) {
+
+                el.addEventListener("focusin", (e) => {
+                    e.preventDefault();
+                    if (this._options.onfocusin) {
+                        this._options.onfocusin();
+                    }
+                });
+
+                el.addEventListener("keydown", (e) => {
+
+                    e.preventDefault();
+
+                    if (this._options.onkeydown) {
+                        this._options.onkeydown(e.keyCode);
+                    }
+
+                });
+
+                el.addEventListener("keyup", (e) => {
+
+                    e.preventDefault();
+
+                    if (this._options.onkeyup) {
+                        this._options.onkeyup(e.keyCode);
+                    }
+
+                });
+
+            }
+
+            return el;
+        }
+    }
+
+    interface IAjaxSelectBodyOptions {
+        data: any[],
+        textFieldName: string,
+        valueFieldName: string
+    }
+
+    class AjaxSelectBody {
+
+        readonly CLASS_NAME = "mt-select-body";
+
+        readonly el: HTMLDivElement;
+
+        private _options: IAjaxSelectBodyOptions;
+
+        private _listGroup: AjaxSelectListGroup;
+
+        onSelectChanged: () => void;
+
+        get listGroup() {
+            return this._listGroup;
+        }
+
+        constructor(options: IAjaxSelectBodyOptions) {
+
+            this._options = options;
+
+            this.el = this._render();
+
+        }
+
+        private _render(): HTMLDivElement {
+
+            let el = document.createElement('div');
+
+            el.classList.add(this.CLASS_NAME);
+
+            this._listGroup = new AjaxSelectListGroup(this._options);
+
+            this._listGroup.onSelectChanged = () => {
+
+                if (this.onSelectChanged) {
+                    this.onSelectChanged();
+                }
+
+            };
+
+            el.appendChild(this.listGroup.el);
+
+            return el;
+        }
+    }
+
+    interface IAjaxSelectListGroupOptions {
+        data: any[],
+        textFieldName: string,
+        valueFieldName: string
+    }
+
+    class AjaxSelectListGroup {
+
+        readonly _options: IAjaxSelectListGroupOptions;
+
+        readonly el: HTMLDivElement = null;
+
+        private _items: AjaxSelectListGroupItem[] = [];
+
+        get Items() {
+            return this._items;
+        }
+
+        private _selectedItem: AjaxSelectListGroupItem = null;
+
+        get SelectedItem() {
+            return this._selectedItem;
+        }
+
+        onSelectChanged: () => void;
+
+        constructor(options: IAjaxSelectListGroupOptions) {
+            this._options = options;
+            this.el = this._render();
+        }
+
+        private _render(): HTMLDivElement {
+
+            var that = this;
+
+            var el = document.createElement('div');
+
+            el.classList.add('list-group');
+
+            that._options.data.forEach(function (_item) {
+
+                let item = new AjaxSelectListGroupItem({
+                    text: _item[that._options.textFieldName],
+                    value: _item[that._options.valueFieldName]
+                });
+
+                item.onSelected = function () {
+                    that._setSelectedItem(item);
+                };
+
+                el.appendChild(item.el);
+
+                that._items.push(item);
+            });
+
+            return el;
+        }
+
+        private _setSelectedItem(item: AjaxSelectListGroupItem) {
+
+            if (!this.SelectedItem || this.SelectedItem.value != item.value) {
+                
+                this._selectedItem = item;
+                this._onSelectedItemChanged();
+
+            }
+
+        }
+
+        private _onSelectedItemChanged() {
+
+            if (this.onSelectChanged) {
+                this.onSelectChanged();
+            }
+
+        }
+    }
+
+    interface IAjaxSelectListGroupItemOptions {
+        text: string,
+        value: any
+    }
+
+    class AjaxSelectListGroupItem {
+
+        readonly el: HTMLAnchorElement;
+
+        readonly text: string;
+        readonly value: any;
+
+        onSelected: () => void;
+
+        constructor(options: IAjaxSelectListGroupItemOptions) {
+
+            this.text = options.text;
+            this.value = options.value;
+
+            this.el = this._render();
+        }
+
+        private _render() {
+
+            let el = document.createElement('a');
+
+            el.href = "#";
+            el.innerText = this.text;
+
+            el.classList.add('list-group-item');
+
+            el.addEventListener("click", (e) => {
+                e.preventDefault();
+                this._onSelected();
+                //el.focus();
+            });
+
+            el.addEventListener('keyup', (e) => {
+                e.preventDefault();
+
+                if (e.keyCode == 37 || e.keyCode == 38) { // left or up
+                    let prevEl = <HTMLAnchorElement>this.el.previousElementSibling;
+                    if (prevEl) {
+                        prevEl.focus();
+                    }
+                }
+                else if (e.keyCode == 39 || e.keyCode == 40) { // right or down
+                    let nextEl = <HTMLAnchorElement>this.el.nextElementSibling;
+                    if (nextEl) {
+                        nextEl.focus();
+                    }
+                }
+                else if (e.keyCode == 13) { // enter
+                    this._onSelected();
+                }
+
+            });
+
+            el.addEventListener('keydown', (e) => {
+                e.preventDefault();
+
+                if (e.keyCode == 9) {
+                    return;
+                }
+
+            });
+
+            return el;
+        }
+
+        private _onSelected() {
+
+            if (this.onSelected) {
+                this.onSelected();
+            }
+
+        }
+    }
 
 }

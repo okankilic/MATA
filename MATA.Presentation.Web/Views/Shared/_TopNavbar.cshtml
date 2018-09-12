@@ -15,28 +15,26 @@
             {
             <ul class="nav navbar-nav">
 
-                @*<li>@Html.ActionLink("Ana Sayfa", "Index", "Home")</li>*@
-
                 @if (User.IsInRole(RoleTypes.Admin))
                 {
                     
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Yönetici <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@MATA.Resources.Properties.Resources.Admin<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Ülkeler", "Index", "Countries")</li>
-                        <li>@Html.ActionLink("Şehirler", "Index", "Cities")</li>
-                        <li>@Html.ActionLink("Hareketler", "Index", "Actions")</li>
+                        <li>@Html.LocalizedActionLink("Countries", "Index", "Countries")</li>
+                        <li>@Html.LocalizedActionLink("Cities", "Index", "Cities")</li>
+                        <li>@Html.LocalizedActionLink("Actions", "Index", "Actions")</li>
                         <li class="divider"></li>
-                        <li>@Html.ActionLink("Hesaplar", "Index", "Accounts")</li>
+                        <li>@Html.LocalizedActionLink("Accounts", "Index", "Accounts")</li>
                     </ul>
                 </li>
                 }
 
                 @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                 {
-                    <li>@Html.ActionLink("Projeler", "Index", "Projects")</li>
-                    <li>@Html.ActionLink("Şantiyeler", "Index", "Stores")</li>
-                    <li>@Html.ActionLink("İşler", "Index", "Issues")</li>
+                    <li>@Html.LocalizedActionLink("Projects", "Index", "Projects")</li>
+                    <li>@Html.LocalizedActionLink("Stores", "Index", "Stores")</li>
+                    <li>@Html.LocalizedActionLink("Issues", "Index", "Issues")</li>
                 }
 
             </ul>
@@ -45,9 +43,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-gear"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Profil</a></li>
+                            <li><a href="#">@Html.Localize("Account")</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("LogOut", "Accounts")">Çıkış Yap</a></li>
+                            <li><a href="@Url.Action("LogOut", "Accounts")">@Html.Localize("Logout")</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -55,7 +53,7 @@
             else
             {
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="@Url.Action("Login", "Accounts")">Giriş Yap</a></li>
+                    <li><a href="@Url.Action("Login", "Accounts")">@Html.Localize("Login")</a></li>
                 </ul>
             }
         </div>

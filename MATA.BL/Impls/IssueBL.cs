@@ -1,5 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.Common.Enums;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
@@ -17,11 +19,15 @@ namespace MATA.BL.Impls
     {
         readonly IMapper<Issue, vIssue, IssueDTO> mapper;
 
+        const string CacheKey = "IssueBL";
+
         public IssueBL(IMapper<Issue, vIssue, IssueDTO> mapper)
         {
             this.mapper = mapper;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public int Create(IssueDTO issueDTO, string tokenString, IUnitOfWork uow)
         {
             var issue = mapper.MapToEntity(issueDTO);
@@ -34,6 +40,8 @@ namespace MATA.BL.Impls
             return issue.ID;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Update(int id, IssueDTO issueDTO, string tokenString, IUnitOfWork uow)
         {
             var issue = uow.IssueRepository.GetByID(id);
@@ -44,6 +52,8 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var issue = uow.IssueRepository.GetByID(id);
@@ -52,6 +62,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public IssueDTO Get(int id, IUnitOfWork uow)
         {
             var issue = uow.IssueRepository.GetViewByID(id);
@@ -59,18 +70,13 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(issue);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.IssueRepository.GetCount();
         }
 
-        public async Task<IEnumerable<IssueDTO>> GetIssues(int skip, int take, IUnitOfWork uow)
-        {
-            var issueList = await uow.IssueRepository.GetIssues(skip, take);
-
-            return issueList.Select(q => mapper.MapToDTO(q));
-        }
-
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<IssueDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.IssueRepository.Find();
@@ -83,11 +89,13 @@ namespace MATA.BL.Impls
             return await OrderIssues(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetCountryIssuesCount(int countryID, IUnitOfWork uow)
         {
             return uow.IssueRepository.Find().Count(q => q.CountryID == countryID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<IssueDTO>> GetCountryIssues(int countryID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.IssueRepository.Find(q => q.CountryID == countryID);
@@ -95,11 +103,13 @@ namespace MATA.BL.Impls
             return await OrderIssues(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetCityIssuesCount(int cityID, IUnitOfWork uow)
         {
             return uow.IssueRepository.Find().Count(q => q.CityID == cityID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<IssueDTO>> GetCityIssues(int cityID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.IssueRepository.Find(q => q.CityID == cityID);
@@ -107,11 +117,13 @@ namespace MATA.BL.Impls
             return await OrderIssues(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetProjectIssuesCount(int projectID, IUnitOfWork uow)
         {
             return uow.IssueRepository.Find().Count(q => q.ProjectID == projectID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<IssueDTO>> GetProjectIssues(int projectID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.IssueRepository.Find(q => q.ProjectID == projectID);
@@ -119,11 +131,13 @@ namespace MATA.BL.Impls
             return await OrderIssues(items, skip, take);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetStoreIssuesCount(int storeID, IUnitOfWork uow)
         {
             return uow.IssueRepository.Find().Count(q => q.StoreID == storeID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<IssueDTO>> GetStoreIssues(int storeID, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.IssueRepository.Find(q => q.StoreID == storeID);

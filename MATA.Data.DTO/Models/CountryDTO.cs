@@ -11,7 +11,7 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "Ülke Adı")]
+        [Display(Name = "CountryName", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
     }
 }

@@ -9,13 +9,13 @@ namespace MATA.Presentation.Web.Models.Accounts
 {
     public class LoginViewModel
     {
-        [Display(Name = "E-Mail"), Required, MaxLength(100), MinLength(4), EmailAddress]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Properties.Resources)), Required, MaxLength(100), MinLength(4), EmailAddress]
         public string Email { get; set; }
 
-        [Display(Name = "Şifre"), Required, MaxLength(8), MinLength(3), DataType(DataType.Password)]
+        [Display(Name = "Password", ResourceType = typeof(Resources.Properties.Resources)), Required, MaxLength(8), MinLength(3), DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Beni Hatırla")]
+        [Display(Name = "RememberMe", ResourceType = typeof(Resources.Properties.Resources))]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }

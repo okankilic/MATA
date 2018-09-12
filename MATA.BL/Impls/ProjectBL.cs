@@ -1,5 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.Common.Enums;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
@@ -15,6 +17,8 @@ namespace MATA.BL.Impls
 {
     public class ProjectBL: IProjectBL
     {
+        private const string CacheKey = "ProjectBL";
+
         readonly IMapper<Project, vProject, ProjectDTO> mapper;
 
         public ProjectBL(IMapper<Project, vProject, ProjectDTO> mapper)
@@ -22,6 +26,8 @@ namespace MATA.BL.Impls
             this.mapper = mapper;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public int Create(ProjectDTO projectDTO, string tokenString, IUnitOfWork uow)
         {
             var project = mapper.MapToEntity(projectDTO);
@@ -32,6 +38,8 @@ namespace MATA.BL.Impls
             return project.ID;
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Update(int id, ProjectDTO projectDTO, string tokenString, IUnitOfWork uow)
         {
             var project = uow.ProjectRepository.GetByID(id);
@@ -46,6 +54,7 @@ namespace MATA.BL.Impls
             //uow.SaveChanges();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public ProjectDTO Get(int id, IUnitOfWork uow)
         {
             var project = uow.ProjectRepository.GetViewByID(id);
@@ -53,6 +62,8 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(project);
         }
 
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var project = uow.ProjectRepository.GetByID(id);
@@ -64,29 +75,13 @@ namespace MATA.BL.Impls
             //uow.SaveChanges();
         }
 
-        public async Task<IEnumerable<ProjectDTO>> GetProjects(int skip, int take, IUnitOfWork uow)
-        {
-            var projectList = new List<vProject>();
-
-            var projects = uow.ProjectRepository.Find().OrderBy(q => q.ProjectName).ThenBy(q => q.ID);
-
-            if (skip == 0 && take == 0)
-            {
-                projectList = await projects.ToListAsync();
-            }
-            else
-            {
-                projectList = await projects.Skip(skip).Take(take).ToListAsync();
-            }
-
-            return projectList.Select(q => mapper.MapToDTO(q));
-        }
-
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.ProjectRepository.GetCount();
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<ProjectDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.ProjectRepository.Find();

@@ -19,12 +19,11 @@ namespace MATA.Presentation.Web.Impls
         readonly IStoreBL storeBL;
         readonly IDTOFactory<IssueDTO> dtoFactory;
 
-        public IssuesVMFactory(IIssueBL issueBL,
-            IStoreBL storeBL,
-            IDTOFactory<IssueDTO> dtoFactory)
+        public IssuesVMFactory(IDTOFactory<IssueDTO> dtoFactory,
+            IBLFactory blFactory)
         {
-            this.issueBL = issueBL;
-            this.storeBL = storeBL;
+            this.issueBL = blFactory.CreateProxy<IIssueBL>();
+            this.storeBL = blFactory.CreateProxy<IStoreBL>();
             this.dtoFactory = dtoFactory;
         }
 
@@ -34,7 +33,7 @@ namespace MATA.Presentation.Web.Impls
             {
                 PageSize = pageSize,
                 TotalCount = issueBL.Count(uow),
-                Issues = await issueBL.GetIssues((page - 1) * pageSize, pageSize, uow)
+                Issues = await issueBL.Search(null, (page - 1) * pageSize, pageSize, uow)
             };
         }
     }

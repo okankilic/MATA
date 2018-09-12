@@ -1,5 +1,7 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
+using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using MATA.Data.Repositories.Interfaces;
@@ -14,13 +16,17 @@ namespace MATA.BL.Impls
 {
     public class CountryBL: ICountryBL
     {
-        readonly IMapper<Country, vCountry, CountryDTO> mapper;
+        private readonly IMapper<Country, vCountry, CountryDTO> mapper;
+
+        private const string CacheKey = "CountryBL";
 
         public CountryBL(IMapper<Country, vCountry, CountryDTO> mapper)
         {
             this.mapper = mapper;
         }
 
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
         public int Create(CountryDTO countryDTO, string tokenString, IUnitOfWork uow)
         {
             var country = mapper.MapToEntity(countryDTO);
@@ -31,6 +37,8 @@ namespace MATA.BL.Impls
             return country.ID;
         }
 
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
         public void Update(int id, CountryDTO dto, string tokenString, IUnitOfWork uow)
         {
             var country = uow.CountryRepository.GetByID(id);
@@ -41,6 +49,8 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
+        [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var country = uow.CountryRepository.GetByID(id);
@@ -49,6 +59,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public CountryDTO Get(int id, IUnitOfWork uow)
         {
             var country = uow.CountryRepository.GetViewByID(id);
@@ -56,29 +67,13 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(country);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.CountryRepository.GetCount();
         }
 
-        public async Task<IEnumerable<CountryDTO>> GetCountries(int skip, int take, IUnitOfWork uow)
-        {
-            var countryList = new List<vCountry>();
-
-            var countries = uow.CountryRepository.Find().OrderBy(q => q.CountryName).ThenBy(q => q.ID);
-
-            if (skip == 0 && take == 0)
-            {
-                countryList = await countries.ToListAsync();
-            }
-            else
-            {
-                countryList = await countries.Skip(skip).Take(take).ToListAsync();
-            }
-
-            return countryList.Select(q => mapper.MapToDTO(q));
-        }
-
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<CountryDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var countries = uow.CountryRepository.Find();
@@ -88,6 +83,11 @@ namespace MATA.BL.Impls
                 countries = countries.Where(c => c.CountryName.Contains(q));
             }
 
+            return await OrderCountries(countries, skip, take);
+        }
+
+        private async Task<IEnumerable<CountryDTO>> OrderCountries(IQueryable<vCountry> countries, int skip, int take)
+        {
             var countryList = await countries.OrderBy(c => c.CountryName).ThenBy(c => c.ID).Skip(skip).Take(take).ToListAsync();
 
             return countryList.Select(c => mapper.MapToDTO(c));

@@ -1,0 +1,79 @@
+﻿@model MATA.Data.DTO.Models.IssueDTO
+
+@{
+    ViewBag.Title = Model.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Description - @Model.IssueState</h2>
+
+<div class="row">
+
+    <div class="col-sm-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>
+                    @Html.Localize("IssueInfo")
+                    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+                    {
+                        <a href="@Url.Action("_Edit", "Issues", new { id = Model.ID })" class="pull-right">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    }
+                </h4>
+                <hr />
+                <dl class="">
+
+                    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                    <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.StoreName)</dt>
+                    <dd>@Html.DisplayFor(model => model.StoreName)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.ProjectName)</dt>
+                    <dd>@Html.DisplayFor(model => model.ProjectName)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.CountryName)</dt>
+                    <dd>@Html.DisplayFor(model => model.CountryName)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.CityName)</dt>
+                    <dd>@Html.DisplayFor(model => model.CityName)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Remarks)</dt>
+                    <dd>@Html.DisplayFor(model => model.Remarks)</dd>
+
+                </dl>
+            </div>
+        </div>
+
+        @if (User.IsInRole(RoleTypes.Admin))
+        {
+            @Html.ShowAuditInfo()
+        }
+
+    </div>
+
+    <div class="col-sm-8">
+
+        @Html.PartialViewContainer(Url.Action("_IssueAttachments", "Attachments", new { issueID = Model.ID, page = 1 }))
+
+    </div>
+
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/ts/mata.stores-controller.js"></script>
+
+    <script type="text/javascript">
+
+        window.onload = function () {
+            MATA.Utils.initPartialViewContainers();
+        }
+
+    </script>
+
+}

@@ -19,6 +19,8 @@ namespace MATA.Presentation.Web.Controllers
     public class IssuesController : CustomEntityControllerBase<IssueDTO, IssuesIndexVM>
     {
         readonly IIssueBL issueBL;
+        readonly IStoreBL storeBL;
+        readonly IDTOFactory<IssueDTO> dtoFactory;
 
         public IssuesController(IUnitOfWorkFactory uowFactory,
             ILogger logger,
@@ -27,6 +29,30 @@ namespace MATA.Presentation.Web.Controllers
             IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
             issueBL = blFactory.CreateProxy<IIssueBL>();
+            storeBL = blFactory.CreateProxy<IStoreBL>();
+
+            this.dtoFactory = dtoFactory;
+        }
+
+        public override Task<ActionResult> _Create(IssueDTO dto = null)
+        {
+            if(dto == null)
+            {
+                dto = dtoFactory.CreateNew();
+            }
+
+            using (var uow = uowFactory.CreateNew())
+            {
+                if(dto.StoreID > 0)
+                {
+                    var store = storeBL.Get(dto.StoreID, uow);
+
+                    dto.StoreID = store.ID;
+                    dto.StoreName = store.StoreName;
+                }
+            }
+
+            return base._Create(dto);
         }
 
         public async Task<ActionResult> _CountryIssues(int countryID, int page = 1)

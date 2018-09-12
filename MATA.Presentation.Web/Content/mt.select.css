@@ -13,5 +13,10 @@
     padding-top: 0;
     padding-bottom: 0;
     margin-bottom: 0;
-    max-height:208px;
+    max-height:206px;
+    overflow-y:auto;
 }
+
+/*.mt-select-body .list-group-item:focus {
+    border: 1px solid black;
+}*/

@@ -1,19 +1,20 @@
 ﻿@model MATA.Presentation.Web.Models.Cities.CitiesIndexVM
 
 @{
-    ViewBag.Title = "Şehirler";
+    ViewBag.Title = $"{Html.Localize("Cities")} ({Model.TotalCount})";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>
-    Şehirler (@Model.TotalCount)
+    @ViewBag.Title
 </h2>
 
 <p class="text-right">
-    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-cities-create", @class = "btn btn-default" })
+    @Html.LocalizedActionLink("Create", "_Create", null, new { id = "mt-link-cities-create", @class = "btn btn-default" })
 </p>
 
 <div class="panel panel-default">
+
     <div class="panel-body">
 
         @{
@@ -29,12 +30,12 @@
             {
                 new WebGridColumn
                 {
-                    Header = "Ülke",
+                    Header = Html.Localize("Country"),
                     Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
                 },
                 new WebGridColumn
                 {
-                    Header = "Şehir Adı",
+                    Header = Html.Localize("CityName"),
                     ColumnName = "CityName",
                     CanSort = false
                 }
@@ -44,23 +45,23 @@
             {
                 columnList.Add(new WebGridColumn
                 {
-                    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
+                    Format = (item) => Html.LocalizedActionLink("Details", "Details", new { id = item.ID })
                 });
 
                 columnList.Add(new WebGridColumn
                 {
-                    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-cities-edit", data_entity_id = item.ID })
+                    Format = (item) => Html.LocalizedActionLink("Update", "_Edit", new { id = item.ID }, new { @class = "mt-link-cities-edit", data_entity_id = item.ID })
                 });
             }
         }
 
         @grid.GetHtml(
             htmlAttributes: new { id = "city-grid" },
-    tableStyle: "table table-hover",
-    columns: columnList,
-    mode: WebGridPagerModes.Numeric,
-    numericLinksCount: 5
-)
+            tableStyle: "table table-hover",
+            columns: columnList,
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
 
     </div>
 </div>

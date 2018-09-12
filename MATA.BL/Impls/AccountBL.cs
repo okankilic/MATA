@@ -1,4 +1,5 @@
-﻿using MATA.BL.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
 using MATA.BL.Mappers;
 using MATA.Data.Common.Constants;
 using MATA.Data.DTO;
@@ -17,7 +18,7 @@ namespace MATA.BL.Impls
 {
     public class AccountBL: IAccountBL
     {
-        private const string cacheName = "AccountBL";
+        private const string CacheKey = "AccountBL";
 
         private readonly IMapper<Account, vAccount, AccountDTO> mapper;
 
@@ -27,6 +28,7 @@ namespace MATA.BL.Impls
         }
 
         [CustomAuthorize(Roles = RoleTypes.Admin)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public int Create(AccountDTO accountDTO, string tokenString, IUnitOfWork uow)
         {
             var account = mapper.MapToEntity(accountDTO);
@@ -40,6 +42,8 @@ namespace MATA.BL.Impls
             return account.ID;
         }
 
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
+        [CustomAuthorize(Roles = RoleTypes.Combines.Any)]
         public void Update(int id, AccountDTO accountDTO, string tokenString, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.GetByID(id);
@@ -60,6 +64,7 @@ namespace MATA.BL.Impls
         }
 
         [CustomAuthorize(Roles = RoleTypes.Admin)]
+        [CustomCacheResetAttribute(CacheKey = CacheKey)]
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.GetByID(id);
@@ -70,7 +75,7 @@ namespace MATA.BL.Impls
             uow.SaveChanges(tokenString);
         }
 
-        [CustomCache(CacheName = cacheName)]
+        [CustomCache(CacheKey = CacheKey)]
         public AccountDTO Get(int id, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.GetViewByID(id);
@@ -78,12 +83,13 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(account);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int Count(IUnitOfWork uow)
         {
             return uow.AccountRepository.GetCount();
         }
 
-        [CustomCache(CacheName = cacheName)]
+        [CustomCache(CacheKey = CacheKey)]
         public AccountDTO GetByToken(string tokenString, IUnitOfWork uow)
         {
             var tokenGuid = Guid.Parse(tokenString);
@@ -92,13 +98,13 @@ namespace MATA.BL.Impls
             return Get(token.AccountID, uow);
         }
 
-        [CustomCache(CacheName = cacheName)]
+        [CustomCache(CacheKey = CacheKey)]
         public bool IsExists(string email, IUnitOfWork uow)
         {
             return uow.AccountRepository.Find(q => q.Email == email).Any();
         }
 
-        [CustomCache(CacheName = cacheName)]
+        [CustomCache(CacheKey = CacheKey)]
         public AccountDTO GetByEmailAndPassword(string email, string password, IUnitOfWork uow)
         {
             var account = uow.AccountRepository.Find().Single(q => q.Email == email && q.Password == password);
@@ -106,6 +112,7 @@ namespace MATA.BL.Impls
             return mapper.MapToDTO(account);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<AccountDTO>> Search(string q, int skip, int take, IUnitOfWork uow)
         {
             var items = uow.AccountRepository.Find();
@@ -120,11 +127,13 @@ namespace MATA.BL.Impls
             return itemList.Select(c => mapper.MapToDTO(c));
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public int GetStoreAccountsCount(int storeID, IUnitOfWork uow)
         {
             return uow.StoreAccountRepository.GetCount(q => q.StoreID == storeID);
         }
 
+        [CustomCache(CacheKey = CacheKey)]
         public async Task<IEnumerable<AccountDTO>> GetStoreAccounts(int storeID, int skip, int take, IUnitOfWork uow)
         {
             var accountIDs = uow.StoreAccountRepository.Find(q => q.StoreID == storeID).Select(q => q.AccountID);

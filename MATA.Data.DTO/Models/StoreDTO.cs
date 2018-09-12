@@ -12,36 +12,38 @@ namespace MATA.Data.DTO.Models
         public int ID { get; set; }
 
         [Required]
-        [Display(Name = "Şantiye Adı")]
+        [Display(Name = "StoreName", ResourceType = typeof(Resources.Properties.Resources))]
         public string StoreName { get; set; }
 
         [Required]
-        [Display(Name = "Proje")]
+        [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public int ProjectID { get; set; }
 
-        [Display(Name = "Proje")]
+        [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public string ProjectName { get; set; }
 
         [Required]
-        [Display(Name = "Adres"), DataType(DataType.MultilineText)]
+        [Display(Name = "Address", ResourceType = typeof(Resources.Properties.Resources))]
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public int CountryID { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
 
         [Required]
-        [Display(Name = "Şehir")]
+        [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public int CityID { get; set; }
 
-        [Display(Name = "Şehir")]
+        [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public string CityName { get; set; }
 
-        [Display(Name = "Hesaplar")]
+        [Display(Name = "Accounts", ResourceType = typeof(Resources.Properties.Resources))]
         public IEnumerable<AccountDTO> Accounts { get; set; }
 
+        [Display(Name = "Accounts", ResourceType = typeof(Resources.Properties.Resources))]
         public IList<int> AccountIDList { get; set; }
     }
 }

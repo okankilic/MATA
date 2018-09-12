@@ -11,7 +11,6 @@ namespace MATA.BL.Interfaces
 {
     public interface IIssueBL : IEntityBL<IssueDTO>
     {
-        Task<IEnumerable<IssueDTO>> GetIssues(int skip, int take, IUnitOfWork uow);
 
         int GetCountryIssuesCount(int countryID, IUnitOfWork uow);
 

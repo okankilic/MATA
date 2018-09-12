@@ -1,4 +1,6 @@
-﻿using MATA.Data.Repositories.Interfaces;
+﻿using MATA.BL.Filters;
+using MATA.BL.Interfaces;
+using MATA.Data.Repositories.Interfaces;
 using MATA.Infrastructure.Utils.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -39,44 +41,23 @@ namespace MATA.BL.Impls
 
                 var authorizeAttribute = method.GetCustomAttribute<CustomAuthorizeAttribute>(true);
 
-                if(authorizeAttribute != null)
+                if (authorizeAttribute != null)
                 {
-                    if(methodCall.InArgCount < 2)
-                    {
-                        throw new Exception("Invalid parameter count for CustomAuthorizeAttribute");
-                    }
+                    CustomAuthorizeAttribute.Handle(methodCall, authorizeAttribute.Roles);
+                }
 
-                    var tokenString = methodCall.InArgs[methodCall.InArgCount - 2].ToString();
-                    var tokenGuid = Guid.Parse(tokenString);
-                    var uow = methodCall.InArgs[methodCall.InArgCount - 1] as IUnitOfWork;
+                var cacheInvalidateAttribute = method.GetCustomAttribute<CustomCacheResetAttributeAttribute>(true);
 
-                    var accountID = uow.TokenRepository.Find(q => q.TokenString == tokenGuid).Single().AccountID;
-                    var account = uow.AccountRepository.GetByID(accountID);
-
-                    if (authorizeAttribute.Roles.Contains(account.RoleName) == false)
-                    {
-                        throw new AuthorizationException();
-                    }
+                if (cacheInvalidateAttribute != null)
+                {
+                    return cacheInvalidateAttribute.Handle(decorated, methodCall, methodInfo);
                 }
 
                 var cacheAttribute = method.GetCustomAttribute<CustomCacheAttribute>(true);
 
                 if (cacheAttribute != null)
                 {
-                    string cacheKey = GenerateCacheKey(methodCall, cacheAttribute);
-
-                    var memoryCache = MemoryCache.Default;
-
-                    var cached = memoryCache.Get(cacheKey);
-
-                    if (cached == null)
-                    {
-                        cached = methodInfo.Invoke(decorated, methodCall.InArgs);
-
-                        memoryCache.Set(cacheKey, cached, new CacheItemPolicy());
-                    }
-
-                    return new ReturnMessage(cached, null, 0, methodCall.LogicalCallContext, methodCall);
+                    return cacheAttribute.Handle(decorated, methodCall, methodInfo);
                 }
 
                 var result = methodInfo.Invoke(decorated, methodCall.InArgs);
@@ -88,31 +69,6 @@ namespace MATA.BL.Impls
             {
                 return new ReturnMessage(e, methodCall);
             }
-        }
-
-        private static string GenerateCacheKey(IMethodCallMessage methodCall, CustomCacheAttribute cacheAttribute)
-        {
-            string cacheKey = cacheAttribute.CacheName;
-
-            if (methodCall.InArgCount > 0)
-            {
-                var stringBuilder = new StringBuilder(cacheKey);
-
-                foreach (var inArg in methodCall.InArgs)
-                {
-                    if(inArg is IUnitOfWork)
-                    {
-                        continue;
-                    }
-
-                    stringBuilder.Append("_");
-                    stringBuilder.Append(inArg);
-                }
-
-                cacheKey = stringBuilder.ToString();
-            }
-
-            return cacheKey;
         }
     }
 }

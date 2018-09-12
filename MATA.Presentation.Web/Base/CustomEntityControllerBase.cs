@@ -17,6 +17,8 @@ namespace MATA.Presentation.Web.Base
 {
     [AuthorizeUser(Roles = RoleTypes.Combines.AdminStaff)]
     public abstract class CustomEntityControllerBase<TDTO, TIndexVM>: CustomControllerBase
+        where TDTO: class
+        where TIndexVM: class
     {
         protected readonly IVMFactory<TDTO, TIndexVM> vmFactory;
         
@@ -34,7 +36,7 @@ namespace MATA.Presentation.Web.Base
             this.vmFactory = vmFactory;
             this.blFactory = blFactory;
             //this.entityBL = entityBL;
-            this.entityBL = blFactory.Create<IEntityBL<TDTO>>();
+            this.entityBL = blFactory.CreateProxy<IEntityBL<TDTO>>();
         }
 
         [HttpGet]
@@ -63,12 +65,15 @@ namespace MATA.Presentation.Web.Base
         }
 
         [HttpGet]
-        public virtual async Task<ActionResult> _Create()
+        public virtual async Task<ActionResult> _Create(TDTO dto = null)
         {
-            TDTO dto = await Task.Factory.StartNew(() =>
+            if(dto == null)
             {
-                return dtoFactory.CreateNew();
-            });
+                dto = await Task.Factory.StartNew(() =>
+                {
+                    return dtoFactory.CreateNew();
+                });
+            }
 
             return PartialView(dto);
         }

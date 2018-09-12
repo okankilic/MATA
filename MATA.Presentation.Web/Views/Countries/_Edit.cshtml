@@ -29,9 +29,9 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
-            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-country-edit">Sil</button>
-            <input type="submit" value="Kaydet" class="btn btn-primary" />
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">@Html.Localize("Close")</button>
+            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-country-edit">@Html.Localize("Delete")</button>
+            <input type="submit" value="@Html.Localize("Save")" class="btn btn-primary" />
         </div>
     }
 
@@ -47,14 +47,14 @@
             @Html.AntiForgeryToken()
 
             <div class="alert alert-warning">
-                @Model.CountryName silinecek. Emin misiniz?
+                @Html.LocalizeFormat("AreYouSureToDelete", Model.CountryName)
             </div>
 
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-country-edit">Vazgeç</button>
-            <input type="submit" value="Sil" class="btn btn-primary" />
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-country-edit">@Html.Localize("Cancel")</button>
+            <input type="submit" value="@Html.Localize("Delete")" class="btn btn-primary" />
         </div>
     }
 

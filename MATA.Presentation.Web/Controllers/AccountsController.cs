@@ -36,9 +36,9 @@ namespace MATA.Presentation.Web.Controllers
             IDTOFactory<AccountDTO> dtoFactory,
             IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-            accountBL = blFactory.Create<IAccountBL>();
-            tokenBL = blFactory.Create<ITokenBL>();
-            mailBL = blFactory.Create<IMailBL>();
+            accountBL = blFactory.CreateProxy<IAccountBL>();
+            tokenBL = blFactory.CreateProxy<ITokenBL>();
+            mailBL = blFactory.CreateProxy<IMailBL>();
         }
 
         [AllowAnonymous]
@@ -130,7 +130,7 @@ namespace MATA.Presentation.Web.Controllers
         }
 
         [AuthorizeUser(Roles = RoleTypes.Admin)]
-        public override async Task<ActionResult> _Create()
+        public override async Task<ActionResult> _Create(AccountDTO dto = null)
         {
             return await base._Create();
         }

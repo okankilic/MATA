@@ -18,10 +18,10 @@ namespace MATA.Presentation.Web.Impls
         readonly IAccountBL accountBL;
         readonly IDTOFactory<AccountDTO> dtoFactory;
 
-        public AccountVMFactory(IAccountBL accountBL,
-            IDTOFactory<AccountDTO> dtoFactory)
+        public AccountVMFactory(IDTOFactory<AccountDTO> dtoFactory,
+            IBLFactory blFactory)
         {
-            this.accountBL = accountBL;
+            this.accountBL = blFactory.CreateProxy<IAccountBL>();
             this.dtoFactory = dtoFactory;
         }
 

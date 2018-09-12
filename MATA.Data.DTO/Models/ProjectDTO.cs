@@ -12,11 +12,11 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "Proje Adı")]
+        [Display(Name = "ProjectName", ResourceType = typeof(Resources.Properties.Resources))]
         [Required]
         public string ProjectName { get; set; }
 
-        [Display(Name = "Açıklamalar")]
+        [Display(Name = "Remarks", ResourceType = typeof(Resources.Properties.Resources))]
         public string Remarks { get; set; }
 
         public bool IsDeleted { get; set; }

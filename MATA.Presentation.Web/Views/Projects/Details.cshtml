@@ -1,7 +1,7 @@
 ﻿@model MATA.Data.DTO.Models.ProjectDTO
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.ProjectName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
             <div class="panel-body">
                 <div>
                     <h4>
-                        Proje Bilgileri
+                        @Html.Localize("ProjectInfo")
                         @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                         {
                             <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })" class="pull-right">
@@ -48,31 +48,7 @@
 
         @if (User.IsInRole(RoleTypes.Admin))
         {
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h4>
-                        Düzenleme Bilgileri
-                    </h4>
-                    <hr />
-                    <dl>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.CreatedBy) / @Html.DisplayNameFor(model => model.CreateTime)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.CreatedBy) (@Html.DisplayFor(model => model.CreateTime))
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.UpdatedBy) / @Html.DisplayNameFor(model => model.UpdateTime)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.UpdatedBy) (@Html.DisplayFor(model => model.UpdateTime))
-                        </dd>
-
-                    </dl>
-                </div>
-            </div>
+            @Html.ShowAuditInfo();
         }
 
     </div>

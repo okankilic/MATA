@@ -1,13 +1,13 @@
 ﻿@model MATA.Presentation.Web.Models.Accounts.AccountsIndexVM
 
 <h4>
-    Hesaplar (@Model.TotalCount)
+    @Html.Localize("Accounts") (@Model.TotalCount)
 </h4>
 <hr />
 
 @if (Model.TotalCount == 0)
 {
-    @:Bu şantiyeye atanmış hesap bulunmamaktadır
+    @Html.Localize("NoAccountsForThisStore")
 }
 else
 {
@@ -24,38 +24,8 @@ else
         tableStyle: "table table-hover",
         columns: new List<WebGridColumn>()
         {
-            new WebGridColumn
-            {
-                Header = "Ad Soyad",
-                ColumnName = "FullName",
-                CanSort = false
-            },
-            new WebGridColumn
-            {
-                Header = "E-mail",
-                ColumnName = "Email",
-                CanSort = false
-            },
-            //new WebGridColumn
-            //{
-            //    Header = "Rol",
-            //    ColumnName = "RoleName",
-            //    CanSort = false
-            //},
-            //new WebGridColumn
-            //{
-            //    Header = "Aktif",
-            //    ColumnName = "IsActive",
-            //    CanSort = false
-            //},
-            //new WebGridColumn
-            //{
-            //    Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
-            //},
-            //new WebGridColumn
-            //{
-            //    Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-accounts-edit", data_entity_id = item.ID })
-            //}
+            WebGridHelper.LocalizedTextColumn("FullName"),
+            WebGridHelper.LocalizedTextColumn("Email")
         },
         mode: WebGridPagerModes.Numeric,
         numericLinksCount: 5

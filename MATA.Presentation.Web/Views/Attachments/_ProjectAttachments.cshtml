@@ -1,7 +1,7 @@
 ﻿@model MATA.Presentation.Web.Models.Attachments.AttachmentsIndexVM
 
 <h4>
-    Dosyalar (@Model.TotalCount)
+    @Html.Localize("Attachments") (@Model.TotalCount)
     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
     {
         <a href="@Url.Action("_Create", "Attachments", new { entityName = "Project", entityID = ViewBag.ProjectID })" id="mt-link-attachments-create" class="pull-right">
@@ -13,7 +13,7 @@
 
 @if (Model.TotalCount == 0)
 {
-    @:Bu projeye ait dosya bulunmamaktadır
+    @Html.Localize("NoAttachmentsForThisProject")
 }
 else
 {
@@ -26,18 +26,10 @@ else
     grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.PageSize);
 
     var columnList = new List<WebGridColumn>()
-{
-new WebGridColumn
-{
-Header = "Dosya Adı",
-ColumnName = "FileName"
-},
-new WebGridColumn
-{
-Header = "Dosya Tipi",
-ColumnName = "AttachmentType"
-}
-};
+    {
+        WebGridHelper.LocalizedTextColumn("FileName"),
+        WebGridHelper.LocalizedTextColumn("AttachmentType")
+    };
 
     if (User.IsInRole(RoleTypes.Admin))
     {
@@ -46,7 +38,7 @@ ColumnName = "AttachmentType"
 
     columnList.Add(new WebGridColumn
     {
-        Format = (item) => Html.ActionLink("İndir", "Download", "Attachments", new { id = item.ID }, null)
+        Format = (item) => Html.LocalizedActionLink("Download", "Download", "Attachments", new { id = item.ID }, null)
     });
 
     @grid.GetHtml(

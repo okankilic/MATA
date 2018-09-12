@@ -2,14 +2,13 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Hesap Bilgileri Güncelleme</h4>
+    <h4 class="modal-title">@Html.Localize("Account") - @Model.Email</h4>
 </div>
 
 <div class="mt-div-account-edit collapse in">
 
     @using (Html.BeginForm("Edit", "Accounts", FormMethod.Post, new { id = "mt-form-accounts-edit", @class = "form-horizontal" }))
     {
-
         <div class="modal-body">
 
             @Html.AntiForgeryToken()
@@ -69,9 +68,9 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
-            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-account-edit">Sil</button>
-            <input type="submit" value="Kaydet" class="btn btn-primary" />
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">@Html.Localize("Close")</button>
+            <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".mt-div-account-edit">@Html.Localize("Delete")</button>
+            <input type="submit" value="@Html.Localize("Save")" class="btn btn-primary" />
         </div>
     }
 
@@ -87,14 +86,14 @@
             @Html.AntiForgeryToken()
 
             <div class="alert alert-warning">
-                @Model.Email hesabı silinecek. Emin misiniz?
+                @Html.LocalizeFormat("AreYouSureToDelete", Model.Email)
             </div>
 
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-account-edit">Vazgeç</button>
-            <input type="submit" value="Sil" class="btn btn-primary" />
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target=".mt-div-account-edit">@Html.Localize("Cancel")</button>
+            <input type="submit" value="@Html.Localize("Delete")" class="btn btn-primary" />
         </div>
     }
 

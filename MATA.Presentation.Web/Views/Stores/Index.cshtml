@@ -1,87 +1,77 @@
 ﻿@model MATA.Presentation.Web.Models.Stores.StoresIndexVM
 
 @{
-    ViewBag.Title = "Şantiyeler";
+    ViewBag.Title = $"{Html.Localize("Stores")} ({Model.TotalCount})";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>
-    Şantiyeler (@Model.TotalCount)
+    @ViewBag.Title
 </h2>
 
 <p class="text-right">
-    @Html.ActionLink("Yeni Oluştur", "_Create", null, new { id = "mt-link-stores-create", @class = "btn btn-default" })
+    @Html.LocalizedActionLink("Create", "_Create", null, new { id = "mt-link-stores-create", @class = "btn btn-default" })
 </p>
 
 <div class="panel panel-default">
     <div class="panel-body">
 
         @{
-                WebGrid grid = new WebGrid(
-                    rowsPerPage: Model.PageSize,
-                    ajaxUpdateContainerId: "store-grid",
-                    ajaxUpdateCallback: "storesController.initGridEvents"
-                );
+            WebGrid grid = new WebGrid(
+                rowsPerPage: Model.PageSize,
+                ajaxUpdateContainerId: "store-grid",
+                ajaxUpdateCallback: "storesController.initGridEvents"
+            );
 
-                grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.TotalCount);
+            grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.TotalCount);
 
-                var columnList = new List<WebGridColumn>()
+            var columnList = new List<WebGridColumn>()
             {
+                WebGridHelper.LocalizedTextColumn("StoreName"),
                 new WebGridColumn
                 {
-                    Header = "Şantiye Adı",
-                    ColumnName = "StoreName",
-                    CanSort = false
-                },
-                new WebGridColumn
-                {
-                    Header = "Proje",
+                    Header = Html.Localize("Project"),
                     Format = (item) => Html.ActionLink((string)item.ProjectName, "Details", "Projects", new { id = item.ProjectID }, null)
                 },
                 new WebGridColumn
                 {
-                    Header = "Ülke",
+                    Header = Html.Localize("Country"),
                     Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
                 },
                 new WebGridColumn
                 {
-                    Header = "Şehir",
+                    Header = Html.Localize("City"),
                     Format = (item) => Html.ActionLink((string)item.CityName, "Details", "Cities", new { id = item.CityID }, null)
                 },
-                new WebGridColumn
-                {
-                    Header = "Adres",
-                    ColumnName = "Address",
-                    CanSort = false
-                }
+                WebGridHelper.LocalizedTextColumn("Address")
             };
 
-                if (User.IsInRole(RoleTypes.Admin))
-                {
-                    this.AddAuditColumns(columnList);
-                }
-
-                if(User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
-                {
-                    columnList.Add(new WebGridColumn
-                    {
-                        Format = (item) => Html.ActionLink("Detay", "Details", new { id = item.ID })
-                    });
-
-                    columnList.Add(new WebGridColumn
-                    {
-                        Format = (item) => Html.ActionLink("Güncelle", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_entity_id = item.ID })
-                    });
-                }
+            if (User.IsInRole(RoleTypes.Admin))
+            {
+                this.AddAuditColumns(columnList);
             }
 
-            @grid.GetHtml(
-                htmlAttributes: new { id = "store-grid" },
-            tableStyle: "table table-hover",
-            columns: columnList,
-            mode: WebGridPagerModes.Numeric,
-            numericLinksCount: 5
-        )
+            if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+            {
+                columnList.Add(new WebGridColumn
+                {
+                    Format = (item) => Html.LocalizedActionLink("Details", "Details", new { id = item.ID })
+                });
+
+                columnList.Add(new WebGridColumn
+                {
+                    Format = (item) => Html.LocalizedActionLink("Update", "_Edit", new { id = item.ID }, new { @class = "mt-link-stores-edit", data_entity_id = item.ID })
+                });
+            }
+        }
+
+        @grid.GetHtml(
+            htmlAttributes: new { id = "store-grid" },
+        tableStyle: "table table-hover",
+        columns: columnList,
+        mode: WebGridPagerModes.Numeric,
+        numericLinksCount: 5
+    )
 
     </div>
 </div>

@@ -8,7 +8,7 @@ namespace MATA.BL.Interfaces
 {
     public interface IBLFactory
     {
-        T Create<T>();
+        //T Create<T>();
 
         T CreateProxy<T>();
     }

@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Giriş Yap</title>
+    <title>@Html.Localize("Login")</title>
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -29,6 +29,8 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                        @Html.HiddenFor(m => m.ReturnUrl)
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.Email)
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", autofocus = "autofocus" })
@@ -43,20 +45,16 @@
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBoxFor(m => m.RememberMe)
-                                    Beni Hatırla
+                                    @Html.LabelFor(m => m.RememberMe)
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-default btn-block">Giriş Yap</button>
+                            <button type="submit" class="btn btn-default btn-block">@Html.Localize("Login")</button>
                         </div>
                         <div class="form-group text-center">
-                            <a id="mt-link-accounts-forgot-password" href="javascript:void(0);">Şifremi unuttum</a>
+                            <a id="mt-link-accounts-forgot-password" href="javascript:void(0);">@Html.Localize("ForgotPassword")</a>
                         </div>
-                        @*<hr />
-                        <div class="form-group text-center">
-                            @Html.ActionLink("Kayıt Ol", "Register", "Account")
-                        </div>*@
                     }
                 </div>
             </div>

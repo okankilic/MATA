@@ -22,14 +22,13 @@ namespace MATA.Presentation.Web.Impls
         readonly ICityBL cityBL;
         readonly IDTOFactory<StoreDTO> dtoFactory;
 
-        public StoresVMFactory(IStoreBL storeBL,
-            IProjectBL projectBL,
-            ICityBL cityBL,
-            IDTOFactory<StoreDTO> dtoFactory)
+        public StoresVMFactory(
+            IDTOFactory<StoreDTO> dtoFactory,
+            IBLFactory blFactory)
         {
-            this.storeBL = storeBL;
-            this.projectBL = projectBL;
-            this.cityBL = cityBL;
+            this.storeBL = blFactory.CreateProxy<IStoreBL>();
+            this.projectBL = blFactory.CreateProxy<IProjectBL>();
+            this.cityBL = blFactory.CreateProxy<ICityBL>();
             this.dtoFactory = dtoFactory;
         }
 

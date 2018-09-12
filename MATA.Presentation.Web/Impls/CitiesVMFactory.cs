@@ -20,12 +20,12 @@ namespace MATA.Presentation.Web.Impls
         readonly ICountryBL countryBL;
         readonly IDTOFactory<CityDTO> dtoFactory;
 
-        public CitiesVMFactory(ICityBL cityBL,
-            ICountryBL countryBL,
-            IDTOFactory<CityDTO> dtoFactory)
+        public CitiesVMFactory(
+            IDTOFactory<CityDTO> dtoFactory,
+            IBLFactory blFactory)
         {
-            this.cityBL = cityBL;
-            this.countryBL = countryBL;
+            this.cityBL = blFactory.CreateProxy<ICityBL>();
+            this.countryBL = blFactory.CreateProxy<ICountryBL>();
             this.dtoFactory = dtoFactory;
         }
 

@@ -25,7 +25,7 @@ namespace MATA.Presentation.Web.Controllers
             IVMFactory<CityDTO, CitiesIndexVM> vmFactory, 
             IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
-            cityBL = blFactory.Create<ICityBL>();
+            cityBL = blFactory.CreateProxy<ICityBL>();
         }
 
         public async Task<ActionResult> _CitySelect(int selectedCityID)

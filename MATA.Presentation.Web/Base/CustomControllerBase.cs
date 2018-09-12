@@ -6,6 +6,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -34,6 +35,20 @@ namespace MATA.Presentation.Web.Base
             {
                 return AuthenticationHelper.GetTokenString(HttpContext);
             }
+        }
+
+        protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
+        {
+            var languages = Request.Headers["Accept-Language"].Split(';');
+
+            var preferredLanguage = languages[0];
+
+            var language = (preferredLanguage.Contains(',')) ? preferredLanguage.Split(',')[1] : preferredLanguage;
+
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+
+            return base.BeginExecuteCore(callback, state);
         }
     }
 }

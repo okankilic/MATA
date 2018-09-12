@@ -13,52 +13,53 @@ namespace MATA.Data.DTO.Models
         public int ID { get; set; }
 
         [Required]
-        [Display(Name = "Açıklama")]
+        [Display(Name = "Description", ResourceType = typeof(Resources.Properties.Resources))]
         public string Description { get; set; }
-
-        [Display(Name = "Durum")]
+        
+        [Display(Name = "IssueState", ResourceType = typeof(Resources.Properties.Resources))]
         public string IssueState { get; set; }
 
-        [Display(Name = "Notlar"), DataType(DataType.MultilineText)]
+        [Display(Name = "Remarks", ResourceType = typeof(Resources.Properties.Resources))]
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
         [Required]
-        [Display(Name = "Talep Zamanı")]
+        [Display(Name = "RequestDate", ResourceType = typeof(Resources.Properties.Resources))]
         [DisplayFormat(DataFormatString = "yyyy-MM-dd")]
         [DataType(DataType.Date)]
         public DateTime RequestDate { get; set; }
-
-        [Display(Name = "Talep Eden")]
+        
+        [Display(Name = "RequestedByFullName", ResourceType = typeof(Resources.Properties.Resources))]
         public string RequestedByFullName { get; set; }
 
         [Required]
-        [Display(Name = "Talep Kaynağı")]
+        [Display(Name = "SourceType", ResourceType = typeof(Resources.Properties.Resources))]
         public IssueSourceTypes SourceType { get; set; }
 
         [Required]
-        [Display(Name = "Şantiye")]
+        [Display(Name = "Store", ResourceType = typeof(Resources.Properties.Resources))]
         public int StoreID { get; set; }
 
-        [Display(Name = "Şantiye")]
+        [Display(Name = "Store", ResourceType = typeof(Resources.Properties.Resources))]
         public string StoreName { get; set; }
 
-        [Display(Name = "Proje")]
+        [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public int ProjectID { get; set; }
 
-        [Display(Name = "Proje")]
+        [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public string ProjectName { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public int CountryID { get; set; }
 
-        [Display(Name = "Ülke")]
+        [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
 
         [Required]
-        [Display(Name = "Şehir")]
+        [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public int CityID { get; set; }
 
-        [Display(Name = "Şehir")]
+        [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public string CityName { get; set; }
     }
 }

@@ -7,15 +7,6 @@ using System.Threading.Tasks;
 
 namespace MATA.Data.Common.Enums
 {
-    
-
-    //public enum CurrencyCodeTypes
-    //{
-    //    UNDEFINED,
-    //    TRY,
-    //    USD
-    //}
-
     public enum AttachmentTypes
     {
         UNDEFINED,

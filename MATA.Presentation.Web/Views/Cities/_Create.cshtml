@@ -2,7 +2,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Yeni Şehir</h4>
+    <h4 class="modal-title">@Html.Localize("NewCity")</h4>
 </div>
 
 @using (Html.BeginForm("Create", "Cities", FormMethod.Post, new { id = "mt-form-cities-create", @class = "form-horizontal" }))
@@ -30,7 +30,7 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Kapat</button>
-        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">@Html.Localize("Close")</button>
+        <input type="submit" value="@Html.Localize("Save")" class="btn btn-primary" />
     </div>
 }

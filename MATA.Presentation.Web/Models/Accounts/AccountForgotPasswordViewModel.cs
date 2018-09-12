@@ -8,7 +8,8 @@ namespace MATA.Presentation.Web.Models.Accounts
 {
     public class AccountForgotPasswordViewModel
     {
-        [Display(Name = "E-Mail"), Required, MaxLength(100), MinLength(4), EmailAddress]
+        [Required, MaxLength(100), MinLength(4), EmailAddress]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Properties.Resources))]
         public string Email { get; set; }
     }
 }

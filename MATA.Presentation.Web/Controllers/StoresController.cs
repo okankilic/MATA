@@ -23,6 +23,8 @@ namespace MATA.Presentation.Web.Controllers
     {
         readonly IStoreBL storeBL;
         readonly IAccountBL accountBL;
+        readonly IProjectBL projectBL;
+        readonly ICityBL cityBL;
         readonly IDTOFactory<StoreDTO> dtoFactory;
 
         public StoresController(IUnitOfWorkFactory uowFactory,
@@ -33,16 +35,38 @@ namespace MATA.Presentation.Web.Controllers
         {
             storeBL = blFactory.CreateProxy<IStoreBL>();
             accountBL = blFactory.CreateProxy<IAccountBL>();
+            projectBL = blFactory.CreateProxy<IProjectBL>();
+            cityBL = blFactory.CreateProxy<ICityBL>();
 
             this.dtoFactory = dtoFactory;
         }
         
-        public override async Task<ActionResult> _Create()
+        public override async Task<ActionResult> _Create(StoreDTO dto = null)
         {
-            var dto = dtoFactory.CreateNew();
+            if(dto == null)
+            {
+                dto = dtoFactory.CreateNew();
+            }
 
             using (var uow = uowFactory.CreateNew())
             {
+                if(dto.CityID > 0)
+                {
+                    var city = cityBL.Get(dto.CityID, uow);
+
+                    dto.CountryID = city.CountryID;
+                    dto.CountryName = city.CountryName;
+                    dto.CityID = city.ID;
+                    dto.CityName = city.CityName;
+                }
+
+                if (dto.ProjectID > 0)
+                {
+                    var project = projectBL.Get(dto.ProjectID, uow);
+
+                    dto.ProjectName = project.ProjectName;
+                }
+
                 dto.Accounts = await accountBL.Search(null, 0, accountBL.Count(uow), uow);
             }
 

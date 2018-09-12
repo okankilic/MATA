@@ -11,6 +11,6 @@ namespace MATA.BL.Interfaces
 {
     public interface ICountryBL: IEntityBL<CountryDTO>
     {
-        Task<IEnumerable<CountryDTO>> GetCountries(int skip, int take, IUnitOfWork uow);
+
     }
 }

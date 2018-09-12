@@ -1,5 +1,16 @@
 ﻿@model MATA.Presentation.Web.Models.Attachments.AttachmentsIndexVM
 
+<h4>
+    Dosyalar (@Model.TotalCount)
+    @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+    {
+        <a href="@Url.Action("_Create", "Attachments", new { entityName = "Issue", entityID = ViewBag.IssueID })" id="mt-link-attachments-create" class="pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    }
+</h4>
+<hr />
+
 @if (Model.TotalCount == 0)
 {
     @:Bu işe ait dosya bulunmamaktadır
@@ -15,18 +26,18 @@ else
     grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.PageSize);
 
     var columnList = new List<WebGridColumn>()
-    {
-        new WebGridColumn
-        {
-            Header = "Dosya Adı",
-            ColumnName = "FileName"
-        },
-        new WebGridColumn
-        {
-            Header = "Dosya Tipi",
-            ColumnName = "AttachmentType"
-        }
-    };
+{
+new WebGridColumn
+{
+Header = "Dosya Adı",
+ColumnName = "FileName"
+},
+new WebGridColumn
+{
+Header = "Dosya Tipi",
+ColumnName = "AttachmentType"
+}
+};
 
     if (User.IsInRole(RoleTypes.Admin))
     {
