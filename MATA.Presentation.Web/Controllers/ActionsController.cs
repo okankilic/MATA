@@ -37,9 +37,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new ActionsIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = actionBL.GetAccountActionsCount(accountID, uow),
-                    Actions = await actionBL.GetAccountActions(accountID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Actions = await actionBL.GetAccountActions(accountID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 

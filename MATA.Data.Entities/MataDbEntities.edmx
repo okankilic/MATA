@@ -142,21 +142,6 @@
           <Property Name="ActionTime" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MataDB.VER.ProjectVersion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ProjectVersion">
-          <Key>
-            <PropertyRef Name="ActionID" />
-            <PropertyRef Name="ProjectID" />
-            <PropertyRef Name="CountryID" />
-            <PropertyRef Name="ProjectName" />
-          </Key>
-          <Property Name="ActionID" Type="int" Nullable="false" />
-          <Property Name="ProjectID" Type="int" Nullable="false" />
-          <Property Name="CountryID" Type="int" Nullable="false" />
-          <Property Name="ProjectName" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vAccount">
           <Key>
@@ -584,30 +569,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProjectVersion_Country">
-          <End Role="Country" Type="Self.Country" Multiplicity="1" />
-          <End Role="ProjectVersion" Type="Self.ProjectVersion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjectVersion">
-              <PropertyRef Name="CountryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProjectVersion_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="ProjectVersion" Type="Self.ProjectVersion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjectVersion">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Store_City">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="Store" Type="Self.Store" Multiplicity="*" />
@@ -705,15 +666,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="City" EntityType="Self.City" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="LK" store:Type="Tables" />
           <EntitySet Name="Action" EntityType="Self.Action" Schema="LOG" store:Type="Tables" />
-          <EntitySet Name="ProjectVersion" EntityType="Self.ProjectVersion" store:Type="Tables" store:Schema="VER">
-            <DefiningQuery>SELECT 
-    [ProjectVersion].[ActionID] AS [ActionID], 
-    [ProjectVersion].[ProjectID] AS [ProjectID], 
-    [ProjectVersion].[CountryID] AS [CountryID], 
-    [ProjectVersion].[ProjectName] AS [ProjectName], 
-    [ProjectVersion].[Remarks] AS [Remarks]
-    FROM [VER].[ProjectVersion] AS [ProjectVersion]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="vAccount" EntityType="Self.vAccount" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vAccount].[ID] AS [ID], 
@@ -925,14 +877,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="Account" EntitySet="Account" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProjectVersion_Country" Association="Self.FK_ProjectVersion_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="ProjectVersion" EntitySet="ProjectVersion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProjectVersion_Project" Association="Self.FK_ProjectVersion_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="ProjectVersion" EntitySet="ProjectVersion" />
-          </AssociationSet>
           <AssociationSet Name="FK_Store_City" Association="Self.FK_Store_City">
             <End Role="City" EntitySet="City" />
             <End Role="Store" EntitySet="Store" />
@@ -979,7 +923,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="City" EntityType="MataDBModel.City" />
           <EntitySet Name="Country" EntityType="MataDBModel.Country" />
           <EntitySet Name="Action" EntityType="MataDBModel.Action" />
-          <EntitySet Name="ProjectVersion" EntityType="MataDBModel.ProjectVersion" />
           <EntitySet Name="vAccount" EntityType="MataDBModel.vAccount" />
           <EntitySet Name="vAttachment" EntityType="MataDBModel.vAttachment" />
           <EntitySet Name="vCity" EntityType="MataDBModel.vCity" />
@@ -1049,10 +992,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <End Role="Mail" EntitySet="Mail" />
             <End Role="MailAccount" EntitySet="MailAccount" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProjectVersion_Project" Association="MataDBModel.FK_ProjectVersion_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="ProjectVersion" EntitySet="ProjectVersion" />
-          </AssociationSet>
           <AssociationSet Name="FK_Store_Project" Association="MataDBModel.FK_Store_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Store" EntitySet="Store" />
@@ -1068,10 +1007,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <AssociationSet Name="FK_City_Country" Association="MataDBModel.FK_City_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="City" EntitySet="City" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProjectVersion_Country" Association="MataDBModel.FK_ProjectVersion_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="ProjectVersion" EntitySet="ProjectVersion" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
@@ -1173,7 +1108,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Project" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Project" ToRole="Account" />
-          <NavigationProperty Name="ProjectVersion" Relationship="MataDBModel.FK_ProjectVersion_Project" FromRole="Project" ToRole="ProjectVersion" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_Project" FromRole="Project" ToRole="Store" />
         </EntityType>
         <EntityType Name="Store">
@@ -1234,7 +1168,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="City" Relationship="MataDBModel.FK_City_Country" FromRole="Country" ToRole="City" />
-          <NavigationProperty Name="ProjectVersion" Relationship="MataDBModel.FK_ProjectVersion_Country" FromRole="Country" ToRole="ProjectVersion" />
         </EntityType>
         <EntityType Name="Action">
           <Key>
@@ -1247,21 +1180,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="ActionType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Action_Account" FromRole="Action" ToRole="Account" />
-        </EntityType>
-        <EntityType Name="ProjectVersion">
-          <Key>
-            <PropertyRef Name="ActionID" />
-            <PropertyRef Name="ProjectID" />
-            <PropertyRef Name="CountryID" />
-            <PropertyRef Name="ProjectName" />
-          </Key>
-          <Property Name="ActionID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <Property Name="CountryID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Project" Relationship="MataDBModel.FK_ProjectVersion_Project" FromRole="ProjectVersion" ToRole="Project" />
-          <NavigationProperty Name="Country" Relationship="MataDBModel.FK_ProjectVersion_Country" FromRole="ProjectVersion" ToRole="Country" />
         </EntityType>
         <EntityType Name="vAccount">
           <Key>
@@ -1701,18 +1619,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ProjectVersion_Project">
-          <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="MataDBModel.ProjectVersion" Role="ProjectVersion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjectVersion">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Store_Project">
           <End Type="MataDBModel.Project" Role="Project" Multiplicity="1" />
           <End Type="MataDBModel.Store" Role="Store" Multiplicity="*" />
@@ -1757,18 +1663,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="City">
-              <PropertyRef Name="CountryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProjectVersion_Country">
-          <End Type="MataDBModel.Country" Role="Country" Multiplicity="1" />
-          <End Type="MataDBModel.ProjectVersion" Role="ProjectVersion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ProjectVersion">
               <PropertyRef Name="CountryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1924,17 +1818,6 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="EntityName" ColumnName="EntityName" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProjectVersion">
-            <EntityTypeMapping TypeName="MataDBModel.ProjectVersion">
-              <MappingFragment StoreEntitySet="ProjectVersion">
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

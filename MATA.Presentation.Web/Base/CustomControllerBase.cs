@@ -12,13 +12,15 @@ using System.Web.Mvc;
 
 namespace MATA.Presentation.Web.Base
 {
+    [CustomLog]
     [AuthenticateUser]
     [AuthorizeUser(Roles = RoleTypes.Combines.Any)]
     [CustomHandleError]
     [OutputCache(Duration = 0)]
     public abstract class CustomControllerBase: Controller
     {
-        protected const int DefaultPageSize = 10;
+        protected const int DefaultPageSize10 = 10;
+        protected const int DefaultPageSize5 = 5;
 
         protected IUnitOfWorkFactory uowFactory;
         protected ILogger logger;

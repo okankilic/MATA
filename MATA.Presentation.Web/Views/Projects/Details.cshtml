@@ -18,7 +18,7 @@
                         @Html.Localize("ProjectInfo")
                         @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                         {
-                            <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })" class="pull-right">
+                            <a href="@Url.Action("_Edit", "Projects", new { id = Model.ID })" class="pull-right mt-link-projects-edit" data-entity-id="@Model.ID">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
                         }

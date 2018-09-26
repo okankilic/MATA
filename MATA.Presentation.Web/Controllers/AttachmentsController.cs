@@ -117,9 +117,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new AttachmentsIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = attachmentBL.GetProjectAttachmentsCount(projectID, uow),
-                    Attachments = await attachmentBL.GetProjectAttachments(projectID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Attachments = await attachmentBL.GetProjectAttachments(projectID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -136,9 +136,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new AttachmentsIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = attachmentBL.GetStoreAttachmentsCount(storeID, uow),
-                    Attachments = await attachmentBL.GetStoreAttachments(storeID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Attachments = await attachmentBL.GetStoreAttachments(storeID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -155,9 +155,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new AttachmentsIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = attachmentBL.GetIssueAttachmentsCount(issueID, uow),
-                    Attachments = await attachmentBL.GetIssueAttachments(issueID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Attachments = await attachmentBL.GetIssueAttachments(issueID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 

@@ -5,6 +5,7 @@ using MATA.Data.Common.Constants;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using MATA.Data.Repositories.Interfaces;
+using MATA.Infrastructure.Utils.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -54,6 +55,11 @@ namespace MATA.BL.Impls
         public void Delete(int id, string tokenString, IUnitOfWork uow)
         {
             var country = uow.CountryRepository.GetByID(id);
+
+            if (country.City.Any())
+            {
+                throw new BusinessException("You can not delete this country");
+            }
 
             uow.CountryRepository.Delete(country);
             uow.SaveChanges(tokenString);

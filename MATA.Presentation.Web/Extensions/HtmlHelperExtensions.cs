@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -105,6 +106,17 @@ namespace MATA.Presentation.Web.Extensions
             sb.Append("</div>");
 
             return new HtmlString(sb.ToString());
+        }
+
+        public static WebGridColumn LocalizedDetailsActionLinkColumn<TModel>(this HtmlHelper<TModel> htmlHelper, string columnName, string linkColumnName, string controllerName)
+        {
+            var column = new WebGridColumn
+            {
+                Header = Resources.Properties.Resources.ResourceManager.GetString(columnName),
+                Format = (item) => htmlHelper.ActionLink((string)item[columnName], "Details", controllerName, new { id = item[linkColumnName] }, null)
+            };
+
+            return column;
         }
     }
 }

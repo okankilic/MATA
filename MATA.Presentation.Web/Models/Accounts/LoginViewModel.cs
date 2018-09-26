@@ -9,10 +9,16 @@ namespace MATA.Presentation.Web.Models.Accounts
 {
     public class LoginViewModel
     {
-        [Display(Name = "Email", ResourceType = typeof(Resources.Properties.Resources)), Required, MaxLength(100), MinLength(4), EmailAddress]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Properties.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Properties.Resources), ErrorMessageResourceName = "ErrorMessageRequired")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Properties.Resources), ErrorMessageResourceName = "ErrorMessageEmailAddress")]
+        [MaxLength(100), MinLength(4)]
         public string Email { get; set; }
 
-        [Display(Name = "Password", ResourceType = typeof(Resources.Properties.Resources)), Required, MaxLength(8), MinLength(3), DataType(DataType.Password)]
+        [Display(Name = "Password", ResourceType = typeof(Resources.Properties.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Properties.Resources), ErrorMessageResourceName = "ErrorMessageRequired")]
+        [MaxLength(8), MinLength(3)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "RememberMe", ResourceType = typeof(Resources.Properties.Resources))]

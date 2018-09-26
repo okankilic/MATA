@@ -27,27 +27,27 @@ else
     grid.Bind(Model.Issues, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
-{
-new WebGridColumn
-{
-Header = "İş Tanımı",
-ColumnName = "Description",
-CanSort = false
-},
-new WebGridColumn
-{
-Header = "Şantiye Adı",
-ColumnName = "StoreName",
-CanSort = false,
-//Style = "width: 300px"
-},
-new WebGridColumn
-{
-Header = "Açıklamalar",
-ColumnName = "Remarks",
-CanSort = false
-}
-};
+    {
+        new WebGridColumn
+        {
+        Header = "İş Tanımı",
+        ColumnName = "Description",
+        CanSort = false
+        },
+        new WebGridColumn
+        {
+        Header = "Şantiye Adı",
+        ColumnName = "StoreName",
+        CanSort = false,
+        //Style = "width: 300px"
+        },
+        new WebGridColumn
+        {
+        Header = "Açıklamalar",
+        ColumnName = "Remarks",
+        CanSort = false
+        }
+    };
 
     if (User.IsInRole(RoleTypes.Admin))
     {

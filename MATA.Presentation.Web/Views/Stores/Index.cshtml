@@ -27,22 +27,10 @@
 
             var columnList = new List<WebGridColumn>()
             {
-                WebGridHelper.LocalizedTextColumn("StoreName"),
-                new WebGridColumn
-                {
-                    Header = Html.Localize("Project"),
-                    Format = (item) => Html.ActionLink((string)item.ProjectName, "Details", "Projects", new { id = item.ProjectID }, null)
-                },
-                new WebGridColumn
-                {
-                    Header = Html.Localize("Country"),
-                    Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
-                },
-                new WebGridColumn
-                {
-                    Header = Html.Localize("City"),
-                    Format = (item) => Html.ActionLink((string)item.CityName, "Details", "Cities", new { id = item.CityID }, null)
-                },
+                Html.LocalizedDetailsActionLinkColumn("StoreName", "ID", "Stores"),
+                Html.LocalizedDetailsActionLinkColumn("CountryName", "CountryID", "Countries"),
+                Html.LocalizedDetailsActionLinkColumn("CityName", "CityID", "Cities"),
+                Html.LocalizedDetailsActionLinkColumn("ProjectName", "ProjectID", "Projects"),
                 WebGridHelper.LocalizedTextColumn("Address")
             };
 

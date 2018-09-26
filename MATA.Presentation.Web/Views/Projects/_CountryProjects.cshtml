@@ -1,0 +1,62 @@
+﻿@model MATA.Presentation.Web.Models.Projects.ProjectsIndexVM
+
+    <h4>
+        @Html.Localize("Projects") (@Model.TotalCount)
+        @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+        {
+            <a href="@Url.Action("_Create", "Projects", new { countryID = ViewBag.CountryID })" id="mt-link-projects-create" class="pull-right">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        }
+    </h4>
+    <hr />
+
+    @if (Model.TotalCount == 0)
+    {
+        @Html.Localize("NoProjectsForThisCountry")
+    }
+    else
+    {
+        var projectsGrid = new WebGrid(
+            rowsPerPage: Model.PageSize,
+            ajaxUpdateContainerId: "project-grid",
+            ajaxUpdateCallback: "projectsController.initGridEvents"
+        );
+
+        projectsGrid.Bind(Model.Projects, autoSortAndPage: false, rowCount: Model.TotalCount);
+
+        var columnList = new List<WebGridColumn>()
+        {
+            Html.LocalizedDetailsActionLinkColumn("ProjectName", "ID", "Projects"),
+            WebGridHelper.LocalizedTextColumn("Remarks")
+        };
+
+        if (User.IsInRole(RoleTypes.Admin))
+        {
+            this.AddAuditColumns(columnList);
+        }
+
+        if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
+        {
+            columnList.Add(new WebGridColumn
+            {
+                Format = (item) => Html.LocalizedActionLink("Details", "Details", new { id = item.ID })
+            });
+
+            columnList.Add(new WebGridColumn
+            {
+                Format = (item) => Html.LocalizedActionLink("Update", "_Edit", new { id = item.ID }, new { @class = "mt-link-projects-edit", data_entity_id = item.ID })
+            });
+        }
+
+        @projectsGrid.GetHtml(
+            htmlAttributes: new { id = "project-grid" },
+            tableStyle: "table table-hover",
+            columns: columnList,
+            mode: WebGridPagerModes.Numeric,
+            numericLinksCount: 5
+        )
+    }
+
+    <script src="~/ts/mata.projects-controller.js"></script>
+

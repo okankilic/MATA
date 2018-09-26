@@ -31,12 +31,7 @@
             tableStyle: "table table-hover",
             columns: new List<WebGridColumn>()
             {
-                new WebGridColumn
-                {
-                    Header = Html.Localize("CountryName"),
-                    ColumnName = "CountryName",
-                    CanSort = false
-                },
+                Html.LocalizedDetailsActionLinkColumn("CountryName", "ID", "Countries"),
                 new WebGridColumn
                 {
                     Format = (item) => Html.LocalizedActionLink("Details", "Details", new { id = item.ID })

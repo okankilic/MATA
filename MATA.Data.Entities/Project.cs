@@ -17,7 +17,6 @@ namespace MATA.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Project()
         {
-            this.ProjectVersion = new HashSet<ProjectVersion>();
             this.Store = new HashSet<Store>();
         }
     
@@ -31,8 +30,6 @@ namespace MATA.Data.Entities
     
         public virtual Account Account { get; set; }
         public virtual Account Account1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProjectVersion> ProjectVersion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Store { get; set; }
     }

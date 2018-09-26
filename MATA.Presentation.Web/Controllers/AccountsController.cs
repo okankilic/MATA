@@ -110,7 +110,7 @@ namespace MATA.Presentation.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError("", "Kullanıcı bulunamadı. Lütfen kullanıcı adı ve şifrenizi kontrol edip tekrar deneyiniz.");
+            ModelState.AddModelError("", Resources.Properties.Resources.ErrorMessageLogin);
 
             return View(model);
         }
@@ -179,14 +179,14 @@ namespace MATA.Presentation.Web.Controllers
         [HttpGet]
         public ActionResult _ForgotPassword()
         {
-            var model = new AccountForgotPasswordViewModel();
+            var model = new ForgotPasswordViewModel();
 
             return PartialView(model);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> ForgotPassword(AccountForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -213,9 +213,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new AccountsIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = accountBL.GetStoreAccountsCount(storeID, uow),
-                    Accounts = await accountBL.GetStoreAccounts(storeID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Accounts = await accountBL.GetStoreAccounts(storeID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 

@@ -65,9 +65,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new IssuesIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = issueBL.GetCountryIssuesCount(countryID, uow),
-                    Issues = await issueBL.GetCountryIssues(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Issues = await issueBL.GetCountryIssues(countryID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -84,9 +84,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new IssuesIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = issueBL.GetCityIssuesCount(cityID, uow),
-                    Issues = await issueBL.GetCityIssues(cityID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Issues = await issueBL.GetCityIssues(cityID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -103,9 +103,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new IssuesIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = issueBL.GetProjectIssuesCount(projectID, uow),
-                    Issues = await issueBL.GetProjectIssues(projectID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Issues = await issueBL.GetProjectIssues(projectID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -122,9 +122,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new IssuesIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = issueBL.GetStoreIssuesCount(storeID, uow),
-                    Issues = await issueBL.GetStoreIssues(storeID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Issues = await issueBL.GetStoreIssues(storeID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 

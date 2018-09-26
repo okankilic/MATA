@@ -132,6 +132,12 @@
   <data name="AreYouSureToDelete" xml:space="preserve">
     <value>{0} silinecek. Emin misiniz?</value>
   </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="AttachmentType" xml:space="preserve">
+    <value>File Type</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Vazgeç</value>
   </data>
@@ -165,11 +171,29 @@
   <data name="Details" xml:space="preserve">
     <value>Detay</value>
   </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-Mail</value>
   </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>File Group</value>
+  </data>
+  <data name="ErrorMessageEmailAddress" xml:space="preserve">
+    <value>Please enter a valid e-mail address</value>
+  </data>
+  <data name="ErrorMessageLogin" xml:space="preserve">
+    <value>User could not be found. Please check your e-mail and password and try again.</value>
+  </data>
   <data name="ErrorMessageRequired" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File Name</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Şifremi Unuttum</value>
@@ -191,6 +215,12 @@
   </data>
   <data name="NewCountry" xml:space="preserve">
     <value>Yeni Ülke</value>
+  </data>
+  <data name="NoProjectsForThisCity" xml:space="preserve">
+    <value>There are no projects for this city</value>
+  </data>
+  <data name="NoProjectsForThisCountry" xml:space="preserve">
+    <value>There are no projects for this country</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Şifre</value>

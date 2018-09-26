@@ -27,7 +27,7 @@
 
             var columnList = new List<WebGridColumn>()
             {
-                WebGridHelper.LocalizedTextColumn("ProjectName"),
+                Html.LocalizedDetailsActionLinkColumn("ProjectName", "ID", "Projects"),
                 WebGridHelper.LocalizedTextColumn("Remarks")
             };
 

@@ -95,5 +95,52 @@ namespace MATA.BL.Impls
 
             return itemList.Select(c => mapper.MapToDTO(c));
         }
+
+        [CustomCache(CacheKey = CacheKey)]
+        public int GetCountryProjectsCount(int countryID, IUnitOfWork uow)
+        {
+            var projectIDs = uow.StoreRepository.Find(q => q.CountryID == countryID).Select(q => q.ProjectID).Distinct();
+
+            var projects = (from projectID in projectIDs
+                             join project in uow.ProjectRepository.Find() on projectID equals project.ID
+                             select project);
+
+            return projects.Count();
+        }
+
+        public async Task<IEnumerable<ProjectDTO>> GetCountryProjects(int countryID, int skip, int take, IUnitOfWork uow)
+        {
+            var projectIDs = uow.StoreRepository.Find(q => q.CountryID == countryID).Select(q => q.ProjectID).Distinct();
+
+            var projectList = await (from projectID in projectIDs
+                            join project in uow.ProjectRepository.Find() on projectID equals project.ID
+                            orderby project.ProjectName
+                            select project).Skip(skip).Take(take).ToListAsync();
+
+            return projectList.Select(q => mapper.MapToDTO(q));
+        }
+
+        public int GetCityProjectsCount(int cityID, IUnitOfWork uow)
+        {
+            var projectIDs = uow.StoreRepository.Find(q => q.CityID == cityID).Select(q => q.ProjectID).Distinct();
+
+            var projects = (from projectID in projectIDs
+                            join project in uow.ProjectRepository.Find() on projectID equals project.ID
+                            select project);
+
+            return projects.Count();
+        }
+
+        public async Task<IEnumerable<ProjectDTO>> GetCityProjects(int cityID, int skip, int take, IUnitOfWork uow)
+        {
+            var projectIDs = uow.StoreRepository.Find(q => q.CityID == cityID).Select(q => q.ProjectID).Distinct();
+
+            var projectList = await (from projectID in projectIDs
+                                     join project in uow.ProjectRepository.Find() on projectID equals project.ID
+                                     orderby project.ProjectName
+                                     select project).Skip(skip).Take(take).ToListAsync();
+
+            return projectList.Select(q => mapper.MapToDTO(q));
+        }
     }
 }

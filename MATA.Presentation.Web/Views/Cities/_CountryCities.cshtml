@@ -1,10 +1,10 @@
 ﻿@model MATA.Presentation.Web.Models.Cities.CitiesIndexVM
 
 <h4>
-    Şehirler (@Model.TotalCount)
+    @Html.Localize("Cities") (@Model.TotalCount)
     @if (User.IsInRole(RoleTypes.Admin))
     {
-        <a href="@Url.Action("_Create", "Cities", new { countryID = ViewBag.CountryID })" id="mt-link-stores-create" class="pull-right">
+        <a href="@Url.Action("_Create", "Cities", new { CountryID = ViewBag.CountryID, CountryName = ViewBag.CountryName })" id="mt-link-cities-create" class="pull-right">
             <span class="glyphicon glyphicon-plus"></span>
         </a>
     }
@@ -17,23 +17,18 @@
 }
 else
 {
-    WebGrid grid = new WebGrid(
+    WebGrid citiesGrid = new WebGrid(
         rowsPerPage: Model.PageSize,
         ajaxUpdateContainerId: "city-grid",
         ajaxUpdateCallback: "citiesController.initGridEvents"
     );
 
-    grid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
+    citiesGrid.Bind(Model.Cities, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
-{
-new WebGridColumn
-{
-Header = "Şehir Adı",
-ColumnName = "CityName",
-CanSort = false
-}
-};
+    {
+        Html.LocalizedDetailsActionLinkColumn("CityName", "ID", "Cities")
+    };
 
     if (User.IsInRole(RoleTypes.Admin))
     {
@@ -48,7 +43,7 @@ CanSort = false
         });
     }
 
-    @grid.GetHtml(
+    @citiesGrid.GetHtml(
         htmlAttributes: new { id = "city-grid" },
         tableStyle: "table table-hover",
         columns: columnList,

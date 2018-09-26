@@ -12,6 +12,7 @@ namespace MATA.Data.DTO.Models
         public int ID { get; set; }
 
         [Display(Name = "CountryName", ResourceType = typeof(Resources.Properties.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Properties.Resources), ErrorMessageResourceName = "ErrorMessageRequired")]
         public string CountryName { get; set; }
     }
 }

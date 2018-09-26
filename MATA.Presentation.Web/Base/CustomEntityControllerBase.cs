@@ -46,7 +46,7 @@ namespace MATA.Presentation.Web.Base
 
             using (var uow = uowFactory.CreateNew())
             {
-                vm = await vmFactory.CreateNewIndexVMAsync(page, DefaultPageSize, uow);
+                vm = await vmFactory.CreateNewIndexVMAsync(page, DefaultPageSize10, uow);
             }
 
             return View(vm);
@@ -157,7 +157,7 @@ namespace MATA.Presentation.Web.Base
 
             using (var uow = uowFactory.CreateNew())
             {
-                items = await entityBL.Search(q, (page - 1) * DefaultPageSize, DefaultPageSize, uow);
+                items = await entityBL.Search(q, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow);
             }
 
             return Json(items);

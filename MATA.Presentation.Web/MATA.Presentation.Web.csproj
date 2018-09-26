@@ -192,6 +192,7 @@
     <Compile Include="Filters\AuthenticateUserAttribute.cs" />
     <Compile Include="Filters\AuthorizeUserAttribute.cs" />
     <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Filters\CustomLogAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,7 +208,7 @@
     <Compile Include="Impls\StoresVMFactory.cs" />
     <Compile Include="Interfaces\IVMFactory.cs" />
     <Compile Include="Ioc\PresentationWebUnityContainerExtension.cs" />
-    <Compile Include="Models\Accounts\AccountForgotPasswordViewModel.cs" />
+    <Compile Include="Models\Accounts\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Accounts\AccountsIndexVM.cs" />
     <Compile Include="Models\Accounts\CustomFormsAuthenticationUserData.cs" />
     <Compile Include="Models\Accounts\LoginViewModel.cs" />
@@ -237,9 +238,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -346,6 +344,8 @@
     <Content Include="Views\Attachments\_IssueAttachments.cshtml" />
     <Content Include="Views\Issues\Details.cshtml" />
     <Content Include="Views\Caches\Index.cshtml" />
+    <Content Include="Views\Projects\_CountryProjects.cshtml" />
+    <Content Include="Views\Projects\_CityProjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

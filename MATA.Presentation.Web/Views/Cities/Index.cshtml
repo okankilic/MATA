@@ -28,17 +28,8 @@
 
             var columnList = new List<WebGridColumn>()
             {
-                new WebGridColumn
-                {
-                    Header = Html.Localize("Country"),
-                    Format = (item) => Html.ActionLink((string)item.CountryName, "Details", "Countries", new { id = item.CountryID }, null)
-                },
-                new WebGridColumn
-                {
-                    Header = Html.Localize("CityName"),
-                    ColumnName = "CityName",
-                    CanSort = false
-                }
+                Html.LocalizedDetailsActionLinkColumn("CityName", "ID", "Cities"),
+                Html.LocalizedDetailsActionLinkColumn("CountryName", "CountryID", "Countries")
             };
 
             if (User.IsInRole(RoleTypes.Admin))

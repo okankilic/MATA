@@ -96,7 +96,6 @@
     <Build Include="dbo\Views\vIssue.sql" />
     <Build Include="LK\Views\vCountry.sql" />
     <Build Include="LK\Views\vCity.sql" />
-    <Build Include="VER\Tables\ProjectVersion.sql" />
     <Build Include="Security\VER.sql" />
     <Build Include="LOG\Tables\Action.sql" />
     <Build Include="Security\LOG.sql" />

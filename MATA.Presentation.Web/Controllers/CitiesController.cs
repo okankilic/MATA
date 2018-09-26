@@ -17,6 +17,7 @@ namespace MATA.Presentation.Web.Controllers
 {
     public class CitiesController : CustomEntityControllerBase<CityDTO, CitiesIndexVM>
     {
+        readonly ICountryBL countryBL;
         readonly ICityBL cityBL;
 
         public CitiesController(IUnitOfWorkFactory uowFactory, 
@@ -25,6 +26,7 @@ namespace MATA.Presentation.Web.Controllers
             IVMFactory<CityDTO, CitiesIndexVM> vmFactory, 
             IBLFactory blFactory) : base(uowFactory, logger, dtoFactory, vmFactory, blFactory)
         {
+            countryBL = blFactory.CreateProxy<ICountryBL>();
             cityBL = blFactory.CreateProxy<ICityBL>();
         }
 
@@ -46,15 +48,18 @@ namespace MATA.Presentation.Web.Controllers
         {
             CitiesIndexVM vm;
 
-            ViewBag.CountryID = countryID;
-
             using (var uow = uowFactory.CreateNew())
             {
+                var country = countryBL.Get(countryID, uow);
+                
+                ViewBag.CountryID = country.ID;
+                ViewBag.CountryName = country.CountryName;
+
                 vm = new CitiesIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize5,
                     TotalCount = cityBL.GetCountryCitiesCount(countryID, uow),
-                    Cities = await cityBL.GetCountryCities(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Cities = await cityBL.GetCountryCities(countryID, (page - 1) * DefaultPageSize5, DefaultPageSize5, uow)
                 };
             }
 

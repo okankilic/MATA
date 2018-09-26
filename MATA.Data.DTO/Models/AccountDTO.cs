@@ -22,7 +22,7 @@ namespace MATA.Data.DTO.Models
         [MaxLength(100)]
         [MinLength(4)]
         [Display(Name = "Email", ResourceType = typeof(Resources.Properties.Resources))]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         public string Email { get; set; }
 
         [MinLength(10)]

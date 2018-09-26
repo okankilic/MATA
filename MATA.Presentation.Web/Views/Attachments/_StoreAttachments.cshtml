@@ -23,7 +23,7 @@ else
         ajaxUpdateCallback: "attachmentsController.initGridEvents"
     );
 
-    grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.PageSize);
+    grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
 {

@@ -17,19 +17,19 @@
 }
 else
 {
-    WebGrid grid = new WebGrid(
+    WebGrid storesGrid = new WebGrid(
         rowsPerPage: Model.PageSize,
         ajaxUpdateContainerId: "store-grid",
         ajaxUpdateCallback: "storesController.initGridEvents"
     );
 
-    grid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.PageSize);
+    storesGrid.Bind(Model.Stores, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
     {
-        WebGridHelper.LocalizedTextColumn("StoreName"),
-        WebGridHelper.LocalizedTextColumn("ProjectName"),
-        WebGridHelper.LocalizedTextColumn("CityName"),
+        Html.LocalizedDetailsActionLinkColumn("StoreName", "ID", "Stores"),
+        Html.LocalizedDetailsActionLinkColumn("CityName", "CityID", "Cities"),
+        Html.LocalizedDetailsActionLinkColumn("ProjectName", "ProjectID", "Projects"),
         WebGridHelper.LocalizedTextColumn("Address")
     };
 
@@ -51,7 +51,7 @@ else
         });
     }
 
-    @grid.GetHtml(
+    @storesGrid.GetHtml(
         htmlAttributes: new { id = "store-grid" },
         tableStyle: "table table-hover",
         columns: columnList,

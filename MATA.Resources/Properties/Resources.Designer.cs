@@ -115,6 +115,24 @@ namespace MATA.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ekler.
+        /// </summary>
+        public static string Attachments {
+            get {
+                return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dosya Tipi.
+        /// </summary>
+        public static string AttachmentType {
+            get {
+                return ResourceManager.GetString("AttachmentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Düzenleme Bilgileri.
         /// </summary>
         public static string AuditInfo {
@@ -268,11 +286,47 @@ namespace MATA.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to İndir.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-Mail.
         /// </summary>
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dosya Grubu.
+        /// </summary>
+        public static string EntityName {
+            get {
+                return ResourceManager.GetString("EntityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lütfen geçerli bir e-mail adresi giriniz.
+        /// </summary>
+        public static string ErrorMessageEmailAddress {
+            get {
+                return ResourceManager.GetString("ErrorMessageEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı bulunamadı. Lütfen e-mail adresinizi ve şifrenizi kontrol edip tekrar deneyiniz..
+        /// </summary>
+        public static string ErrorMessageLogin {
+            get {
+                return ResourceManager.GetString("ErrorMessageLogin", resourceCulture);
             }
         }
         
@@ -291,6 +345,24 @@ namespace MATA.Resources.Properties {
         public static string ExPassword {
             get {
                 return ResourceManager.GetString("ExPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dosya.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dosya Adı.
+        /// </summary>
+        public static string FileName {
+            get {
+                return ResourceManager.GetString("FileName", resourceCulture);
             }
         }
         
@@ -435,6 +507,24 @@ namespace MATA.Resources.Properties {
         public static string NoAttachmentsForThisProject {
             get {
                 return ResourceManager.GetString("NoAttachmentsForThisProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bu şehire ait proje bulunmamaktadır.
+        /// </summary>
+        public static string NoProjectsForThisCity {
+            get {
+                return ResourceManager.GetString("NoProjectsForThisCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bu ülkeye ait proje bulunmamaktadır.
+        /// </summary>
+        public static string NoProjectsForThisCountry {
+            get {
+                return ResourceManager.GetString("NoProjectsForThisCountry", resourceCulture);
             }
         }
         

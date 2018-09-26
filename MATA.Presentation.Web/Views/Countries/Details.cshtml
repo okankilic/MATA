@@ -17,7 +17,7 @@
                     @Html.Localize("CountryInfo")
                     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                     {
-                        <a href="@Url.Action("_Edit", "Countries", new { id = Model.ID })" class="pull-right">
+                        <a href="@Url.Action("_Edit", "Countries", new { id = Model.ID })" class="pull-right mt-link-countries-edit" data-entity-id="@Model.ID">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     }
@@ -42,6 +42,8 @@
     <div class="col-sm-8">
 
         @Html.PartialViewContainer(Url.Action("_CountryCities", "Cities", new { countryID = Model.ID, page = 1 }))
+
+        @Html.PartialViewContainer(Url.Action("_CountryProjects", "Projects", new { countryID = Model.ID, page = 1 }))
 
         @Html.PartialViewContainer(Url.Action("_CountryStores", "Stores", new { countryID = Model.ID, page = 1 }))
 

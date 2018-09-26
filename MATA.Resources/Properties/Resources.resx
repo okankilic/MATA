@@ -324,4 +324,34 @@
   <data name="ErrorMessageRequired" xml:space="preserve">
     <value>Bu alan zorunludur</value>
   </data>
+  <data name="ErrorMessageEmailAddress" xml:space="preserve">
+    <value>Lütfen geçerli bir e-mail adresi giriniz</value>
+  </data>
+  <data name="ErrorMessageLogin" xml:space="preserve">
+    <value>Kullanıcı bulunamadı. Lütfen e-mail adresinizi ve şifrenizi kontrol edip tekrar deneyiniz.</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Ekler</value>
+  </data>
+  <data name="AttachmentType" xml:space="preserve">
+    <value>Dosya Tipi</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>İndir</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>Dosya Grubu</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Dosya Adı</value>
+  </data>
+  <data name="NoProjectsForThisCity" xml:space="preserve">
+    <value>Bu şehire ait proje bulunmamaktadır</value>
+  </data>
+  <data name="NoProjectsForThisCountry" xml:space="preserve">
+    <value>Bu ülkeye ait proje bulunmamaktadır</value>
+  </data>
 </root>

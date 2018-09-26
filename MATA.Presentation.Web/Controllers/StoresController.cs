@@ -96,9 +96,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new StoresIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize5,
                     TotalCount = storeBL.GetCountryStoresCount(countryID, uow),
-                    Stores = await storeBL.GetCountryStores(countryID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Stores = await storeBL.GetCountryStores(countryID, (page - 1) * DefaultPageSize5, DefaultPageSize5, uow)
                 };
             }
 
@@ -115,9 +115,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new StoresIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = storeBL.GetCityStoresCount(cityID, uow),
-                    Stores = await storeBL.GetCityStores(cityID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Stores = await storeBL.GetCityStores(cityID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 
@@ -134,9 +134,9 @@ namespace MATA.Presentation.Web.Controllers
             {
                 vm = new StoresIndexVM
                 {
-                    PageSize = DefaultPageSize,
+                    PageSize = DefaultPageSize10,
                     TotalCount = storeBL.GetProjectStoreCount(projectID, uow),
-                    Stores = await storeBL.GetProjectStores(projectID, (page - 1) * DefaultPageSize, DefaultPageSize, uow)
+                    Stores = await storeBL.GetProjectStores(projectID, (page - 1) * DefaultPageSize10, DefaultPageSize10, uow)
                 };
             }
 

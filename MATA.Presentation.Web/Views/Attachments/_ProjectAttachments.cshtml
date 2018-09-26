@@ -17,13 +17,13 @@
 }
 else
 {
-    WebGrid grid = new WebGrid(
+    WebGrid attachmentsGrid = new WebGrid(
         rowsPerPage: Model.PageSize,
         ajaxUpdateContainerId: "attachment-grid",
         ajaxUpdateCallback: "attachmentsController.initGridEvents"
     );
 
-    grid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.PageSize);
+    attachmentsGrid.Bind(Model.Attachments, autoSortAndPage: false, rowCount: Model.TotalCount);
 
     var columnList = new List<WebGridColumn>()
     {
@@ -41,7 +41,7 @@ else
         Format = (item) => Html.LocalizedActionLink("Download", "Download", "Attachments", new { id = item.ID }, null)
     });
 
-    @grid.GetHtml(
+    @attachmentsGrid.GetHtml(
         htmlAttributes: new { id = "attachment-grid" },
         tableStyle: "table table-hover",
         columns: columnList,

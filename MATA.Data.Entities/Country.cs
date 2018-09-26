@@ -18,7 +18,6 @@ namespace MATA.Data.Entities
         public Country()
         {
             this.City = new HashSet<City>();
-            this.ProjectVersion = new HashSet<ProjectVersion>();
         }
     
         public int ID { get; set; }
@@ -26,7 +25,5 @@ namespace MATA.Data.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> City { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProjectVersion> ProjectVersion { get; set; }
     }
 }
