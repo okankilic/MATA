@@ -12,7 +12,10 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
-        [Required]
+        [Display(Name = "SeqNo", ResourceType = typeof(Resources.Properties.Resources))]
+        public string SeqNo { get; set; }
+
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "Description", ResourceType = typeof(Resources.Properties.Resources))]
         public string Description { get; set; }
         
@@ -23,20 +26,21 @@ namespace MATA.Data.DTO.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "RequestDate", ResourceType = typeof(Resources.Properties.Resources))]
         [DisplayFormat(DataFormatString = "yyyy-MM-dd")]
         [DataType(DataType.Date)]
         public DateTime RequestDate { get; set; }
-        
+
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "RequestedByFullName", ResourceType = typeof(Resources.Properties.Resources))]
         public string RequestedByFullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "SourceType", ResourceType = typeof(Resources.Properties.Resources))]
         public IssueSourceTypes SourceType { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "Store", ResourceType = typeof(Resources.Properties.Resources))]
         public int StoreID { get; set; }
 
@@ -55,7 +59,7 @@ namespace MATA.Data.DTO.Models
         [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public int CityID { get; set; }
 

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Constants\MailToCcBccTypes.cs" />
     <Compile Include="Constants\RoleTypes.cs" />
+    <Compile Include="Constants\SeqNoPrefixTypes.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

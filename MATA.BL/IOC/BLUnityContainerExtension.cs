@@ -22,6 +22,8 @@ namespace MATA.BL.Ioc
 
             Container.RegisterType<ICacheBL, CacheBL>();
 
+            Container.RegisterType<ISeqNoBL, SeqNoBL>();
+
             Container.RegisterType<IMapper<Account, vAccount, AccountDTO>, AccountMapper>();
             Container.RegisterType<IEntityBL<AccountDTO>, IAccountBL>();
             Container.RegisterType<IAccountBL, AccountBL>();

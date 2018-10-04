@@ -31,6 +31,7 @@ namespace MATA.Data.Entities
         public virtual DbSet<Mail> Mail { get; set; }
         public virtual DbSet<MailAccount> MailAccount { get; set; }
         public virtual DbSet<Project> Project { get; set; }
+        public virtual DbSet<SeqNo> SeqNo { get; set; }
         public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<StoreAccount> StoreAccount { get; set; }
         public virtual DbSet<Token> Token { get; set; }
@@ -46,6 +47,7 @@ namespace MATA.Data.Entities
         public virtual DbSet<vMailAccount> vMailAccount { get; set; }
         public virtual DbSet<vMailAttachment> vMailAttachment { get; set; }
         public virtual DbSet<vProject> vProject { get; set; }
+        public virtual DbSet<vSeqNo> vSeqNo { get; set; }
         public virtual DbSet<vStore> vStore { get; set; }
         public virtual DbSet<vStoreAccount> vStoreAccount { get; set; }
         public virtual DbSet<vToken> vToken { get; set; }

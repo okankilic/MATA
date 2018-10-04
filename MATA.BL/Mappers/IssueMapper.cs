@@ -1,4 +1,5 @@
-﻿using MATA.Data.Common.Enums;
+﻿using MATA.BL.Interfaces;
+using MATA.Data.Common.Enums;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;
@@ -16,6 +17,7 @@ namespace MATA.BL.Mappers
             return new IssueDTO
             {
                 ID = entity.ID,
+                SeqNo = entity.SeqNo,
                 //CityID = entity.CityID,
                 //CityName = entity.CityName,
                 //CountryID = entity.CountryID,
@@ -44,6 +46,7 @@ namespace MATA.BL.Mappers
             return new IssueDTO
             {
                 ID = view.ID,
+                SeqNo = view.SeqNo,
                 CityID = view.CityID,
                 CityName = view.CityName,
                 CountryID = view.CountryID,
@@ -71,6 +74,7 @@ namespace MATA.BL.Mappers
         {
             return new Issue
             {
+                SeqNo = dto.SeqNo,
                 Description = dto.Description,
                 StoreID = dto.StoreID,
                 RequestedByFullName = dto.RequestedByFullName,

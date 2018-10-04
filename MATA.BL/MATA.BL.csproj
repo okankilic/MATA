@@ -84,6 +84,7 @@
     <Compile Include="Impls\ActionBL.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\CustomCacheAttribute.cs" />
+    <Compile Include="Impls\SeqNoBL.cs" />
     <Compile Include="Interfaces\IAttachmentBL.cs" />
     <Compile Include="Interfaces\IBLFactory.cs" />
     <Compile Include="Interfaces\IAccountBL.cs" />
@@ -109,12 +110,13 @@
     <Compile Include="Mappers\AttachmentMapper.cs" />
     <Compile Include="Mappers\CityMapper.cs" />
     <Compile Include="Mappers\CountryMapper.cs" />
-    <Compile Include="Mappers\IMapper.cs" />
+    <Compile Include="Interfaces\IMapper.cs" />
     <Compile Include="Mappers\IssueMapper.cs" />
     <Compile Include="Mappers\MailMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
     <Compile Include="Mappers\StoreMapper.cs" />
     <Compile Include="Impls\ProjectBL.cs" />
+    <Compile Include="Interfaces\ISeqNoBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impls\StoreBL.cs" />
     <Compile Include="Impls\TokenBL.cs" />

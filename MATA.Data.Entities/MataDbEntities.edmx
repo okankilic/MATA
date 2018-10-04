@@ -38,6 +38,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeqNo" Type="varchar" MaxLength="13" Nullable="false" />
           <Property Name="StoreID" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="SourceType" Type="varchar" MaxLength="20" Nullable="false" />
@@ -82,6 +83,14 @@
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeqNo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prefix" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="SeqNo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Store">
           <Key>
@@ -221,6 +230,7 @@ warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key def
         <EntityType Name="vIssue">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="SeqNo" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="IssueState" />
             <PropertyRef Name="RequestDate" />
@@ -240,6 +250,7 @@ warning 6002: The table/view 'MataDB.dbo.vIssue' does not have a primary key def
             <PropertyRef Name="UpdateTime" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="SeqNo" Type="varchar" MaxLength="13" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IssueState" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar(max)" />
@@ -335,6 +346,18 @@ warning 6002: The table/view 'MataDB.dbo.vProject' does not have a primary key d
           <Property Name="UpdatedByAccountID" Type="int" Nullable="false" />
           <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
           <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MataDB.dbo.vSeqNo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vSeqNo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Prefix" />
+            <PropertyRef Name="SeqNo" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prefix" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="SeqNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MataDB.dbo.vStore' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -660,6 +683,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="Mail" EntityType="Self.Mail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MailAccount" EntityType="Self.MailAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeqNo" EntityType="Self.SeqNo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAccount" EntityType="Self.StoreAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Token" EntityType="Self.Token" Schema="dbo" store:Type="Tables" />
@@ -711,6 +735,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="vIssue" EntityType="Self.vIssue" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vIssue].[ID] AS [ID], 
+    [vIssue].[SeqNo] AS [SeqNo], 
     [vIssue].[Description] AS [Description], 
     [vIssue].[IssueState] AS [IssueState], 
     [vIssue].[Remarks] AS [Remarks], 
@@ -775,6 +800,13 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
     [vProject].[UpdatedBy] AS [UpdatedBy], 
     [vProject].[UpdateTime] AS [UpdateTime]
     FROM [dbo].[vProject] AS [vProject]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vSeqNo" EntityType="Self.vSeqNo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vSeqNo].[ID] AS [ID], 
+    [vSeqNo].[Prefix] AS [Prefix], 
+    [vSeqNo].[SeqNo] AS [SeqNo]
+    FROM [dbo].[vSeqNo] AS [vSeqNo]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vStore" EntityType="Self.vStore" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -917,6 +949,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="Mail" EntityType="MataDBModel.Mail" />
           <EntitySet Name="MailAccount" EntityType="MataDBModel.MailAccount" />
           <EntitySet Name="Project" EntityType="MataDBModel.Project" />
+          <EntitySet Name="SeqNo" EntityType="MataDBModel.SeqNo" />
           <EntitySet Name="Store" EntityType="MataDBModel.Store" />
           <EntitySet Name="StoreAccount" EntityType="MataDBModel.StoreAccount" />
           <EntitySet Name="Token" EntityType="MataDBModel.Token" />
@@ -932,6 +965,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <EntitySet Name="vMailAccount" EntityType="MataDBModel.vMailAccount" />
           <EntitySet Name="vMailAttachment" EntityType="MataDBModel.vMailAttachment" />
           <EntitySet Name="vProject" EntityType="MataDBModel.vProject" />
+          <EntitySet Name="vSeqNo" EntityType="MataDBModel.vSeqNo" />
           <EntitySet Name="vStore" EntityType="MataDBModel.vStore" />
           <EntitySet Name="vStoreAccount" EntityType="MataDBModel.vStoreAccount" />
           <EntitySet Name="vToken" EntityType="MataDBModel.vToken" />
@@ -1056,6 +1090,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SeqNo" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
           <Property Name="StoreID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SourceType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -1109,6 +1144,14 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <NavigationProperty Name="Account" Relationship="MataDBModel.FK_Project_CreatedByAccount" FromRole="Project" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="MataDBModel.FK_Project_UpdatedByAccount" FromRole="Project" ToRole="Account" />
           <NavigationProperty Name="Store" Relationship="MataDBModel.FK_Store_Project" FromRole="Project" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="SeqNo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prefix" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="SeqNo1" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Store">
           <Key>
@@ -1251,6 +1294,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
         <EntityType Name="vIssue">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="SeqNo" />
             <PropertyRef Name="Description" />
             <PropertyRef Name="IssueState" />
             <PropertyRef Name="RequestDate" />
@@ -1270,6 +1314,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
             <PropertyRef Name="UpdateTime" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="SeqNo" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IssueState" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1357,6 +1402,16 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
           <Property Name="UpdatedByAccountID" Type="Int32" Nullable="false" />
           <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vSeqNo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Prefix" />
+            <PropertyRef Name="SeqNo" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prefix" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="SeqNo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="vStore">
           <Key>
@@ -1717,6 +1772,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="SourceType" ColumnName="SourceType" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1753,6 +1809,15 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeqNo">
+            <EntityTypeMapping TypeName="MataDBModel.SeqNo">
+              <MappingFragment StoreEntitySet="SeqNo">
+                <ScalarProperty Name="SeqNo1" ColumnName="SeqNo" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1894,6 +1959,7 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IssueState" ColumnName="IssueState" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1945,6 +2011,15 @@ warning 6002: The table/view 'MataDB.LOG.vAction' does not have a primary key de
                 <ScalarProperty Name="CreatedByAccountID" ColumnName="CreatedByAccountID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vSeqNo">
+            <EntityTypeMapping TypeName="MataDBModel.vSeqNo">
+              <MappingFragment StoreEntitySet="vSeqNo">
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

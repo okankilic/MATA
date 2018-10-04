@@ -15,6 +15,7 @@ namespace MATA.Data.Entities
     public partial class Issue
     {
         public int ID { get; set; }
+        public string SeqNo { get; set; }
         public int StoreID { get; set; }
         public string Description { get; set; }
         public string SourceType { get; set; }

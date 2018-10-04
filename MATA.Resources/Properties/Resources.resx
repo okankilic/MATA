@@ -354,4 +354,7 @@
   <data name="NoProjectsForThisCountry" xml:space="preserve">
     <value>Bu ülkeye ait proje bulunmamaktadır</value>
   </data>
+  <data name="SeqNo" xml:space="preserve">
+    <value>Numara</value>
+  </data>
 </root>

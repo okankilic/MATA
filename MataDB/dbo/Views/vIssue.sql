@@ -1,5 +1,6 @@
 ﻿CREATE VIEW [dbo].[vIssue]
 	AS SELECT i.ID,
+	i.SeqNo,
 	i.[Description],
 	i.IssueState,
 	i.Remarks,

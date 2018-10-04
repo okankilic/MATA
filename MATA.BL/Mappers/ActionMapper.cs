@@ -1,4 +1,5 @@
-﻿using MATA.Data.Common.Enums;
+﻿using MATA.BL.Interfaces;
+using MATA.Data.Common.Enums;
 using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;

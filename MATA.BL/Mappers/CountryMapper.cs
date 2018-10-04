@@ -1,4 +1,5 @@
-﻿using MATA.Data.DTO.Models;
+﻿using MATA.BL.Interfaces;
+using MATA.Data.DTO.Models;
 using MATA.Data.Entities;
 using System;
 using System.Collections.Generic;

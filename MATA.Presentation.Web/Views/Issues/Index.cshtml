@@ -29,12 +29,7 @@
 
                 var columnList = new List<WebGridColumn>()
             {
-                new WebGridColumn
-                {
-                    Header = "#",
-                    ColumnName = "ID",
-                    CanSort = false
-                },
+                Html.LocalizedDetailsActionLinkColumn("SeqNo", "ID", "Issues"),
                 new WebGridColumn
                 {
                     Header = "İş Tanımı",
@@ -116,8 +111,6 @@
 </div>
 
 @section scripts {
-
-    @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/ts/mata.issues-controller.js"></script>
 

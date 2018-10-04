@@ -11,6 +11,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
 
 </head>
 <body>
@@ -32,7 +33,6 @@
         </div>
     </div>
 
-    
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/noty")
     @Scripts.Render("~/bundles/ts")
@@ -40,6 +40,28 @@
     <script type="text/javascript">
 
         MATA.Utils.APP_BASE_URL = '@Url.Content("~")';
+
+        $(function () {
+
+            $.validator.setDefaults({
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+        })
 
     </script>
 

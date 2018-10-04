@@ -31,6 +31,8 @@ namespace MATA.Data.Repositories.Interfaces
 
         AttachmentRepository AttachmentRepository { get; }
 
+        SeqNoRepository SeqNoRepository { get; }
+
         void SaveChanges(string tokenString);
 
         void Commit();

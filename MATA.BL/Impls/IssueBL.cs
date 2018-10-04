@@ -18,12 +18,15 @@ namespace MATA.BL.Impls
     public class IssueBL: IIssueBL
     {
         readonly IMapper<Issue, vIssue, IssueDTO> mapper;
+        readonly ISeqNoBL seqNoBL;
 
         const string CacheKey = "IssueBL";
 
-        public IssueBL(IMapper<Issue, vIssue, IssueDTO> mapper)
+        public IssueBL(IMapper<Issue, vIssue, IssueDTO> mapper,
+            ISeqNoBL seqNoBL)
         {
             this.mapper = mapper;
+            this.seqNoBL = seqNoBL;
         }
 
         [CustomAuthorize(Roles = RoleTypes.Combines.AdminStaff)]
@@ -31,6 +34,10 @@ namespace MATA.BL.Impls
         public int Create(IssueDTO issueDTO, string tokenString, IUnitOfWork uow)
         {
             var issue = mapper.MapToEntity(issueDTO);
+
+            var seqNoPrefix = string.Format("{0}{1:yyyyMM}", SeqNoPrefixTypes.Issue, DateTime.UtcNow);
+
+            issue.SeqNo = seqNoBL.Create(seqNoPrefix, uow);
 
             issue.IssueState = IssueStateTypes.WAITING.ToString();
 

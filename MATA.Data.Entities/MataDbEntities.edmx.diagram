@@ -5,27 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1e0a6b799b0f48288c7b39a9b0a21ac7" Name="Diagram1">
-        <EntityTypeShape EntityType="MataDBModel.Account" Width="1.5" PointX="0.75" PointY="10.25" />
-        <EntityTypeShape EntityType="MataDBModel.Attachment" Width="1.5" PointX="3" PointY="6.125" />
-        <EntityTypeShape EntityType="MataDBModel.Issue" Width="1.5" PointX="3" PointY="10.75" />
-        <EntityTypeShape EntityType="MataDBModel.Mail" Width="1.5" PointX="3.75" PointY="28.375" />
-        <EntityTypeShape EntityType="MataDBModel.MailAccount" Width="1.5" PointX="6" PointY="11.625" />
-        <EntityTypeShape EntityType="MataDBModel.Project" Width="1.5" PointX="3" PointY="17.875" />
-        <EntityTypeShape EntityType="MataDBModel.Store" Width="1.5" PointX="5.25" PointY="14.625" />
-        <EntityTypeShape EntityType="MataDBModel.StoreAccount" Width="1.5" PointX="8.5" PointY="13.375" />
-        <EntityTypeShape EntityType="MataDBModel.Token" Width="1.5" PointX="3" PointY="24.625" />
-        <EntityTypeShape EntityType="MataDBModel.City" Width="1.5" PointX="3" PointY="2.5" />
-        <EntityTypeShape EntityType="MataDBModel.Country" Width="1.5" PointX="0.75" PointY="2.75" />
-        <EntityTypeShape EntityType="MataDBModel.Action" Width="1.5" PointX="3" PointY="21.5" />
+        <EntityTypeShape EntityType="MataDBModel.Account" Width="1.5" PointX="0.75" PointY="10.375" />
+        <EntityTypeShape EntityType="MataDBModel.Attachment" Width="1.5" PointX="3" PointY="6.25" />
+        <EntityTypeShape EntityType="MataDBModel.Issue" Width="1.5" PointX="6" PointY="6.75" />
+        <EntityTypeShape EntityType="MataDBModel.Mail" Width="1.5" PointX="3.75" PointY="2.5" />
+        <EntityTypeShape EntityType="MataDBModel.MailAccount" Width="1.5" PointX="6" PointY="11.75" />
+        <EntityTypeShape EntityType="MataDBModel.Project" Width="1.5" PointX="3" PointY="21.25" />
+        <EntityTypeShape EntityType="MataDBModel.SeqNo" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MataDBModel.Store" Width="1.5" PointX="5.25" PointY="15.375" />
+        <EntityTypeShape EntityType="MataDBModel.StoreAccount" Width="1.5" PointX="7.5" PointY="14.75" />
+        <EntityTypeShape EntityType="MataDBModel.Token" Width="1.5" PointX="3" PointY="24.875" />
+        <EntityTypeShape EntityType="MataDBModel.City" Width="1.5" PointX="3" PointY="17.25" />
+        <EntityTypeShape EntityType="MataDBModel.Country" Width="1.5" PointX="0.75" PointY="17.5" />
+        <EntityTypeShape EntityType="MataDBModel.Action" Width="1.5" PointX="3" PointY="13.25" />
         <EntityTypeShape EntityType="MataDBModel.vAccount" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MataDBModel.vAttachment" Width="1.5" PointX="5.75" PointY="4.75" />
-        <EntityTypeShape EntityType="MataDBModel.vCity" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MataDBModel.vCountry" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="MataDBModel.vIssue" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MataDBModel.vAttachment" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MataDBModel.vCity" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MataDBModel.vCountry" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MataDBModel.vIssue" Width="1.5" PointX="8.75" PointY="8.75" />
         <EntityTypeShape EntityType="MataDBModel.vMail" Width="1.5" PointX="9.75" PointY="0.75" />
         <EntityTypeShape EntityType="MataDBModel.vMailAccount" Width="1.5" PointX="10.75" PointY="4.75" />
         <EntityTypeShape EntityType="MataDBModel.vMailAttachment" Width="1.5" PointX="10.75" PointY="7.75" />
         <EntityTypeShape EntityType="MataDBModel.vProject" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MataDBModel.vSeqNo" Width="1.5" PointX="2.75" PointY="10.75" />
         <EntityTypeShape EntityType="MataDBModel.vStore" Width="1.5" PointX="12.75" PointY="0.75" />
         <EntityTypeShape EntityType="MataDBModel.vStoreAccount" Width="1.5" PointX="12.75" PointY="5.75" />
         <EntityTypeShape EntityType="MataDBModel.vToken" Width="1.5" PointX="12.75" PointY="10.75" />

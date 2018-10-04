@@ -3,38 +3,10 @@
     export class StoresController extends EntityBaseController {
         readonly focusElementSelector = '#StoreName';
         onCreateModalShown(): void {
+
             var that = this;
+
             Utils.validateForm(that.createFormSelector);
-
-            //$('#StoreID').change(function (e) {
-            //    e.preventDefault();
-
-            //    var $el = $(this),
-            //        storeID = parseInt($el.val()),
-            //        afterStoreSelectContainer = '#after-store-select';
-
-            //    if (storeID) {
-            //        Utils.showElement(afterStoreSelectContainer);
-            //    } else {
-            //        Utils.hideElement(afterStoreSelectContainer);
-            //    }
-
-            //});
-
-            //$('#CityID').change(function (e) {
-            //    e.preventDefault();
-
-            //    var $el = $(this),
-            //        city = parseInt($el.val()),
-            //        afterCitySelectContainer = '#after-city-select';
-
-            //    if (city) {
-            //        Utils.showElement(afterCitySelectContainer);
-            //    } else {
-            //        Utils.hideElement(afterCitySelectContainer);
-            //    }
-
-            //});
 
             $(that.createFormSelector).submit(function (e) {
                 e.preventDefault();
@@ -69,7 +41,9 @@
             $(that.focusElementSelector).focus();
         }
         onEditModalShown(): void {
+
             var that = this;
+
             Utils.validateForm(that.editFormSelector);
 
             $(that.deleteFormSelector).submit(function (e) {

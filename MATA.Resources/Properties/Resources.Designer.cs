@@ -700,6 +700,15 @@ namespace MATA.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Numara.
+        /// </summary>
+        public static string SeqNo {
+            get {
+                return ResourceManager.GetString("SeqNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Talep Kaynağı.
         /// </summary>
         public static string SourceType {

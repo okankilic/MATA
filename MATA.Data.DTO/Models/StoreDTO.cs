@@ -11,18 +11,18 @@ namespace MATA.Data.DTO.Models
     {
         public int ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "StoreName", ResourceType = typeof(Resources.Properties.Resources))]
         public string StoreName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public int ProjectID { get; set; }
 
         [Display(Name = "Project", ResourceType = typeof(Resources.Properties.Resources))]
         public string ProjectName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "Address", ResourceType = typeof(Resources.Properties.Resources))]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
@@ -33,7 +33,7 @@ namespace MATA.Data.DTO.Models
         [Display(Name = "Country", ResourceType = typeof(Resources.Properties.Resources))]
         public string CountryName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "City", ResourceType = typeof(Resources.Properties.Resources))]
         public int CityID { get; set; }
 

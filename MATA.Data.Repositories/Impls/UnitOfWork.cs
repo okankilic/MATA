@@ -30,6 +30,7 @@ namespace MATA.Data.Repositories.Impls
         private MailRepository mailRepository;
         private StoreAccountRepository storeAccountRepository;
         private AttachmentRepository attachmentRepository;
+        private SeqNoRepository seqNoRepository;
 
         private bool disposed = false;
 
@@ -188,6 +189,18 @@ namespace MATA.Data.Repositories.Impls
                     attachmentRepository = new AttachmentRepository(dbContext);
                 }
                 return attachmentRepository;
+            }
+        }
+
+        public SeqNoRepository SeqNoRepository
+        {
+            get
+            {
+                if(seqNoRepository == null)
+                {
+                    seqNoRepository = new SeqNoRepository(dbContext);
+                }
+                return seqNoRepository;
             }
         }
 

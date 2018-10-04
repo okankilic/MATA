@@ -168,7 +168,13 @@
             var $this = $(this),
                 url = $this.attr('data-url');
 
-            $this.load(url);
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: true
+            }).done(function (html) {
+                $this.html(html);
+            });
 
         });
 

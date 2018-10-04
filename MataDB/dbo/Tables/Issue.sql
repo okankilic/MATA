@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[Issue] (
     [ID]                  INT            IDENTITY (1, 1) NOT NULL,
+	[SeqNo]				  VARCHAR(13)    NOT NULL,
     [StoreID]             INT            NOT NULL,
     [Description]         NVARCHAR (MAX) NOT NULL,
     [SourceType]          VARCHAR (20)   NOT NULL,

@@ -22,28 +22,6 @@ var MATA;
             StoresController.prototype.onCreateModalShown = function () {
                 var that = this;
                 MATA.Utils.validateForm(that.createFormSelector);
-                //$('#StoreID').change(function (e) {
-                //    e.preventDefault();
-                //    var $el = $(this),
-                //        storeID = parseInt($el.val()),
-                //        afterStoreSelectContainer = '#after-store-select';
-                //    if (storeID) {
-                //        Utils.showElement(afterStoreSelectContainer);
-                //    } else {
-                //        Utils.hideElement(afterStoreSelectContainer);
-                //    }
-                //});
-                //$('#CityID').change(function (e) {
-                //    e.preventDefault();
-                //    var $el = $(this),
-                //        city = parseInt($el.val()),
-                //        afterCitySelectContainer = '#after-city-select';
-                //    if (city) {
-                //        Utils.showElement(afterCitySelectContainer);
-                //    } else {
-                //        Utils.hideElement(afterCitySelectContainer);
-                //    }
-                //});
                 $(that.createFormSelector).submit(function (e) {
                     e.preventDefault();
                     var $form = $(this), isFormValid = $form.valid();
