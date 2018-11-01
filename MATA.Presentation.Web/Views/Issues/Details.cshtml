@@ -17,7 +17,7 @@
                     @Html.Localize("IssueInfo")
                     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
                     {
-                        <a href="@Url.Action("_Edit", "Issues", new { id = Model.ID })" class="pull-right">
+                        <a href="@Url.Action("_Edit", "Issues", new { id = Model.ID })" class="pull-right mt-link-issues-edit" data-entity-id="@Model.ID">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     }
@@ -56,7 +56,9 @@
                 </dl><dl>
 
                     <dt>@Html.DisplayNameFor(model => model.Remarks)</dt>
-                    <dd>@Html.DisplayFor(model => model.Remarks)</dd>
+                    <dd style="word-break:break-all">
+                        @Html.DisplayFor(model => model.Remarks)
+                    </dd>
 
                 </dl>
             </div>
@@ -79,7 +81,7 @@
 
 @section scripts{
 
-    <script src="~/ts/mata.stores-controller.js"></script>
+    <script src="~/ts/mata.issues-controller.js"></script>
 
     <script type="text/javascript">
 

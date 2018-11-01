@@ -28,7 +28,7 @@ namespace MATA.Data.DTO.Models
 
         [Required(ErrorMessageResourceName = "ErrorMessageRequired", ErrorMessageResourceType = typeof(Resources.Properties.Resources))]
         [Display(Name = "RequestDate", ResourceType = typeof(Resources.Properties.Resources))]
-        [DisplayFormat(DataFormatString = "yyyy-MM-dd")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
         public DateTime RequestDate { get; set; }
 

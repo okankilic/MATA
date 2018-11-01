@@ -13,5 +13,7 @@ namespace MATA.Presentation.Web.Models
         public MvcHtmlString SelectID { get; set; }
 
         public object SelectValue { get; set; }
+
+        public string SelectText { get; set; }
     }
 }

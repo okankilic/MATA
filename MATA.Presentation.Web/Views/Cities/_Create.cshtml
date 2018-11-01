@@ -16,7 +16,8 @@
         @Html.Partial("_CountrySelect", new MATA.Presentation.Web.Models.BaseSelectVM<MATA.Data.DTO.Models.CountryDTO> {
             SelectID = Html.IdFor(m => m.CountryID),
             SelectName = Html.NameFor(m => m.CountryID),
-            SelectValue = Model.CountryName
+            SelectValue = Model.CountryID,
+            SelectText = Model.CountryName
         })
 
         <div class="form-group">

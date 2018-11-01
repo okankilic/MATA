@@ -346,6 +346,7 @@
     <Content Include="Views\Caches\Index.cshtml" />
     <Content Include="Views\Projects\_CountryProjects.cshtml" />
     <Content Include="Views\Projects\_CityProjects.cshtml" />
+    <Content Include="Views\Issues\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

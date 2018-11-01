@@ -21,7 +21,7 @@
 
             this._url = this._el.getAttribute("data-url");
 
-            var inputValue = this._el.getAttribute("data-value");
+            var inputValue = this._el.getAttribute("data-text");
 
             this._render(inputValue);
         }

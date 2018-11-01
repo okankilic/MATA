@@ -25,13 +25,15 @@
         @Html.Partial("_ProjectSelect", new BaseSelectVM<MATA.Data.DTO.Models.ProjectDTO> {
             SelectID = Html.IdFor(m => m.ProjectID),
             SelectName = Html.NameFor(m => m.ProjectID),
-            SelectValue = Model.ProjectName
+            SelectValue = Model.ProjectID,
+            SelectText = Model.ProjectName
         })
 
         @Html.Partial("_CitySelect", new BaseSelectVM<MATA.Data.DTO.Models.CityDTO> {
             SelectID = Html.IdFor(m => m.CityID),
             SelectName = Html.NameFor(m => m.CityID),
-            SelectValue = Model.CityName
+            SelectValue = Model.CityID,
+            SelectText = Model.CityName
         })
 
         <div class="form-group">
