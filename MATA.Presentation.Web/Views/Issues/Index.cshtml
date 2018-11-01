@@ -41,7 +41,7 @@
                     Header = "Durum",
                     ColumnName = "IssueState",
                     CanSort = false,
-                    Format = (item) => Html.Raw("<input class=\"mt-issue-state form-control\" type=\"text\" value=\"" + item.IssueState.ToString() + "\" readonly />")
+                    Format = (item) => Html.Raw($"<span class=\"mt-issue-state\" data-issue-state=\"{item.IssueState.ToString()}\">{item.IssueState.ToString()}</span>")
                 },
                 new WebGridColumn
                 {
@@ -120,8 +120,8 @@
 
             $('#issue-grid tbody tr').each(function (_i, _row) {
                 var $row = $(_row);
-                if ($row.find('input.mt-issue-state').val() == '@MATA.Data.Common.Enums.IssueStateTypes.WAITING') {
-                    $row.css('background-color', 'lightgreen');
+                if ($row.find('span.mt-issue-state').attr('data-issue-state') == '@MATA.Data.Common.Enums.IssueStateTypes.WAITING') {
+                    $row.css('border-left', '5px solid lightgreen');
                 }
             });
 

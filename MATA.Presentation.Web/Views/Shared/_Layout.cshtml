@@ -18,7 +18,7 @@
     
     @Html.Partial("_TopNavbar")
 
-    <div class="container body-content">
+    <div class="container-fluid body-content">
         @RenderBody()
         <hr />
         <footer class="text-center">
@@ -41,6 +41,24 @@
 
         MATA.Utils.APP_BASE_URL = '@Url.Content("~")';
 
+        $.validator.setDefaults({
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
         $(function () {
 
             $.validator.setDefaults({
@@ -60,6 +78,28 @@
                     }
                 }
             });
+
+            function markAsActive(_li) {
+
+                let $li = $(_li);
+                $li.find('a').each(function (j, _lia) {
+                    let $lia = $(_lia);
+                    if (('@Request.RawUrl').includes($lia.attr('href'))) {
+                        $li.addClass('active');
+                    }
+                });
+                $li.find('ul').each(function (j, _liul) {
+                    let $liul = $(_liul);
+                    $liul.find('li').each(function (k, _liulli) {
+                        markAsActive(_liulli);
+                    })
+                });
+
+            }
+
+            $('ul.nav.navbar-nav').find('li').each(function (i, _li) {
+                markAsActive(_li);
+            })
 
         })
 

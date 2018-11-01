@@ -94,6 +94,7 @@ namespace MATA.Presentation.Web.Extensions
             sb.Append("</dt>");
             sb.Append("<dd>");
             sb.Append(htmlHelper.DisplayFor(model => model.CreatedBy) + " ( " + htmlHelper.DisplayFor(model => model.CreateTime) + ")");
+            sb.Append("</dl><dl>");
             sb.Append("</dd>");
             sb.Append("<dt>");
             sb.Append(htmlHelper.DisplayNameFor(model => model.UpdatedBy) + " / " + htmlHelper.DisplayNameFor(model => model.UpdateTime));

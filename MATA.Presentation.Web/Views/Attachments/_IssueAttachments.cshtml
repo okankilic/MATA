@@ -1,7 +1,7 @@
 ﻿@model MATA.Presentation.Web.Models.Attachments.AttachmentsIndexVM
 
 <h4>
-    Dosyalar (@Model.TotalCount)
+    @Html.Localize("Attachments") (@Model.TotalCount)
     @if (User.IsInRole(RoleTypes.Admin) || User.IsInRole(RoleTypes.Staff))
     {
         <a href="@Url.Action("_Create", "Attachments", new { entityName = "Issue", entityID = ViewBag.IssueID })" id="mt-link-attachments-create" class="pull-right">
